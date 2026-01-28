@@ -4,8 +4,10 @@
     <!-- Mobile Menu Toggle -->
     <div class="flex-none lg:hidden">
         <label for="admin-drawer" class="btn btn-square btn-ghost drawer-button">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                class="inline-block w-6 h-6 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                </path>
             </svg>
         </label>
     </div>
@@ -16,8 +18,10 @@
             <div class="input-group">
                 <input type="text" placeholder="Cari..." class="input input-bordered input-sm w-64" />
                 <button class="btn btn-sm btn-square">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </button>
             </div>
@@ -30,7 +34,8 @@
         <div class="dropdown dropdown-end">
             <label tabindex="0" class="btn btn-ghost btn-circle">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
             </label>
             <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
@@ -45,8 +50,10 @@
         <div class="dropdown dropdown-end">
             <label tabindex="0" class="btn btn-ghost btn-circle">
                 <div class="indicator">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
                     <span class="badge badge-xs badge-primary indicator-item"></span>
                 </div>
@@ -57,7 +64,8 @@
                     <div class="space-y-2">
                         <div class="flex items-start gap-3 p-2 rounded-lg hover:bg-base-200">
                             <div class="avatar placeholder">
-                                <div class="bg-primary text-primary-content rounded-full w-10">
+                                <div
+                                    class="bg-primary text-primary-content rounded-full w-10 flex items-center justify-center">
                                     <span class="text-xs">N</span>
                                 </div>
                             </div>
@@ -78,7 +86,8 @@
         <div class="dropdown dropdown-end">
             <label tabindex="0" class="btn btn-ghost btn-circle avatar">
                 <div class="w-10 rounded-full">
-                    <div class="w-full h-full bg-primary flex items-center justify-center text-primary-content font-bold">
+                    <div
+                        class="w-full h-full bg-primary flex items-center justify-center text-primary-content font-bold">
                         {{ substr(auth()->user()->person->full_name ?? auth()->user()->email ?? 'A', 0, 1) }}
                     </div>
                 </div>

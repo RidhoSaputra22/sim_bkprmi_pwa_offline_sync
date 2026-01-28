@@ -198,7 +198,7 @@
                     >
                         <option value="">-- Pilih Kab/Kota --</option>
                         <template x-for="city in cities" :key="city.id">
-                            <option :value="city.id" x-text="city.name"></option>
+                            <option :value="city.id" x-text="city.name" :selected="city.id == cityId"></option>
                         </template>
                     </select>
                     @error('city_id')
@@ -220,7 +220,7 @@
                     >
                         <option value="">-- Pilih Kecamatan --</option>
                         <template x-for="district in districts" :key="district.id">
-                            <option :value="district.id" x-text="district.name"></option>
+                            <option :value="district.id" x-text="district.name" :selected="district.id == districtId"></option>
                         </template>
                     </select>
                     @error('district_id')
@@ -241,7 +241,7 @@
                     >
                         <option value="">-- Pilih Kelurahan/Desa --</option>
                         <template x-for="village in villages" :key="village.id">
-                            <option :value="village.id" x-text="village.name"></option>
+                            <option :value="village.id" x-text="village.name" :selected="village.id == villageId"></option>
                         </template>
                     </select>
                     @error('village_id')
@@ -478,22 +478,50 @@
                 cities: [],
                 districts: [],
                 villages: [],
+                isInitializing: true,
+
+                // Store initial values
+                initialCityId: '{{ old('city_id', $unit->village?->district?->city_id ?? '') }}',
+                initialDistrictId: '{{ old('district_id', $unit->village?->district_id ?? '') }}',
+                initialVillageId: '{{ old('village_id', $unit->village_id ?? '') }}',
 
                 init() {
                     if (this.provinceId) {
-                        this.fetchCities().then(() => {
-                            if (this.cityId) {
-                                this.fetchDistricts().then(() => {
-                                    if (this.districtId) {
-                                        this.fetchVillages();
+                        this.fetchCities(false).then(() => {
+                            // Restore city after fetch
+                            this.$nextTick(() => {
+                                this.cityId = this.initialCityId;
+                            });
+
+                            if (this.initialCityId) {
+                                this.fetchDistricts(false).then(() => {
+                                    // Restore district after fetch
+                                    this.$nextTick(() => {
+                                        this.districtId = this.initialDistrictId;
+                                    });
+
+                                    if (this.initialDistrictId) {
+                                        this.fetchVillages(false).then(() => {
+                                            // Restore village after fetch
+                                            this.$nextTick(() => {
+                                                this.villageId = this.initialVillageId;
+                                                this.isInitializing = false;
+                                            });
+                                        });
+                                    } else {
+                                        this.isInitializing = false;
                                     }
                                 });
+                            } else {
+                                this.isInitializing = false;
                             }
                         });
+                    } else {
+                        this.isInitializing = false;
                     }
                 },
 
-                async fetchCities() {
+                async fetchCities(resetChild = true) {
                     if (!this.provinceId) {
                         this.cities = [];
                         this.cityId = '';
@@ -507,12 +535,19 @@
                     try {
                         const response = await fetch(`/api/regions/cities?province_id=${this.provinceId}`);
                         this.cities = await response.json();
+                        if (resetChild) {
+                            this.cityId = '';
+                            this.districts = [];
+                            this.districtId = '';
+                            this.villages = [];
+                            this.villageId = '';
+                        }
                     } catch (error) {
                         console.error('Error fetching cities:', error);
                     }
                 },
 
-                async fetchDistricts() {
+                async fetchDistricts(resetChild = true) {
                     if (!this.cityId) {
                         this.districts = [];
                         this.districtId = '';
@@ -524,12 +559,17 @@
                     try {
                         const response = await fetch(`/api/regions/districts?city_id=${this.cityId}`);
                         this.districts = await response.json();
+                        if (resetChild) {
+                            this.districtId = '';
+                            this.villages = [];
+                            this.villageId = '';
+                        }
                     } catch (error) {
                         console.error('Error fetching districts:', error);
                     }
                 },
 
-                async fetchVillages() {
+                async fetchVillages(resetChild = true) {
                     if (!this.districtId) {
                         this.villages = [];
                         this.villageId = '';
@@ -539,6 +579,9 @@
                     try {
                         const response = await fetch(`/api/regions/villages?district_id=${this.districtId}`);
                         this.villages = await response.json();
+                        if (resetChild) {
+                            this.villageId = '';
+                        }
                     } catch (error) {
                         console.error('Error fetching villages:', error);
                     }

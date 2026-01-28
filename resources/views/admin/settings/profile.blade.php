@@ -17,19 +17,21 @@
             <x-ui.card>
                 <div class="text-center">
                     <div class="avatar placeholder mb-4">
-                        <div class="bg-primary text-primary-content rounded-full w-24">
-                            <span class="text-3xl">{{ substr($user->person->full_name ?? $user->email ?? 'A', 0, 1) }}</span>
+                        <div
+                            class="bg-primary text-primary-content rounded-full w-24 flex items-center justify-center text-4xl mx-auto">
+                            <span
+                                class="text-3xl">{{ substr($user->person->full_name ?? $user->email ?? 'A', 0, 1) }}</span>
                         </div>
                     </div>
                     <h3 class="font-bold text-lg">{{ $user->person->full_name ?? 'Admin' }}</h3>
                     <p class="text-sm text-base-content/60">{{ $user->email }}</p>
 
                     @if($user->roles && $user->roles->count() > 0)
-                        <div class="mt-4">
-                            @foreach($user->roles as $role)
-                                <x-ui.badge type="primary">{{ $role->role_type?->getLabel() ?? $role->role_type }}</x-ui.badge>
-                            @endforeach
-                        </div>
+                    <div class="mt-4">
+                        @foreach($user->roles as $role)
+                        <x-ui.badge type="primary">{{ $role->role_type?->getLabel() ?? $role->role_type }}</x-ui.badge>
+                        @endforeach
+                    </div>
                     @endif
                 </div>
             </x-ui.card>
@@ -43,26 +45,12 @@
                     @csrf
                     @method('PUT')
 
-                    <x-ui.input
-                        name="full_name"
-                        label="Nama Lengkap"
-                        :value="$user->person->full_name ?? ''"
-                        :required="true"
-                    />
+                    <x-ui.input name="full_name" label="Nama Lengkap" :value="$user->person->full_name ?? ''"
+                        :required="true" />
 
-                    <x-ui.input
-                        name="email"
-                        type="email"
-                        label="Email"
-                        :value="$user->email ?? ''"
-                        :required="true"
-                    />
+                    <x-ui.input name="email" type="email" label="Email" :value="$user->email ?? ''" :required="true" />
 
-                    <x-ui.input
-                        name="phone"
-                        label="No. Telepon"
-                        :value="$user->person->phone ?? ''"
-                    />
+                    <x-ui.input name="phone" label="No. Telepon" :value="$user->person->phone ?? ''" />
 
                     <div class="flex justify-end">
                         <x-ui.button type="primary">Simpan Perubahan</x-ui.button>
@@ -76,27 +64,13 @@
                     @csrf
                     @method('PUT')
 
-                    <x-ui.input
-                        name="current_password"
-                        type="password"
-                        label="Password Saat Ini"
-                        :required="true"
-                    />
+                    <x-ui.input name="current_password" type="password" label="Password Saat Ini" :required="true" />
 
-                    <x-ui.input
-                        name="password"
-                        type="password"
-                        label="Password Baru"
-                        :required="true"
-                        helpText="Minimal 8 karakter"
-                    />
+                    <x-ui.input name="password" type="password" label="Password Baru" :required="true"
+                        helpText="Minimal 8 karakter" />
 
-                    <x-ui.input
-                        name="password_confirmation"
-                        type="password"
-                        label="Konfirmasi Password Baru"
-                        :required="true"
-                    />
+                    <x-ui.input name="password_confirmation" type="password" label="Konfirmasi Password Baru"
+                        :required="true" />
 
                     <div class="flex justify-end">
                         <x-ui.button type="primary">Ubah Password</x-ui.button>

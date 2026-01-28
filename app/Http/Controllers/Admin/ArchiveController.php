@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Archive;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ArchiveController extends Controller
 {
@@ -12,13 +15,35 @@ class ArchiveController extends Controller
      */
     public function index(Request $request)
     {
-        // Archives can be documents, files, or historical data
-        // This can be extended based on specific requirements
+        $query = Archive::with('uploader')->latest();
 
-        $archives = collect(); // Placeholder for archive data
+        // Filter by category
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        // Search by title or description
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        $archives = $query->paginate(15);
+
+        $categories = [
+            'dokumen' => 'Dokumen',
+            'foto' => 'Foto',
+            'laporan' => 'Laporan',
+            'sertifikat' => 'Sertifikat',
+            'lainnya' => 'Lainnya',
+        ];
 
         return view('admin.archives.index', [
             'archives' => $archives,
+            'categories' => $categories,
         ]);
     }
 
@@ -27,7 +52,17 @@ class ArchiveController extends Controller
      */
     public function create()
     {
-        return view('admin.archives.create');
+        $categories = [
+            'dokumen' => 'Dokumen',
+            'foto' => 'Foto',
+            'laporan' => 'Laporan',
+            'sertifikat' => 'Sertifikat',
+            'lainnya' => 'Lainnya',
+        ];
+
+        return view('admin.archives.create', [
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -37,38 +72,54 @@ class ArchiveController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'file' => 'nullable|file|max:10240', // 10MB max
-            'category' => 'required|string',
+            'description' => 'nullable|string|max:1000',
+            'category' => 'required|string|in:dokumen,foto,laporan,sertifikat,lainnya',
+            'file' => 'required|file|max:10240|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png,gif,webp,zip,rar',
         ]);
 
-        // Handle file upload if present
-        if ($request->hasFile('file')) {
-            $validated['file_path'] = $request->file('file')->store('archives', 'public');
-        }
+        $file = $request->file('file');
+        $filePath = $file->store('archives', 'public');
 
-        // Create archive record here when model is available
+        Archive::create([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'category' => $validated['category'],
+            'file_name' => $file->getClientOriginalName(),
+            'file_path' => $filePath,
+            'file_type' => $file->getClientMimeType(),
+            'file_size' => $file->getSize(),
+            'uploaded_by' => Auth::id(),
+        ]);
 
         return redirect()
             ->route('admin.archives.index')
-            ->with('success', 'Arsip berhasil ditambahkan.');
+            ->with('success', 'Arsip berhasil diupload.');
     }
 
     /**
      * Display the specified archive.
      */
-    public function show($id)
+    public function show(Archive $archive)
     {
+        $archive->load('uploader');
+
         return view('admin.archives.show', [
-            'archive' => null, // Replace with actual archive
+            'archive' => $archive,
         ]);
     }
 
     /**
      * Remove the specified archive from storage.
      */
-    public function destroy($id)
+    public function destroy(Archive $archive)
     {
+        // Delete file from storage
+        if ($archive->file_path && Storage::disk('public')->exists($archive->file_path)) {
+            Storage::disk('public')->delete($archive->file_path);
+        }
+
+        $archive->delete();
+
         return redirect()
             ->route('admin.archives.index')
             ->with('success', 'Arsip berhasil dihapus.');
@@ -77,9 +128,17 @@ class ArchiveController extends Controller
     /**
      * Download archive file.
      */
-    public function download($id)
+    public function download(Archive $archive)
     {
-        // Implementation for file download
-        return response()->json(['message' => 'Download functionality']);
+        if (!$archive->file_path || !Storage::disk('public')->exists($archive->file_path)) {
+            return redirect()
+                ->route('admin.archives.index')
+                ->with('error', 'File tidak ditemukan.');
+        }
+
+        return Storage::disk('public')->download(
+            $archive->file_path,
+            $archive->file_name ?? 'download'
+        );
     }
 }

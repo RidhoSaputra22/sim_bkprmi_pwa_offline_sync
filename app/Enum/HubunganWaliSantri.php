@@ -9,6 +9,8 @@ enum HubunganWaliSantri: string
     case IBU_KANDUNG = 'ibu_kandung';
     case AYAH_TIRI = 'ayah_tiri';
     case IBU_TIRI = 'ibu_tiri';
+    case KAKAK = 'kakak';
+    case ADIK = 'adik';
     case SAUDARA_KANDUNG = 'saudara_kandung';
     case PAMAN = 'paman';
     case BIBI = 'bibi';
@@ -23,6 +25,8 @@ enum HubunganWaliSantri: string
             self::IBU_KANDUNG => 'Ibu Kandung',
             self::AYAH_TIRI => 'Ayah Tiri',
             self::IBU_TIRI => 'Ibu Tiri',
+            self::KAKAK => 'Kakak',
+            self::ADIK => 'Adik',
             self::SAUDARA_KANDUNG => 'Saudara Kandung',
             self::PAMAN => 'Paman',
             self::BIBI => 'Bibi',
