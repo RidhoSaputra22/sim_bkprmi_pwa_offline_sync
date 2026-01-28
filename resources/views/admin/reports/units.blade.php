@@ -14,7 +14,11 @@
             </div>
             <div class="flex gap-2">
                 <button onclick="window.print()" class="btn btn-ghost">Cetak</button>
-                <x-ui.button type="primary">Unduh PDF</x-ui.button>
+                <form method="POST" action="{{ route('admin.reports.export', ['type' => 'units']) }}" target="_blank">
+                    @csrf
+                    <input type="hidden" name="format" value="pdf">
+                    <x-ui.button type="primary">Unduh PDF</x-ui.button>
+                </form>
             </div>
         </div>
     </x-slot:header>
