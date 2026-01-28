@@ -62,18 +62,18 @@ class ReportController extends Controller
             'unit_id' => 'nullable|exists:units,id',
         ]);
 
-        $query = Activity::with(['unit', 'activityLogs']);
+        $query = Activity::with(['unit']);
 
         if ($request->unit_id) {
             $query->where('unit_id', $request->unit_id);
         }
 
         if ($request->start_date) {
-            $query->where('start_date', '>=', $request->start_date);
+            $query->where('activity_date', '>=', $request->start_date);
         }
 
         if ($request->end_date) {
-            $query->where('end_date', '<=', $request->end_date);
+            $query->where('activity_date', '<=', $request->end_date);
         }
 
         $activities = $query->get();
@@ -133,15 +133,15 @@ class ReportController extends Controller
                 break;
 
             case 'activity':
-                $query = Activity::with(['unit', 'activityLogs']);
+                $query = Activity::with(['unit']);
                 if ($request->unit_id) {
                     $query->where('unit_id', $request->unit_id);
                 }
                 if ($request->start_date) {
-                    $query->where('start_date', '>=', $request->start_date);
+                    $query->where('activity_date', '>=', $request->start_date);
                 }
                 if ($request->end_date) {
-                    $query->where('end_date', '<=', $request->end_date);
+                    $query->where('activity_date', '<=', $request->end_date);
                 }
                 $data['activities'] = $query->get();
                 break;

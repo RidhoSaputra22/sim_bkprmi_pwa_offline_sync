@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Filament\Panel;
 use App\Enum\RoleType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,18 +29,6 @@ class User extends Authenticatable
         'is_active' => 'boolean',
         'password' => 'hashed',
     ];
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return (bool) $this->is_active;
-    }
-
-    public function getFilamentName(): string
-    {
-        return $this->person?->full_name
-            ?? $this->email
-            ?? 'User';
-    }
 
     public function person(): BelongsTo
     {
@@ -86,7 +73,7 @@ class User extends Authenticatable
     {
         $firstRole = $this->roles()->first();
 
-        if (!$firstRole) {
+        if (! $firstRole) {
             return null;
         }
 
