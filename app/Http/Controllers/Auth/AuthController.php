@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,7 +13,8 @@ class AuthController extends Controller
      */
     public function showLoginForm()
     {
-        return view('admin.auth.login');
+
+        return view('auth.login');
     }
 
     /**
@@ -30,6 +31,14 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
+
+            if (Auth::user()->hasRole('admin')) {
+                return redirect()->intended(route('admin.dashboard'));
+            }
+
+            if (Auth::user()->hasRole('member')) {
+                return redirect()->intended(route('member.dashboard'));
+            }
 
             return redirect()->intended(route('admin.dashboard'));
         }

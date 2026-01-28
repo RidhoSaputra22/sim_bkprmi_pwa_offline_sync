@@ -2,36 +2,31 @@
 
 use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\ArchiveController;
-use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SantriController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\ValidationController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Member\ActivityController as MemberActivityController;
 use App\Http\Controllers\Member\MemberDashboardController;
 use App\Http\Controllers\Member\OrganizationController;
-use App\Http\Controllers\Member\ActivityController as MemberActivityController;
 use App\Http\Controllers\Member\ReportController as MemberReportController;
+use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 
-// Public routes
-Route::get('/', function () {
-    return view('welcome');
-});
-
 // Auth routes
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
-});
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 // Admin routes
 Route::prefix('admin')
     ->name('admin.')
-    ->middleware(['auth'])
+    ->middleware([CheckRole::class.':admin'])
     ->group(function () {
         // Dashboard
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -75,7 +70,7 @@ Route::prefix('admin')
 // Member routes (Pengguna / Anggota)
 Route::prefix('member')
     ->name('member.')
-    ->middleware(['auth'])
+    ->middleware([CheckRole::class.':member'])
     ->group(function () {
         // Dashboard
         Route::get('/', [MemberDashboardController::class, 'index'])->name('dashboard');
