@@ -50,7 +50,8 @@
                 <div class="flex-none">
                     <div class="dropdown dropdown-end">
                         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
-                            <div class="bg-primary text-primary-content rounded-full w-10">
+                            <div
+                                class="bg-primary text-primary-content rounded-full w-10 flex items-center justify-center">
                                 <span
                                     class="text-xs">{{ substr(auth()->user()->person?->full_name ?? auth()->user()->email ?? 'U', 0, 2) }}</span>
                             </div>
@@ -77,7 +78,8 @@
                 <div class="flex-none gap-2">
                     <div class="dropdown dropdown-end">
                         <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
-                            <div class="bg-primary text-primary-content rounded-full w-10">
+                            <div
+                                class="bg-primary text-primary-content rounded-full w-10 flex items-center justify-center">
                                 <span
                                     class="text-xs">{{ substr(auth()->user()->person?->full_name ?? auth()->user()->email ?? 'U', 0, 2) }}</span>
                             </div>
@@ -155,10 +157,11 @@
             <label for="member-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
             <aside class="bg-base-100 w-64 min-h-screen">
                 <!-- Logo -->
-                <div class="p-4 border-b">
+                <div class="p-4 border-b border-base-300">
                     <a href="{{ route('member.dashboard') }}" class="flex items-center gap-2">
                         <div class="avatar placeholder">
-                            <div class="bg-primary text-primary-content rounded-lg w-10">
+                            <div
+                                class="bg-primary text-primary-content rounded-lg p-2 w-10 h-10 flex items-center justify-center">
                                 <span class="text-xl font-bold">B</span>
                             </div>
                         </div>

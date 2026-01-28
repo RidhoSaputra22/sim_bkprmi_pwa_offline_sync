@@ -50,7 +50,7 @@ class ActivityController extends Controller
      */
     public function show(Activity $activity): View
     {
-        $activity->load(['unit', 'activityLogs']);
+        $activity->load(['unit', 'createdBy']);
 
         return view('member.activities.show', compact('activity'));
     }
@@ -61,8 +61,9 @@ class ActivityController extends Controller
     public function logs(Activity $activity): View
     {
         $activity->load(['unit']);
-        $logs = $activity->activityLogs()
-            ->orderBy('log_date', 'desc')
+        $logs = ActivityLog::where('module', 'activity')
+            ->where('description', 'like', "%{$activity->id}%")
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         return view('member.activities.logs', compact('activity', 'logs'));

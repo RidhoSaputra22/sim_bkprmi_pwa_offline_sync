@@ -61,41 +61,8 @@
                 </div>
             </div>
 
-            <!-- Activity Logs -->
-            @if($activity->activityLogs && $activity->activityLogs->count() > 0)
-                <div class="card bg-base-100 shadow-md">
-                    <div class="card-body">
-                        <div class="flex justify-between items-center">
-                            <h2 class="card-title">Log Kegiatan</h2>
-                            <a href="{{ route('member.activities.logs', $activity) }}" class="btn btn-ghost btn-sm">
-                                Lihat Semua →
-                            </a>
-                        </div>
-
-                        <div class="divider"></div>
-
-                        <div class="space-y-4">
-                            @foreach($activity->activityLogs->take(5) as $log)
-                                <div class="flex items-start gap-4 p-3 bg-base-200 rounded-lg">
-                                    <div class="avatar placeholder">
-                                        <div class="bg-primary text-primary-content rounded-full w-10 h-10 flex items-center justify-center">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <div class="flex-1">
-                                        <p class="text-sm">{{ $log->notes ?? $log->description ?? 'Log kegiatan' }}</p>
-                                        <p class="text-xs text-base-content/50 mt-1">
-                                            {{ $log->log_date?->format('d/m/Y H:i') ?? $log->created_at?->format('d/m/Y H:i') }}
-                                        </p>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            @endif
+            <!-- Activity Logs Section - Fitur akan ditambahkan jika diperlukan -->
+            {{-- Log kegiatan dapat ditampilkan di halaman terpisah melalui menu "Lihat Log" --}}
         </div>
 
         <!-- Sidebar -->
