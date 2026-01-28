@@ -2,28 +2,33 @@
 
 namespace App\Enum;
 
-use Filament\Support\Contracts\HasLabel;
 
-enum HubunganWaliSantri: string implements HasLabel
+enum HubunganWaliSantri: string
 {
-    case AYAH = 'ayah';
-    case IBU = 'ibu';
-    case KAKAK = 'kakak';
-    case ADIK = 'adik';
+    case AYAH_KANDUNG = 'ayah_kandung';
+    case IBU_KANDUNG = 'ibu_kandung';
+    case AYAH_TIRI = 'ayah_tiri';
+    case IBU_TIRI = 'ibu_tiri';
+    case SAUDARA_KANDUNG = 'saudara_kandung';
     case PAMAN = 'paman';
     case BIBI = 'bibi';
-    case WALI = 'wali';
+    case KAKEK = 'kakek';
+    case NENEK = 'nenek';
+    case LAINNYA = 'lainnya';
 
     public function getLabel(): string
     {
         return match ($this) {
-            self::AYAH => 'Ayah',
-            self::IBU => 'Ibu',
-            self::KAKAK => 'Kakak',
-            self::ADIK => 'Adik',
+            self::AYAH_KANDUNG => 'Ayah Kandung',
+            self::IBU_KANDUNG => 'Ibu Kandung',
+            self::AYAH_TIRI => 'Ayah Tiri',
+            self::IBU_TIRI => 'Ibu Tiri',
+            self::SAUDARA_KANDUNG => 'Saudara Kandung',
             self::PAMAN => 'Paman',
             self::BIBI => 'Bibi',
-            self::WALI => 'Wali',
+            self::KAKEK => 'Kakek',
+            self::NENEK => 'Nenek',
+            self::LAINNYA => 'Lainnya',
         };
     }
 }

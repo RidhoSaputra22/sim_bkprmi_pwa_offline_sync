@@ -2,18 +2,22 @@
 
 namespace App\Enum;
 
-use Filament\Support\Contracts\HasLabel;
-
-enum StatusSantri: string implements HasLabel
+enum StatusSantri: string
 {
     case AKTIF = 'aktif';
-    case NONAKTIF = 'nonaktif';
+    case LULUS_WISUDA = 'lulus_wisuda';
+    case LANJUT_TQA = 'lanjut_tqa';
+    case PINDAH = 'pindah';
+    case BERHENTI = 'berhenti';
 
     public function getLabel(): string
     {
         return match ($this) {
-            self::AKTIF => 'Aktif',
-            self::NONAKTIF => 'Nonaktif',
+            self::AKTIF => 'Masih Aktif',
+            self::LULUS_WISUDA => 'Lulus Wisuda TPA',
+            self::LANJUT_TQA => 'Lanjut TQA',
+            self::PINDAH => 'Keluar >> Pindah Lokasi Belajar',
+            self::BERHENTI => 'Keluar >> Berhenti',
         };
     }
 }

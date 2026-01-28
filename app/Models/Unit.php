@@ -8,6 +8,7 @@ use App\Enum\WaktuKegiatan;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Unit extends Model
 {
@@ -17,6 +18,10 @@ class Unit extends Model
         'unit_number',
         'name',
         'region_id',
+        'village_id',
+        'address',
+        'rt',
+        'rw',
         'tipe_lokasi',
         'status_bangunan',
         'waktu_kegiatan',
@@ -48,5 +53,20 @@ class Unit extends Model
     public function region(): BelongsTo
     {
         return $this->belongsTo(Region::class);
+    }
+
+    public function village(): BelongsTo
+    {
+        return $this->belongsTo(Village::class);
+    }
+
+    public function unitHead(): HasOne
+    {
+        return $this->hasOne(UnitHead::class);
+    }
+
+    public function unitAdmin(): HasOne
+    {
+        return $this->hasOne(UnitAdmin::class);
     }
 }

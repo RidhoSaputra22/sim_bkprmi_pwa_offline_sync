@@ -2,9 +2,8 @@
 
 namespace App\Enum;
 
-use Filament\Support\Contracts\HasLabel;
 
-enum HubunganKeluarga: string implements HasLabel
+enum HubunganKeluarga: string
 {
     case AYAH = 'ayah';
     case IBU = 'ibu';

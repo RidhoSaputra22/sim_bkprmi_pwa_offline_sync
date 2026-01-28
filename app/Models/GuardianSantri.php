@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enum\HubunganKeluarga;
+use App\Enum\HubunganWaliSantri;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,11 +18,11 @@ class GuardianSantri extends Model
     protected $fillable = [
         'guardian_id',
         'santri_id',
-        'hubungan_keluarga',
+        'hubungan',
     ];
 
     protected $casts = [
-        'hubungan_keluarga' => HubunganKeluarga::class,
+        'hubungan' => HubunganWaliSantri::class,
     ];
 
     public function guardian(): BelongsTo

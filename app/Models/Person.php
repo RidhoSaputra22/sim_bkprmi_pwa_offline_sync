@@ -23,6 +23,7 @@ class Person extends Model
         'education_level_id',
         'job_id',
         'phone',
+        'email',
     ];
 
     protected $casts = [

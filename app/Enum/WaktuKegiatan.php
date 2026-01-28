@@ -2,9 +2,7 @@
 
 namespace App\Enum;
 
-use Filament\Support\Contracts\HasLabel;
-
-enum WaktuKegiatan: string implements HasLabel
+enum WaktuKegiatan: string
 {
     case PAGI = 'pagi';
     case SIANG = 'siang';

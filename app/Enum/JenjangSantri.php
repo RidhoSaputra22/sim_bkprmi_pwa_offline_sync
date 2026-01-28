@@ -2,20 +2,18 @@
 
 namespace App\Enum;
 
-use Filament\Support\Contracts\HasLabel;
-
-enum JenjangSantri: string implements HasLabel
+enum JenjangSantri: string
 {
-    case PEMULA = 'pemula';
-    case MENENGAH = 'menengah';
-    case LANJUTAN = 'lanjutan';
+    case TKA = 'tka';
+    case TPA = 'tpa';
+    case TQA = 'tqa';
 
     public function getLabel(): string
     {
         return match ($this) {
-            self::PEMULA => 'Pemula',
-            self::MENENGAH => 'Menengah',
-            self::LANJUTAN => 'Lanjutan',
+            self::TKA => 'TKA',
+            self::TPA => 'TPA',
+            self::TQA => 'TQA',
         };
     }
 }

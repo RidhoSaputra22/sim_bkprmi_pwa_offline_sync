@@ -2,20 +2,18 @@
 
 namespace App\Enum;
 
-use Filament\Support\Contracts\HasLabel;
-
-enum StatusBangunan: string implements HasLabel
+enum StatusBangunan: string
 {
-    case MILIK_SENDIRI = 'milik sendiri';
+    case WAQAF = 'waqaf';
     case SEWA = 'sewa';
-    case MENUMPANG = 'menumpang';
+    case MILIK_SENDIRI = 'milik_sendiri';
 
     public function getLabel(): string
     {
         return match ($this) {
-            self::MILIK_SENDIRI => 'Milik Sendiri',
+            self::WAQAF => 'Waqaf',
             self::SEWA => 'Sewa',
-            self::MENUMPANG => 'Menumpang',
+            self::MILIK_SENDIRI => 'Milik Sendiri',
         };
     }
 }
