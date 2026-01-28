@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enum\HubunganKeluarga;
+use App\Enum\HubunganWaliSantri;
 use App\Enum\RoleType;
 use App\Models\Activity;
 use App\Models\ActivityLog;
@@ -135,7 +135,7 @@ class DemoDataSeeder extends Seeder
                 GuardianSantri::factory()->create([
                     'guardian_id' => $guardians->random()->id,
                     'santri_id' => $santri->id,
-                    'hubungan_keluarga' => Arr::random(HubunganKeluarga::cases())->value,
+                    'hubungan' => Arr::random(HubunganWaliSantri::cases())->value,
                 ]);
             }
         }

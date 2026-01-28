@@ -9,6 +9,10 @@ use App\Http\Controllers\Admin\SantriController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\ValidationController;
+use App\Http\Controllers\Member\MemberDashboardController;
+use App\Http\Controllers\Member\OrganizationController;
+use App\Http\Controllers\Member\ActivityController as MemberActivityController;
+use App\Http\Controllers\Member\ReportController as MemberReportController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -66,4 +70,36 @@ Route::prefix('admin')
         Route::get('/profile', [SettingsController::class, 'profile'])->name('profile');
         Route::put('/profile', [SettingsController::class, 'updateProfile'])->name('profile.update');
         Route::put('/password', [SettingsController::class, 'updatePassword'])->name('password.update');
+    });
+
+// Member routes (Pengguna / Anggota)
+Route::prefix('member')
+    ->name('member.')
+    ->middleware(['auth'])
+    ->group(function () {
+        // Dashboard
+        Route::get('/', [MemberDashboardController::class, 'index'])->name('dashboard');
+
+        // Organization Information (Lihat Informasi Organisasi)
+        Route::prefix('organization')->name('organization.')->group(function () {
+            Route::get('/', [OrganizationController::class, 'index'])->name('index');
+            Route::get('/structure', [OrganizationController::class, 'structure'])->name('structure');
+            Route::get('/unit/{unit}', [OrganizationController::class, 'showUnit'])->name('unit.show');
+        });
+
+        // Activities (Lihat Data Kegiatan)
+        Route::prefix('activities')->name('activities.')->group(function () {
+            Route::get('/', [MemberActivityController::class, 'index'])->name('index');
+            Route::get('/{activity}', [MemberActivityController::class, 'show'])->name('show');
+            Route::get('/{activity}/logs', [MemberActivityController::class, 'logs'])->name('logs');
+        });
+
+        // Reports (Unduh Laporan & Cerak Laporan)
+        Route::prefix('reports')->name('reports.')->group(function () {
+            Route::get('/', [MemberReportController::class, 'index'])->name('index');
+            Route::post('/download/santri', [MemberReportController::class, 'downloadSantriReport'])->name('download.santri');
+            Route::post('/download/activity', [MemberReportController::class, 'downloadActivityReport'])->name('download.activity');
+            Route::post('/download/unit', [MemberReportController::class, 'downloadUnitReport'])->name('download.unit');
+            Route::get('/print', [MemberReportController::class, 'print'])->name('print');
+        });
     });

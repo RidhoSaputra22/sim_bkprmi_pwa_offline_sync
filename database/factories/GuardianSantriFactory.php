@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Enum\HubunganKeluarga;
+use App\Enum\HubunganWaliSantri;
 use App\Models\Guardian;
 use App\Models\GuardianSantri;
 use App\Models\Santri;
@@ -21,7 +21,7 @@ class GuardianSantriFactory extends Factory
         return [
             'guardian_id' => Guardian::query()->inRandomOrder()->value('id') ?? Guardian::factory(),
             'santri_id' => Santri::query()->inRandomOrder()->value('id') ?? Santri::factory(),
-            'hubungan_keluarga' => Arr::random(HubunganKeluarga::cases())->value,
+            'hubungan' => Arr::random(HubunganWaliSantri::cases())->value,
         ];
     }
 }

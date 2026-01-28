@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $person = Person::factory()->create([
-            'full_name' => 'Santri User',
+            'full_name' => 'Member',
         ]);
 
         $userSuperAdmin = User::factory()->create([
@@ -43,11 +43,11 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin'),
         ]);
 
-        $userSantri = User::factory()->create([
+        $userMember = User::factory()->create([
 
             'person_id' => $person->id,
-            'email' => 'santri@gmail.com',
-            'password' => bcrypt('santri'),
+            'email' => 'member@gmail.com',
+            'password' => bcrypt('member'),
         ]);
 
         UserRole::query()->firstOrCreate([
@@ -61,8 +61,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         UserRole::query()->firstOrCreate([
-            'user_id' => $userSantri->id,
-            'role' => RoleType::SANTRI->value,
+            'user_id' => $userMember->id,
+            'role' => RoleType::MEMBER->value,
         ]);
 
         $this->call([
