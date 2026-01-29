@@ -32,15 +32,26 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
-            if (Auth::user()->hasRole('admin')) {
-                return redirect()->intended(route('admin.dashboard'));
+            $user = Auth::user();
+
+            // Redirect based on role
+            if ($user->isSuperAdmin()) {
+                return redirect()->intended(route('superadmin.dashboard'));
             }
 
-            if (Auth::user()->hasRole('member')) {
-                return redirect()->intended(route('member.dashboard'));
+            if ($user->isAdminLpptka()) {
+                return redirect()->intended(route('lpptka.dashboard'));
             }
 
-            return redirect()->intended(route('admin.dashboard'));
+            if ($user->isAdminTpa()) {
+                return redirect()->intended(route('tpa.dashboard'));
+            }
+
+            // Fallback - logout jika role tidak dikenali
+            Auth::logout();
+            return back()->withErrors([
+                'email' => 'Role pengguna tidak valid.',
+            ])->onlyInput('email');
         }
 
         return back()->withErrors([

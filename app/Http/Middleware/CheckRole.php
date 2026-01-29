@@ -16,16 +16,12 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        // dd($roles, $request->user());
-
         if (! $request->user()) {
             return redirect()->route('login');
         }
 
         // Get user roles
         $userRoles = $request->user()->roles->pluck('role')->toArray();
-
-        // dd($userRoles);
 
         // Check if user has any of the required roles
         foreach ($roles as $role) {
@@ -35,18 +31,25 @@ class CheckRole
         }
 
         // If user doesn't have required role, redirect based on their role
-        if (in_array(RoleType::MEMBER, $userRoles) || in_array(RoleType::ANGGOTA, $userRoles)) {
-            return redirect()->route('member.dashboard')
+        // SuperAdmin BKPRMI
+        if (in_array(RoleType::SUPERADMIN, $userRoles)) {
+            return redirect()->route('superadmin.dashboard')
                 ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
         }
 
-        if (in_array(RoleType::ADMIN, $userRoles)) {
-            return redirect()->route('admin.dashboard')
+        // Admin LPPTKA
+        if (in_array(RoleType::ADMIN_LPPTKA, $userRoles)) {
+            return redirect()->route('lpptka.dashboard')
+                ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
+        }
+
+        // Admin TPA
+        if (in_array(RoleType::ADMIN_TPA, $userRoles)) {
+            return redirect()->route('tpa.dashboard')
                 ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
         }
 
         return redirect()->route('login')
             ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
-
     }
 }

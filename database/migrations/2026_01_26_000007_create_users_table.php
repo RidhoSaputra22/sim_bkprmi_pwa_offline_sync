@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('person_id')->constrained('persons');
             $table->string('email')->unique();
             $table->string('password');
+            $table->rememberToken();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

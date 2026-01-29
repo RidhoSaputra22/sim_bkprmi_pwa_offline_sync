@@ -15,54 +15,48 @@ class DatabaseSeeder extends Seeder
 
     /**
      * Seed the application's database.
+     *
+     * Struktur Role:
+     * 1. SuperAdmin BKPRMI - Dashboard pemantauan & approval TPA
+     * 2. Admin LPPTKA - Input profil TPA & buat akun TPA
+     * 3. Admin TPA - Input data santri & data TPA sendiri
      */
     public function run(): void
     {
-
-        $superAdmin = Person::factory()->create([
-            'full_name' => 'Super Admin',
+        // Create SuperAdmin BKPRMI
+        $superAdminPerson = Person::factory()->create([
+            'full_name' => 'SuperAdmin BKPRMI',
         ]);
 
-        $admin = Person::factory()->create([
-            'full_name' => 'Admin',
+        // Create Admin LPPTKA
+        $adminLpptka = Person::factory()->create([
+            'full_name' => 'Admin LPPTKA',
         ]);
 
-        $person = Person::factory()->create([
-            'full_name' => 'Member',
-        ]);
-
+        // Create User SuperAdmin
         $userSuperAdmin = User::factory()->create([
-            'person_id' => $superAdmin->id,
-            'email' => 'superadmin@gmail.com',
+            'person_id' => $superAdminPerson->id,
+            'email' => 'superadmin@bkprmi.com',
             'password' => bcrypt('superadmin'),
         ]);
 
-        $userAdmin = User::factory()->create([
-            'person_id' => $admin->id,
-            'email' => 'admin@gmail.com',
-            'password' => bcrypt('admin'),
+        // Create User Admin LPPTKA
+        $userAdminLpptka = User::factory()->create([
+            'person_id' => $adminLpptka->id,
+            'email' => 'admin.lpptka@bkprmi.com',
+            'password' => bcrypt('adminlpptka'),
         ]);
 
-        $userMember = User::factory()->create([
-
-            'person_id' => $person->id,
-            'email' => 'member@gmail.com',
-            'password' => bcrypt('member'),
-        ]);
-
+        // Assign Role SuperAdmin
         UserRole::query()->firstOrCreate([
             'user_id' => $userSuperAdmin->id,
             'role' => RoleType::SUPERADMIN->value,
         ]);
 
+        // Assign Role Admin LPPTKA
         UserRole::query()->firstOrCreate([
-            'user_id' => $userAdmin->id,
-            'role' => RoleType::ADMIN->value,
-        ]);
-
-        UserRole::query()->firstOrCreate([
-            'user_id' => $userMember->id,
-            'role' => RoleType::MEMBER->value,
+            'user_id' => $userAdminLpptka->id,
+            'role' => RoleType::ADMIN_LPPTKA->value,
         ]);
 
         $this->call([

@@ -1,101 +1,154 @@
 <?php
 
-use App\Http\Controllers\Admin\ActivityController;
-use App\Http\Controllers\Admin\ArchiveController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\ReportController;
-use App\Http\Controllers\Admin\SantriController;
-use App\Http\Controllers\Admin\SettingsController;
-use App\Http\Controllers\Admin\UnitController;
-use App\Http\Controllers\Admin\ValidationController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Member\ActivityController as MemberActivityController;
-use App\Http\Controllers\Member\MemberDashboardController;
-use App\Http\Controllers\Member\OrganizationController;
-use App\Http\Controllers\Member\ReportController as MemberReportController;
+use App\Http\Controllers\Lpptka\DashboardController as LpptkaDashboardController;
+use App\Http\Controllers\Lpptka\TpaAccountController;
+use App\Http\Controllers\Lpptka\UnitController as LpptkaUnitController;
+use App\Http\Controllers\SuperAdmin\DashboardController as SuperAdminDashboardController;
+use App\Http\Controllers\SuperAdmin\UnitApprovalController;
+use App\Http\Controllers\Tpa\DashboardController as TpaDashboardController;
+use App\Http\Controllers\Tpa\SantriController as TpaSantriController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 
-// Auth routes
-
+// ========================================
+// AUTH ROUTES
+// ========================================
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Admin routes
-Route::prefix('admin')
-    ->name('admin.')
-    ->middleware([CheckRole::class.':admin'])
+// ========================================
+// SUPERADMIN BKPRMI ROUTES
+// Dashboard pemantauan keseluruhan data & approval TPA
+// ========================================
+Route::prefix('superadmin')
+    ->name('superadmin.')
+    ->middleware(['auth', CheckRole::class . ':superadmin'])
     ->group(function () {
         // Dashboard
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/', [SuperAdminDashboardController::class, 'index'])->name('dashboard');
 
-        // Santri Management (Kelola Data Santri)
-        Route::resource('santri', SantriController::class);
+        // Unit Approval Management
+        Route::prefix('units/approval')->name('units.approval.')->group(function () {
+            Route::get('/', [UnitApprovalController::class, 'index'])->name('index');
+            Route::get('/{unit}', [UnitApprovalController::class, 'show'])->name('show');
+            Route::post('/{unit}/approve', [UnitApprovalController::class, 'approve'])->name('approve');
+            Route::post('/{unit}/reject', [UnitApprovalController::class, 'reject'])->name('reject');
+            Route::get('/{unit}/certificate', [UnitApprovalController::class, 'viewCertificate'])->name('certificate');
+        });
 
-        // Activity Management (Kelola Data Kegiatan)
-        Route::resource('activities', ActivityController::class);
+        // View All Data (Read Only)
+        Route::get('/santri', function () {
+            // TODO: Implement view all santri
+            return view('superadmin.santri.index');
+        })->name('santri.index');
 
-        // Unit Management
-        Route::resource('units', UnitController::class);
+        Route::get('/units', function () {
+            // TODO: Implement view all units
+            return view('superadmin.units.index');
+        })->name('units.index');
 
-        // Reports (Kelola Laporan)
+        // Reports
         Route::prefix('reports')->name('reports.')->group(function () {
-            Route::get('/santri', [ReportController::class, 'santri'])->name('santri');
-            Route::get('/activities', [ReportController::class, 'activities'])->name('activities');
-            Route::get('/units', [ReportController::class, 'units'])->name('units');
-            Route::post('/export/{type}', [ReportController::class, 'export'])->name('export');
+            Route::get('/', function () {
+                return view('superadmin.reports.index');
+            })->name('index');
         });
-
-        // Archives (Kelola Arsip)
-        Route::resource('archives', ArchiveController::class)->except(['edit', 'update']);
-        Route::get('archives/{archive}/download', [ArchiveController::class, 'download'])->name('archives.download');
-
-        // Validation (Validasi Data)
-        Route::prefix('validation')->name('validation.')->group(function () {
-            Route::get('/', [ValidationController::class, 'index'])->name('index');
-            Route::post('/approve/{type}/{id}', [ValidationController::class, 'approve'])->name('approve');
-            Route::post('/reject/{type}/{id}', [ValidationController::class, 'reject'])->name('reject');
-            Route::post('/bulk-approve', [ValidationController::class, 'bulkApprove'])->name('bulk-approve');
-        });
-
-        // Settings
-        Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
-        Route::get('/settings/sync', [SettingsController::class, 'sync'])->name('settings.sync');
-        Route::get('/profile', [SettingsController::class, 'profile'])->name('profile');
-        Route::put('/profile', [SettingsController::class, 'updateProfile'])->name('profile.update');
-        Route::put('/password', [SettingsController::class, 'updatePassword'])->name('password.update');
     });
 
-// Member routes (Pengguna / Anggota)
-Route::prefix('member')
-    ->name('member.')
-    ->middleware([CheckRole::class.':member'])
+// ========================================
+// ADMIN LPPTKA ROUTES
+// Input profil TPA & buat akun TPA
+// ========================================
+Route::prefix('lpptka')
+    ->name('lpptka.')
+    ->middleware(['auth', CheckRole::class . ':admin_lpptka'])
     ->group(function () {
         // Dashboard
-        Route::get('/', [MemberDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/', [LpptkaDashboardController::class, 'index'])->name('dashboard');
 
-        // Organization Information (Lihat Informasi Organisasi)
-        Route::prefix('organization')->name('organization.')->group(function () {
-            Route::get('/', [OrganizationController::class, 'index'])->name('index');
-            Route::get('/structure', [OrganizationController::class, 'structure'])->name('structure');
-            Route::get('/unit/{unit}', [OrganizationController::class, 'showUnit'])->name('unit.show');
-        });
+        // Unit/TPA Management
+        Route::resource('units', LpptkaUnitController::class);
+        Route::post('/units/{unit}/certificate', [LpptkaUnitController::class, 'uploadCertificate'])
+            ->name('units.upload-certificate');
+        Route::post('/units/{unit}/resubmit', [LpptkaUnitController::class, 'resubmit'])
+            ->name('units.resubmit');
 
-        // Activities (Lihat Data Kegiatan)
-        Route::prefix('activities')->name('activities.')->group(function () {
-            Route::get('/', [MemberActivityController::class, 'index'])->name('index');
-            Route::get('/{activity}', [MemberActivityController::class, 'show'])->name('show');
-            Route::get('/{activity}/logs', [MemberActivityController::class, 'logs'])->name('logs');
-        });
-
-        // Reports (Unduh Laporan & Cerak Laporan)
-        Route::prefix('reports')->name('reports.')->group(function () {
-            Route::get('/', [MemberReportController::class, 'index'])->name('index');
-            Route::post('/download/santri', [MemberReportController::class, 'downloadSantriReport'])->name('download.santri');
-            Route::post('/download/activity', [MemberReportController::class, 'downloadActivityReport'])->name('download.activity');
-            Route::post('/download/unit', [MemberReportController::class, 'downloadUnitReport'])->name('download.unit');
-            Route::get('/print', [MemberReportController::class, 'print'])->name('print');
+        // TPA Account Management
+        Route::prefix('tpa-accounts')->name('tpa-accounts.')->group(function () {
+            Route::get('/', [TpaAccountController::class, 'index'])->name('index');
+            Route::get('/{unit}/create', [TpaAccountController::class, 'create'])->name('create');
+            Route::post('/{unit}', [TpaAccountController::class, 'store'])->name('store');
+            Route::get('/{unit}/success', [TpaAccountController::class, 'success'])->name('success');
+            Route::get('/{unit}/show', [TpaAccountController::class, 'show'])->name('show');
         });
     });
+
+// ========================================
+// ADMIN TPA ROUTES
+// Input data santri & data TPA (restricted to Makassar)
+// ========================================
+Route::prefix('tpa')
+    ->name('tpa.')
+    ->middleware(['auth', CheckRole::class . ':admin_tpa'])
+    ->group(function () {
+        // Dashboard
+        Route::get('/', [TpaDashboardController::class, 'index'])->name('dashboard');
+
+        // Santri Management
+        Route::resource('santri', TpaSantriController::class);
+
+        // Unit Profile (view/edit own unit only)
+        Route::get('/unit', function () {
+            $unit = auth()->user()->managedUnit;
+            if (!$unit) {
+                return view('tpa.no-unit');
+            }
+
+            $unit->load(['village.district.city.province', 'unitHead.person']);
+
+            $stats = [
+                'total_santri' => $unit->santris()->count(),
+                'active_santri' => $unit->santris()->where('status', 'aktif')->count(),
+                'male_santri' => $unit->santris()->whereHas('person', fn($q) => $q->where('gender', 'L'))->count(),
+                'female_santri' => $unit->santris()->whereHas('person', fn($q) => $q->where('gender', 'P'))->count(),
+            ];
+
+            return view('tpa.unit.show', compact('unit', 'stats'));
+        })->name('unit.show');
+
+        Route::get('/unit/edit', function () {
+            $unit = auth()->user()->managedUnit;
+            if (!$unit) {
+                return redirect()->route('tpa.dashboard')->with('error', 'Unit tidak ditemukan.');
+            }
+            return view('tpa.unit.edit', compact('unit'));
+        })->name('unit.edit');
+    });
+
+// ========================================
+// LANDING PAGE
+// ========================================
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
+
+// Redirect authenticated users to their dashboard
+Route::get('/dashboard', function () {
+    $user = auth()->user();
+
+    if ($user->isSuperAdmin()) {
+        return redirect()->route('superadmin.dashboard');
+    }
+
+    if ($user->isAdminLpptka()) {
+        return redirect()->route('lpptka.dashboard');
+    }
+
+    if ($user->isAdminTpa()) {
+        return redirect()->route('tpa.dashboard');
+    }
+
+    return redirect()->route('login');
+})->middleware('auth')->name('dashboard');

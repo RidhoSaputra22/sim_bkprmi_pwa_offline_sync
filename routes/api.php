@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\RegionController;
 use App\Http\Controllers\Api\SyncController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,13 @@ Route::prefix('regions')->name('api.regions.')->group(function () {
     Route::get('/cities', [RegionController::class, 'cities'])->name('cities');
     Route::get('/districts', [RegionController::class, 'districts'])->name('districts');
     Route::get('/villages', [RegionController::class, 'villages'])->name('villages');
+});
+
+// Location API for Admin TPA (Makassar only)
+Route::prefix('location')->name('api.location.')->group(function () {
+    Route::get('/makassar-info', [LocationController::class, 'makassarInfo'])->name('makassar-info');
+    Route::get('/districts-makassar', [LocationController::class, 'districtsMakassar'])->name('districts-makassar');
+    Route::get('/villages', [LocationController::class, 'villagesByDistrict'])->name('villages');
 });
 
 // Sync API for PWA offline functionality
