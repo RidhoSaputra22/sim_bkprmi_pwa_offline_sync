@@ -19,12 +19,18 @@ Route::prefix('regions')->name('api.regions.')->group(function () {
 });
 
 // Sync API for PWA offline functionality
-Route::prefix('sync')->name('api.sync.')->middleware('auth:sanctum')->group(function () {
-    Route::get('/', [SyncController::class, 'index'])->name('index');
-    Route::get('/delta', [SyncController::class, 'delta'])->name('delta');
-    Route::post('/push', [SyncController::class, 'push'])->name('push');
+Route::prefix('sync')->name('api.sync.')->group(function () {
     Route::get('/status', [SyncController::class, 'status'])->name('status');
+
+    // Protected sync routes
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/', [SyncController::class, 'index'])->name('index');
+        Route::get('/delta', [SyncController::class, 'delta'])->name('delta');
+        Route::post('/push', [SyncController::class, 'push'])->name('push');
+    });
 });
 
-// Public sync status endpoint
-Route::get('/sync/status', [SyncController::class, 'status'])->name('api.sync.status.public');
+// Web-based sync routes (uses session auth)
+Route::prefix('sync')->name('api.sync.web.')->middleware('web', 'auth')->group(function () {
+    Route::post('/push', [SyncController::class, 'push'])->name('push');
+});

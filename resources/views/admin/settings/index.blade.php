@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <div class="card bg-base-100 shadow-xl">
+        <a href="{{ route('admin.settings.sync') }}" class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
             <div class="card-body">
                 <div class="flex items-center gap-4">
                     <div class="bg-accent/10 text-accent rounded-lg p-4">
@@ -57,6 +57,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 </x-layouts.admin>

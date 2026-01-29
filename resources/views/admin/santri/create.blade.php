@@ -12,11 +12,33 @@
         <p class="text-base-content/60">Isi formulir untuk menambah data santri baru</p>
     </x-slot:header>
 
+    <!-- Offline Status Indicator -->
+    <div id="offline-form-status" class="mb-4 hidden">
+        <div class="alert alert-warning">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <span>Anda sedang offline. Data akan disimpan lokal dan disinkronkan saat online.</span>
+        </div>
+    </div>
+
     @if(session('error'))
         <x-ui.alert type="error" class="mb-4">{{ session('error') }}</x-ui.alert>
     @endif
 
-    <form method="POST" action="{{ route('admin.santri.store') }}" class="space-y-6" x-data="santriForm()">
+    <form
+        method="POST"
+        action="{{ route('admin.santri.store') }}"
+        class="space-y-6"
+        x-data="santriForm()"
+        data-offline="true"
+        data-offline-type="santri-create"
+        data-offline-endpoint="{{ route('admin.santri.store') }}"
+        data-offline-method="POST"
+        data-offline-success="Santri berhasil ditambahkan!"
+        data-offline-message="Data santri disimpan offline. Akan disinkronkan saat online."
+        data-offline-redirect="{{ route('admin.santri.index') }}"
+    >
         @csrf
 
         <!-- IDENTITAS SANTRI -->

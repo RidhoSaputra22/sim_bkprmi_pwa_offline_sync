@@ -8,11 +8,20 @@
 
     <title>Login - SIM BKPRMI</title>
 
+    <!-- PWA Meta Tags -->
     <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="SIM BKPRMI">
+
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- PWA Service Worker Registration -->
+    <script src="{{ asset('register-sw.js') }}"></script>
 </head>
 <body class="min-h-screen bg-base-200 flex items-center justify-center p-4">
     <div class="card w-full max-w-md bg-base-100 shadow-xl">

@@ -6,6 +6,7 @@ if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         // Service worker will be registered by vite-plugin-pwa
         console.log('PWA support enabled');
+
     });
 }
 

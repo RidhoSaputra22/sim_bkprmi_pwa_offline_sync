@@ -80,7 +80,7 @@ class ArchiveController extends Controller
         $file = $request->file('file');
         $filePath = $file->store('archives', 'public');
 
-        Archive::create([
+        $archive = Archive::create([
             'title' => $validated['title'],
             'description' => $validated['description'],
             'category' => $validated['category'],
@@ -90,6 +90,16 @@ class ArchiveController extends Controller
             'file_size' => $file->getSize(),
             'uploaded_by' => Auth::id(),
         ]);
+
+        // Return JSON for AJAX requests
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Arsip berhasil diupload.',
+                'archive' => $archive,
+                'redirect' => route('admin.archives.index'),
+            ]);
+        }
 
         return redirect()
             ->route('admin.archives.index')

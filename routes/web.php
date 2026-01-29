@@ -62,6 +62,7 @@ Route::prefix('admin')
 
         // Settings
         Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
+        Route::get('/settings/sync', [SettingsController::class, 'sync'])->name('settings.sync');
         Route::get('/profile', [SettingsController::class, 'profile'])->name('profile');
         Route::put('/profile', [SettingsController::class, 'updateProfile'])->name('profile.update');
         Route::put('/password', [SettingsController::class, 'updatePassword'])->name('password.update');

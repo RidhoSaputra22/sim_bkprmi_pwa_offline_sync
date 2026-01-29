@@ -19,8 +19,30 @@
 
     <!-- Right Side Items -->
     <div class="flex-none gap-2">
-        <!-- Theme Toggle -->
+        <!-- Offline Sync Status -->
+        <div class="flex items-center gap-2">
+            <!-- Online/Offline Indicator -->
+            <div id="connection-status" class="hidden items-center gap-1 text-sm">
+                <span id="online-indicator" class="flex items-center gap-1 text-success">
+                    <span class="w-2 h-2 bg-success rounded-full animate-pulse"></span>
+                    Online
+                </span>
+                <span id="offline-indicator" class="flex items-center gap-1 text-warning hidden">
+                    <span class="w-2 h-2 bg-warning rounded-full"></span>
+                    Offline
+                </span>
+            </div>
 
+            <!-- Pending Sync Badge -->
+            <button onclick="window.syncManager?.syncAll()" class="btn btn-ghost btn-circle relative" title="Sinkronisasi Data">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span id="offline-sync-badge" class="badge badge-warning badge-xs absolute -top-1 -right-1 hidden">0</span>
+            </button>
+        </div>
+
+        <!-- Theme Toggle -->
 
 
 

@@ -191,12 +191,31 @@ class SantriController extends Controller
 
             DB::commit();
 
+            // Return JSON response for AJAX/offline requests
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Data santri berhasil ditambahkan.',
+                    'data' => $santri->load('person'),
+                    'redirect' => route('admin.santri.index'),
+                ]);
+            }
+
             return redirect()
                 ->route('admin.santri.index')
                 ->with('success', 'Data santri berhasil ditambahkan.');
 
         } catch (\Exception $e) {
             DB::rollBack();
+
+            // Return JSON error for AJAX/offline requests
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal menyimpan data: ' . $e->getMessage(),
+                ], 500);
+            }
+
             return back()->withInput()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
     }

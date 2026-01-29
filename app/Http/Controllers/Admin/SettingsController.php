@@ -18,6 +18,14 @@ class SettingsController extends Controller
     }
 
     /**
+     * Display data & sync settings.
+     */
+    public function sync()
+    {
+        return view('admin.settings.sync');
+    }
+
+    /**
      * Display profile settings.
      */
     public function profile()
