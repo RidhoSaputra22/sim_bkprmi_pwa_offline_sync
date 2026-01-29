@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Guardian;
 use App\Models\GuardianSantri;
 use App\Models\Person;
+use App\Models\Region;
 use App\Models\Santri;
 use App\Models\SantriUnit;
 use App\Services\LocationFilterService;
@@ -160,6 +161,21 @@ class SantriController extends Controller
         }
 
         DB::transaction(function () use ($validated, $unit) {
+            // Get location IDs for region creation
+            $locationIds = $this->locationService->getAdminTpaLocationIds();
+
+            // Create or find Region for santri address
+            $region = Region::firstOrCreate([
+                'province_id' => $locationIds['province_id'],
+                'city_id' => $locationIds['city_id'],
+                'district_id' => $validated['district_id'],
+                'village_id' => $validated['village_id'],
+            ], [
+                'jalan' => $validated['address'] ?? null,
+                'rt' => $validated['rt'] ?? null,
+                'rw' => $validated['rw'] ?? null,
+            ]);
+
             // Create Person for Santri
             $santriPerson = Person::create([
                 'nik' => $validated['nik'] ?? null,
@@ -172,6 +188,7 @@ class SantriController extends Controller
             // Create Santri
             $santri = Santri::create([
                 'person_id' => $santriPerson->id,
+                'region_id' => $region->id,
                 'village_id' => $validated['village_id'],
                 'child_order' => $validated['child_order'] ?? null,
                 'siblings_count' => $validated['siblings_count'] ?? null,

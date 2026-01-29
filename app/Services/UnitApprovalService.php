@@ -199,11 +199,14 @@ class UnitApprovalService
         return [
             'total_units' => Unit::count(),
             'pending' => Unit::pending()->count(),
+            'pending_units' => Unit::pending()->count(),
             'approved' => Unit::approved()->count(),
+            'approved_units' => Unit::approved()->count(),
             'rejected' => Unit::rejected()->count(),
             'with_certificate' => Unit::withCertificate()->count(),
             'without_account' => Unit::approved()->withoutAdminAccount()->count(),
             'with_account' => Unit::approved()->whereNotNull('admin_user_id')->count(),
+            'active_accounts' => Unit::approved()->whereNotNull('admin_user_id')->count(),
         ];
     }
 }

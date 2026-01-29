@@ -26,25 +26,33 @@ class DashboardController extends Controller
             'total_santri' => Santri::whereHas('santriUnits', function ($q) use ($unit) {
                 $q->where('unit_id', $unit->id);
             })->count(),
-            'santri_aktif' => Santri::whereHas('santriUnits', function ($q) use ($unit) {
+            'active_santri' => Santri::whereHas('santriUnits', function ($q) use ($unit) {
                 $q->where('unit_id', $unit->id)->whereNull('left_at');
-            })->where('status', 'aktif')->count(),
-            'santri_tka' => Santri::whereHas('santriUnits', function ($q) use ($unit) {
+            })->where('status_santri', 'aktif')->count(),
+            'male_santri' => Santri::whereHas('santriUnits', function ($q) use ($unit) {
                 $q->where('unit_id', $unit->id);
-            })->where('level', 'TKA')->count(),
-            'santri_tpa' => Santri::whereHas('santriUnits', function ($q) use ($unit) {
+            })->whereHas('person', fn ($p) => $p->where('gender', 'laki-laki'))->count(),
+            'female_santri' => Santri::whereHas('santriUnits', function ($q) use ($unit) {
                 $q->where('unit_id', $unit->id);
-            })->where('level', 'TPA')->count(),
-            'santri_tqa' => Santri::whereHas('santriUnits', function ($q) use ($unit) {
-                $q->where('unit_id', $unit->id);
-            })->where('level', 'TQA')->count(),
+            })->whereHas('person', fn ($p) => $p->where('gender', 'perempuan'))->count(),
+            'by_jenjang' => [
+                'TKA' => Santri::whereHas('santriUnits', function ($q) use ($unit) {
+                    $q->where('unit_id', $unit->id);
+                })->where('jenjang_santri', 'TKA')->count(),
+                'TPA' => Santri::whereHas('santriUnits', function ($q) use ($unit) {
+                    $q->where('unit_id', $unit->id);
+                })->where('jenjang_santri', 'TPA')->count(),
+                'TQA' => Santri::whereHas('santriUnits', function ($q) use ($unit) {
+                    $q->where('unit_id', $unit->id);
+                })->where('jenjang_santri', 'TQA')->count(),
+            ],
         ];
 
         // Santri terbaru
         $recentSantri = Santri::whereHas('santriUnits', function ($q) use ($unit) {
             $q->where('unit_id', $unit->id);
         })
-        ->with('guardian')
+        ->with('guardians')
         ->latest()
         ->take(5)
         ->get();

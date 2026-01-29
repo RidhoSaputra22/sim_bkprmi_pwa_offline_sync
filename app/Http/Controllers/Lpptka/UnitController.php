@@ -12,6 +12,7 @@ use App\Enum\WaktuKegiatan;
 use App\Http\Controllers\Controller;
 use App\Models\Person;
 use App\Models\Province;
+use App\Models\Region;
 use App\Models\Unit;
 use App\Models\UnitAdmin;
 use App\Models\UnitHead;
@@ -121,10 +122,23 @@ class UnitController extends Controller
         ]);
 
         DB::transaction(function () use ($validated, $request) {
+            // Create or find Region for address
+            $region = Region::firstOrCreate([
+                'province_id' => $validated['province_id'],
+                'city_id' => $validated['city_id'],
+                'district_id' => $validated['district_id'],
+                'village_id' => $validated['village_id'],
+            ], [
+                'jalan' => $validated['jalan'] ?? null,
+                'rt' => $validated['rt'] ?? null,
+                'rw' => $validated['rw'] ?? null,
+            ]);
+
             // Create Unit
             $unit = Unit::create([
                 'unit_number' => $validated['unit_number'],
                 'name' => $validated['name'],
+                'region_id' => $region->id,
                 'village_id' => $validated['village_id'],
                 'tipe_lokasi' => $validated['tipe_lokasi'],
                 'status_bangunan' => $validated['status_bangunan'],

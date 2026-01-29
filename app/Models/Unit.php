@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Unit extends Model
@@ -105,6 +106,21 @@ class Unit extends Model
     public function santriUnits(): HasMany
     {
         return $this->hasMany(SantriUnit::class);
+    }
+
+    /**
+     * Santri yang terdaftar di unit ini melalui santri_units
+     */
+    public function santris(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Santri::class,
+            SantriUnit::class,
+            'unit_id',    // Foreign key on santri_units table
+            'id',         // Foreign key on santris table
+            'id',         // Local key on units table
+            'santri_id'   // Local key on santri_units table
+        );
     }
 
     /**

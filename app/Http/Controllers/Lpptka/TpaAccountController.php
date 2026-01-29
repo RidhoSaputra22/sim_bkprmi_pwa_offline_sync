@@ -20,20 +20,27 @@ class TpaAccountController extends Controller
      */
     public function index()
     {
+        // Count for tabs
+        $readyCount = Unit::readyForAccount()->count();
+        $activeCount = Unit::approved()->whereNotNull('admin_user_id')->count();
+
         // Unit yang sudah diapprove tapi belum punya akun
-        $unitsReadyForAccount = Unit::readyForAccount()
+        $readyUnits = Unit::readyForAccount()
             ->with(['village.district.city', 'unitHead.person'])
             ->paginate(15);
 
-        // Unit yang sudah punya akun
-        $unitsWithAccount = Unit::approved()
-            ->whereNotNull('admin_user_id')
-            ->with(['village.district.city', 'adminUser.person'])
+        // Unit yang sudah punya akun - get users with managed units
+        $activeAccounts = \App\Models\User::whereHas('managedUnit', function ($q) {
+            $q->whereNotNull('approved_at');
+        })
+            ->with(['person', 'managedUnit'])
             ->paginate(15, ['*'], 'page_with_account');
 
         return view('lpptka.tpa-accounts.index', compact(
-            'unitsReadyForAccount',
-            'unitsWithAccount'
+            'readyCount',
+            'activeCount',
+            'readyUnits',
+            'activeAccounts'
         ));
     }
 
@@ -126,6 +133,9 @@ class TpaAccountController extends Controller
         return view('lpptka.tpa-accounts.success', [
             'unit' => $unit,
             'accountInfo' => $accountInfo,
+            'adminName' => $accountInfo['unit_name'] ?? $unit->name,
+            'email' => $accountInfo['email'],
+            'password' => $accountInfo['password'],
         ]);
     }
 

@@ -182,7 +182,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <p class="text-success font-medium mt-2">Sertifikat Tersedia</p>
-                        <a href="{{ route('lpptka.units.certificate', $unit) }}" target="_blank" class="btn btn-sm btn-primary mt-4">
+                        <a href="{{ Storage::url($unit->certificate_path) }}" target="_blank" class="btn btn-sm btn-primary mt-4">
                             Lihat Sertifikat
                         </a>
                     </div>
