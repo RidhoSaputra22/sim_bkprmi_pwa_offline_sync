@@ -27,13 +27,40 @@
                             <!-- Admin Info -->
                             <div class="form-control">
                                 <label class="label"><span class="label-text">Nama Lengkap Admin <span class="text-error">*</span></span></label>
-                                <input type="text" name="name" value="{{ old('name', $unit->unitHead?->person?->full_name) }}"
-                                       class="input input-bordered @error('name') input-error @enderror"
+                                <input type="text" name="full_name" value="{{ old('full_name', $unit->unitHead?->person?->full_name) }}"
+                                       class="input input-bordered @error('full_name') input-error @enderror"
                                        placeholder="Nama lengkap admin TPA" required>
-                                @error('name')
+                                @error('full_name')
                                 <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                                 @enderror
                                 <label class="label"><span class="label-text-alt">Bisa menggunakan nama kepala unit atau nama lain</span></label>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="form-control">
+                                    <label class="label"><span class="label-text">Jenis Kelamin <span class="text-error">*</span></span></label>
+                                    <select name="gender" class="select select-bordered @error('gender') select-error @enderror" required>
+                                        <option value="" disabled {{ old('gender', $unit->unitHead?->person?->gender?->value) ? '' : 'selected' }}>Pilih</option>
+                                        @foreach($genderOptions as $gender)
+                                            <option value="{{ $gender->value }}" @selected(old('gender', $unit->unitHead?->person?->gender?->value) === $gender->value)>
+                                                {{ $gender->getLabel() }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('gender')
+                                    <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                                    @enderror
+                                </div>
+
+                                <div class="form-control">
+                                    <label class="label"><span class="label-text">NIK (Opsional)</span></label>
+                                    <input type="text" name="nik" value="{{ old('nik', $unit->unitHead?->person?->nik) }}"
+                                           class="input input-bordered @error('nik') input-error @enderror"
+                                           placeholder="16 digit">
+                                    @error('nik')
+                                    <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                                    @enderror
+                                </div>
                             </div>
 
                             <div class="form-control">

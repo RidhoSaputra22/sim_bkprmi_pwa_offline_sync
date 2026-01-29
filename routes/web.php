@@ -5,6 +5,7 @@ use App\Http\Controllers\Lpptka\DashboardController as LpptkaDashboardController
 use App\Http\Controllers\Lpptka\TpaAccountController;
 use App\Http\Controllers\Lpptka\UnitController as LpptkaUnitController;
 use App\Http\Controllers\SuperAdmin\DashboardController as SuperAdminDashboardController;
+use App\Http\Controllers\SuperAdmin\ReportController;
 use App\Http\Controllers\SuperAdmin\UnitApprovalController;
 use App\Http\Controllers\Tpa\DashboardController as TpaDashboardController;
 use App\Http\Controllers\Tpa\SantriController as TpaSantriController;
@@ -52,13 +53,87 @@ Route::prefix('superadmin')
             $stats = [
                 'total' => \App\Models\Santri::count(),
                 'aktif' => \App\Models\Santri::where('status_santri', 'aktif')->count(),
-                'male' => \App\Models\Santri::whereHas('person', fn ($q) => $q->where('gender', 'L'))->count(),
-                'female' => \App\Models\Santri::whereHas('person', fn ($q) => $q->where('gender', 'P'))->count(),
+                'male' => \App\Models\Santri::whereHas('person', fn ($q) => $q->where('gender', 'laki-laki'))->count(),
+                'female' => \App\Models\Santri::whereHas('person', fn ($q) => $q->where('gender', 'perempuan'))->count(),
                 'graduated' => \App\Models\Santri::where('status_santri', 'lulus_wisuda')->count(),
             ];
 
             return view('superadmin.santri.index', compact('santris', 'stats'));
         })->name('santri.index');
+
+        Route::get('/santri/{santri}/detail', function (\App\Models\Santri $santri) {
+            $santri->load([
+                'person',
+                'village.district.city.province',
+                'santriUnits.unit',
+                'guardianSantris.guardian.person',
+            ]);
+
+            $unit = $santri->santriUnits->sortByDesc('joined_at')->first()?->unit;
+
+            $guardians = $santri->guardianSantris
+                ->map(function (\App\Models\GuardianSantri $gs) {
+                    return [
+                        'hubungan' => $gs->hubungan?->value,
+                        'hubungan_label' => $gs->hubungan?->getLabel(),
+                        'full_name' => $gs->guardian?->person?->full_name,
+                        'nik' => $gs->guardian?->person?->nik,
+                        'phone' => $gs->guardian?->person?->phone,
+                    ];
+                })
+                ->values();
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'id' => $santri->id,
+                    'person' => [
+                        'full_name' => $santri->person?->full_name,
+                        'nik' => $santri->person?->nik,
+                        'gender' => $santri->person?->gender?->value,
+                        'gender_label' => $santri->person?->gender?->getLabel(),
+                        'birth_place' => $santri->person?->birth_place,
+                        'birth_date' => $santri->person?->birth_date?->format('Y-m-d'),
+                        'birth_date_human' => $santri->person?->birth_date?->format('d M Y'),
+                        'phone' => $santri->person?->phone,
+                    ],
+                    'jenjang' => [
+                        'value' => $santri->jenjang_santri?->value,
+                        'label' => $santri->jenjang_santri?->getLabel(),
+                    ],
+                    'kelas' => [
+                        'value' => $santri->kelas_mengaji?->value,
+                        'label' => $santri->kelas_mengaji?->getLabel(),
+                    ],
+                    'status' => [
+                        'value' => $santri->status_santri?->value,
+                        'label' => $santri->status_santri?->getLabel(),
+                    ],
+                    'unit' => $unit ? [
+                        'id' => $unit->id,
+                        'unit_number' => $unit->unit_number,
+                        'name' => $unit->name,
+                    ] : null,
+                    'location' => [
+                        'province' => $santri->village?->district?->city?->province?->name,
+                        'city' => $santri->village?->district?->city?->name,
+                        'district' => $santri->village?->district?->name,
+                        'village' => $santri->village?->name,
+                    ],
+                    'address' => [
+                        'address' => $santri->address,
+                        'rt' => $santri->rt,
+                        'rw' => $santri->rw,
+                    ],
+                    'parents' => [
+                        'nama_ayah' => $santri->nama_ayah,
+                        'nama_ibu' => $santri->nama_ibu,
+                    ],
+                    'guardians' => $guardians,
+                    'created_at' => $santri->created_at?->toISOString(),
+                ],
+            ]);
+        })->name('santri.detail');
 
         Route::get('/units', function () {
             $units = \App\Models\Unit::with(['village.district.city.province', 'unitHead.person'])
@@ -84,32 +159,10 @@ Route::prefix('superadmin')
 
         // Reports
         Route::prefix('reports')->name('reports.')->group(function () {
-            Route::get('/', function () {
-                $stats = [
-                    'total_santri' => \App\Models\Santri::count(),
-                    'total_units' => \App\Models\Unit::count(),
-                    'total_cities' => \App\Models\City::count(),
-                    'approved_units' => \App\Models\Unit::where('approval_status', 'approved')->count(),
-                    'pending_units' => \App\Models\Unit::where('approval_status', 'pending')->count(),
-                    'rejected_units' => \App\Models\Unit::where('approval_status', 'rejected')->count(),
-                    'male_santri' => \App\Models\Santri::whereHas('person', fn ($q) => $q->where('gender', 'L'))->count(),
-                    'female_santri' => \App\Models\Santri::whereHas('person', fn ($q) => $q->where('gender', 'P'))->count(),
-                    'by_jenjang' => [
-                        'tka' => \App\Models\Santri::where('jenjang_santri', 'tka')->count(),
-                        'tpa' => \App\Models\Santri::where('jenjang_santri', 'tpa')->count(),
-                        'tqa' => \App\Models\Santri::where('jenjang_santri', 'tqa')->count(),
-                    ],
-                    'by_status' => [
-                        'aktif' => \App\Models\Santri::where('status_santri', 'aktif')->count(),
-                        'lulus_wisuda' => \App\Models\Santri::where('status_santri', 'lulus_wisuda')->count(),
-                        'lanjut_tqa' => \App\Models\Santri::where('status_santri', 'lanjut_tqa')->count(),
-                        'pindah' => \App\Models\Santri::where('status_santri', 'pindah')->count(),
-                        'berhenti' => \App\Models\Santri::where('status_santri', 'berhenti')->count(),
-                    ],
-                ];
-
-                return view('superadmin.reports.index', compact('stats'));
-            })->name('index');
+            Route::get('/', [ReportController::class, 'index'])->name('index');
+            Route::get('/export/pdf', [ReportController::class, 'exportPdf'])->name('export.pdf');
+            Route::get('/export/excel', [ReportController::class, 'exportExcel'])->name('export.excel');
+            Route::get('/print', [ReportController::class, 'print'])->name('print');
         });
     });
 
@@ -166,9 +219,9 @@ Route::prefix('tpa')
 
             $stats = [
                 'total_santri' => $unit->santris()->count(),
-                'active_santri' => $unit->santris()->where('status', 'aktif')->count(),
-                'male_santri' => $unit->santris()->whereHas('person', fn ($q) => $q->where('gender', 'L'))->count(),
-                'female_santri' => $unit->santris()->whereHas('person', fn ($q) => $q->where('gender', 'P'))->count(),
+                'active_santri' => $unit->santris()->where('status_santri', 'aktif')->count(),
+                'male_santri' => $unit->santris()->whereHas('person', fn ($q) => $q->where('gender', 'laki-laki'))->count(),
+                'female_santri' => $unit->santris()->whereHas('person', fn ($q) => $q->where('gender', 'perempuan'))->count(),
             ];
 
             return view('tpa.unit.show', compact('unit', 'stats'));

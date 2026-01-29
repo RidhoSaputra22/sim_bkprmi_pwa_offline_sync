@@ -25,10 +25,10 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="form-control">
                             <label class="label"><span class="label-text">Nama Lengkap <span class="text-error">*</span></span></label>
-                            <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap') }}"
-                                   class="input input-bordered @error('nama_lengkap') input-error @enderror"
+                            <input type="text" name="full_name" value="{{ old('full_name') }}"
+                                class="input input-bordered @error('full_name') input-error @enderror"
                                    placeholder="Nama lengkap santri" required>
-                            @error('nama_lengkap')
+                            @error('full_name')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
@@ -70,39 +70,39 @@
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">Tempat Lahir</span></label>
-                            <input type="text" name="tempat_lahir" value="{{ old('tempat_lahir') }}"
-                                   class="input input-bordered @error('tempat_lahir') input-error @enderror"
+                            <input type="text" name="birth_place" value="{{ old('birth_place') }}"
+                                class="input input-bordered @error('birth_place') input-error @enderror"
                                    placeholder="Kota tempat lahir">
-                            @error('tempat_lahir')
+                            @error('birth_place')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">Tanggal Lahir</span></label>
-                            <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}"
-                                   class="input input-bordered @error('tanggal_lahir') input-error @enderror">
-                            @error('tanggal_lahir')
+                            <input type="date" name="birth_date" value="{{ old('birth_date') }}"
+                                class="input input-bordered @error('birth_date') input-error @enderror">
+                            @error('birth_date')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">Anak Ke</span></label>
-                            <input type="number" name="anak_ke" value="{{ old('anak_ke') }}" min="1"
-                                   class="input input-bordered @error('anak_ke') input-error @enderror"
+                            <input type="number" name="child_order" value="{{ old('child_order') }}" min="1"
+                                class="input input-bordered @error('child_order') input-error @enderror"
                                    placeholder="1">
-                            @error('anak_ke')
+                            @error('child_order')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">Jumlah Saudara</span></label>
-                            <input type="number" name="jumlah_saudara" value="{{ old('jumlah_saudara') }}" min="0"
-                                   class="input input-bordered @error('jumlah_saudara') input-error @enderror"
+                            <input type="number" name="siblings_count" value="{{ old('siblings_count') }}" min="0"
+                                class="input input-bordered @error('siblings_count') input-error @enderror"
                                    placeholder="0">
-                            @error('jumlah_saudara')
+                            @error('siblings_count')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
@@ -118,54 +118,54 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="form-control">
                             <label class="label"><span class="label-text">Jenjang <span class="text-error">*</span></span></label>
-                            <select name="jenjang" class="select select-bordered @error('jenjang') select-error @enderror" required>
+                            <select name="jenjang_santri" class="select select-bordered @error('jenjang_santri') select-error @enderror" required>
                                 <option value="">-- Pilih Jenjang --</option>
                                 @foreach(\App\Enum\JenjangSantri::cases() as $jenjang)
-                                <option value="{{ $jenjang->value }}" {{ old('jenjang') == $jenjang->value ? 'selected' : '' }}>
+                                <option value="{{ $jenjang->value }}" {{ old('jenjang_santri') == $jenjang->value ? 'selected' : '' }}>
                                     {{ $jenjang->getLabel() }}
                                 </option>
                                 @endforeach
                             </select>
-                            @error('jenjang')
+                            @error('jenjang_santri')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">Kelas Mengaji</span></label>
-                            <select name="kelas" class="select select-bordered @error('kelas') select-error @enderror">
+                            <select name="kelas_mengaji" class="select select-bordered @error('kelas_mengaji') select-error @enderror" required>
                                 <option value="">-- Pilih Kelas --</option>
                                 @foreach(\App\Enum\KelasMengaji::cases() as $kelas)
-                                <option value="{{ $kelas->value }}" {{ old('kelas') == $kelas->value ? 'selected' : '' }}>
+                                <option value="{{ $kelas->value }}" {{ old('kelas_mengaji') == $kelas->value ? 'selected' : '' }}>
                                     {{ $kelas->getLabel() }}
                                 </option>
                                 @endforeach
                             </select>
-                            @error('kelas')
+                            @error('kelas_mengaji')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">Status <span class="text-error">*</span></span></label>
-                            <select name="status" class="select select-bordered @error('status') select-error @enderror" required>
+                            <select name="status_santri" class="select select-bordered @error('status_santri') select-error @enderror" required>
                                 <option value="">-- Pilih Status --</option>
                                 @foreach(\App\Enum\StatusSantri::cases() as $status)
-                                <option value="{{ $status->value }}" {{ old('status', 'aktif') == $status->value ? 'selected' : '' }}>
+                                <option value="{{ $status->value }}" {{ old('status_santri', 'aktif') == $status->value ? 'selected' : '' }}>
                                     {{ $status->getLabel() }}
                                 </option>
                                 @endforeach
                             </select>
-                            @error('status')
+                            @error('status_santri')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">Tanggal Masuk</span></label>
-                            <input type="date" name="tanggal_masuk" value="{{ old('tanggal_masuk', date('Y-m-d')) }}"
-                                   class="input input-bordered @error('tanggal_masuk') input-error @enderror">
-                            @error('tanggal_masuk')
+                            <input type="date" name="joined_at" value="{{ old('joined_at', date('Y-m-d')) }}"
+                                class="input input-bordered @error('joined_at') input-error @enderror">
+                            @error('joined_at')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
@@ -214,9 +214,29 @@
 
                         <div class="form-control md:col-span-2">
                             <label class="label"><span class="label-text">Alamat Lengkap</span></label>
-                            <textarea name="alamat" class="textarea textarea-bordered @error('alamat') textarea-error @enderror"
-                                      rows="2" placeholder="Jalan, RT/RW, dll">{{ old('alamat') }}</textarea>
-                            @error('alamat')
+                            <textarea name="address" class="textarea textarea-bordered @error('address') textarea-error @enderror"
+                                      rows="2" placeholder="Jalan, dll">{{ old('address') }}</textarea>
+                            @error('address')
+                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                            @enderror
+                        </div>
+
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">RT</span></label>
+                            <input type="text" name="rt" value="{{ old('rt') }}"
+                                   class="input input-bordered @error('rt') input-error @enderror"
+                                   placeholder="001" maxlength="5">
+                            @error('rt')
+                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                            @enderror
+                        </div>
+
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">RW</span></label>
+                            <input type="text" name="rw" value="{{ old('rw') }}"
+                                   class="input input-bordered @error('rw') input-error @enderror"
+                                   placeholder="001" maxlength="5">
+                            @error('rw')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
@@ -232,10 +252,25 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="form-control">
                             <label class="label"><span class="label-text">Nama Wali <span class="text-error">*</span></span></label>
-                            <input type="text" name="wali_nama" value="{{ old('wali_nama') }}"
-                                   class="input input-bordered @error('wali_nama') input-error @enderror"
+                            <input type="text" name="wali_full_name" value="{{ old('wali_full_name') }}"
+                                   class="input input-bordered @error('wali_full_name') input-error @enderror"
                                    placeholder="Nama lengkap wali" required>
-                            @error('wali_nama')
+                            @error('wali_full_name')
+                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                            @enderror
+                        </div>
+
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">Jenis Kelamin Wali <span class="text-error">*</span></span></label>
+                            <select name="wali_gender" class="select select-bordered @error('wali_gender') select-error @enderror" required>
+                                <option value="">-- Pilih --</option>
+                                @foreach(\App\Enum\Gender::cases() as $gender)
+                                <option value="{{ $gender->value }}" {{ old('wali_gender') == $gender->value ? 'selected' : '' }}>
+                                    {{ $gender->getLabel() }}
+                                </option>
+                                @endforeach
+                            </select>
+                            @error('wali_gender')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
@@ -271,6 +306,25 @@
                                    class="input input-bordered @error('wali_phone') input-error @enderror"
                                    placeholder="08xxxxxxxxxx" required>
                             @error('wali_phone')
+                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                            @enderror
+                        </div>
+
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">Tempat Lahir Wali</span></label>
+                            <input type="text" name="wali_birth_place" value="{{ old('wali_birth_place') }}"
+                                   class="input input-bordered @error('wali_birth_place') input-error @enderror"
+                                   placeholder="Kota tempat lahir">
+                            @error('wali_birth_place')
+                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                            @enderror
+                        </div>
+
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">Tanggal Lahir Wali</span></label>
+                            <input type="date" name="wali_birth_date" value="{{ old('wali_birth_date') }}"
+                                   class="input input-bordered @error('wali_birth_date') input-error @enderror">
+                            @error('wali_birth_date')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
@@ -325,8 +379,8 @@
     <script>
     function santriForm() {
         return {
-            districtId: '{{ old('district_id', '') }}',
-            villageId: '{{ old('village_id', '') }}',
+            districtId: "{{ old('district_id', '') }}",
+            villageId: "{{ old('village_id', '') }}",
             villages: [],
 
             init() {
@@ -338,8 +392,14 @@
                     this.villages = [];
                     return;
                 }
-                const response = await fetch(`/api/location/villages/${this.districtId}`);
-                this.villages = await response.json();
+                try {
+                    const response = await fetch(`/api/location/villages?district_id=${this.districtId}`);
+                    const result = await response.json();
+                    this.villages = result.success ? result.data : [];
+                } catch (error) {
+                    console.error('Failed to load villages:', error);
+                    this.villages = [];
+                }
             }
         }
     }

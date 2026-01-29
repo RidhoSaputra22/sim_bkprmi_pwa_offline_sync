@@ -20,4 +20,26 @@ enum StatusSantri: string
             self::BERHENTI => 'Keluar >> Berhenti',
         };
     }
+
+    public function getShortLabel(): string
+    {
+        return match ($this) {
+            self::AKTIF => 'AK',
+            self::LULUS_WISUDA => 'LTA',
+            self::LANJUT_TQA => 'LTQA',
+            self::PINDAH => 'PNDH',
+            self::BERHENTI => 'BRH',
+        };
+    }
+
+    public function getColor(): string
+    {
+        return match ($this) {
+            self::AKTIF => 'success',
+            self::LULUS_WISUDA => 'primary',
+            self::LANJUT_TQA => 'info',
+            self::PINDAH => 'warning',
+            self::BERHENTI => 'error',
+        };
+    }
 }

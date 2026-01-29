@@ -73,16 +73,17 @@ class TpaAccountController extends Controller
     {
         $validated = $request->validate([
             'full_name' => 'required|string|max:255',
-            'nik' => 'nullable|string|max:16',
+            'nik' => 'nullable|string|max:16|unique:persons,nik',
             'birth_place' => 'nullable|string|max:100',
             'birth_date' => 'nullable|date',
             'gender' => ['required', new Enum(Gender::class)],
             'phone' => 'nullable|string|max:20',
             'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'nullable|string|min:8',
+            'password' => 'required|string|min:8|confirmed',
         ], [
             'email.unique' => 'Email sudah digunakan.',
             'password.min' => 'Password minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak sama.',
         ]);
 
         try {

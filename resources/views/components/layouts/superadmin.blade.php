@@ -59,7 +59,7 @@
                             <li class="menu-title">
                                 <span>{{ auth()->user()->person->full_name ?? 'SuperAdmin' }}</span>
                             </li>
-                            <li><a href="#">Profil</a></li>
+
                             <li>
                                 <a href="#"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

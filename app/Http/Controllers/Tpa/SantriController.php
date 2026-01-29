@@ -51,7 +51,7 @@ class SantriController extends Controller
 
         $query = Santri::whereHas('santriUnits', function ($q) use ($unit) {
             $q->where('unit_id', $unit->id);
-        })->with(['person', 'village.district']);
+        })->with(['person', 'village.district', 'guardianSantris.guardian.person']);
 
         // Filter by jenjang
         if ($request->filled('jenjang')) {
@@ -61,6 +61,11 @@ class SantriController extends Controller
         // Filter by status
         if ($request->filled('status')) {
             $query->where('status_santri', $request->status);
+        }
+
+        // Filter by gender
+        if ($request->filled('gender')) {
+            $query->whereHas('person', fn ($q) => $q->where('gender', $request->gender));
         }
 
         // Search
@@ -124,6 +129,9 @@ class SantriController extends Controller
             'gender' => ['required', new Enum(Gender::class)],
             'child_order' => 'nullable|integer|min:1',
             'siblings_count' => 'nullable|integer|min:0',
+
+            // Keanggotaan Unit
+            'joined_at' => 'nullable|date',
 
             // Alamat - Restricted to Makassar
             'district_id' => 'required|exists:districts,id',
@@ -206,7 +214,7 @@ class SantriController extends Controller
             SantriUnit::create([
                 'santri_id' => $santri->id,
                 'unit_id' => $unit->id,
-                'joined_at' => now(),
+                'joined_at' => $validated['joined_at'] ?? now()->toDateString(),
             ]);
 
             // Create Person for Guardian
@@ -254,7 +262,8 @@ class SantriController extends Controller
         $santri->load([
             'person',
             'village.district.city',
-            'guardians.person',
+            'guardianSantris.guardian.person',
+            'santriUnits',
         ]);
 
         return view('tpa.santri.show', compact('santri', 'unit'));
@@ -272,7 +281,7 @@ class SantriController extends Controller
             abort(403, 'Santri tidak terdaftar di unit Anda.');
         }
 
-        $santri->load(['person', 'village.district', 'guardians.person']);
+        $santri->load(['person', 'village.district', 'guardianSantris.guardian.person', 'santriUnits']);
 
         $districts = $this->locationService->getDistrictsInMakassar();
         $locationIds = $this->locationService->getAdminTpaLocationIds();
@@ -315,6 +324,9 @@ class SantriController extends Controller
             'child_order' => 'nullable|integer|min:1',
             'siblings_count' => 'nullable|integer|min:0',
 
+            // Keanggotaan Unit
+            'joined_at' => 'nullable|date',
+
             // Alamat
             'district_id' => 'required|exists:districts,id',
             'village_id' => 'required|exists:villages,id',
@@ -330,6 +342,17 @@ class SantriController extends Controller
             'jenjang_santri' => ['required', new Enum(JenjangSantri::class)],
             'kelas_mengaji' => ['required', new Enum(KelasMengaji::class)],
             'status_santri' => ['required', new Enum(StatusSantri::class)],
+
+            // Data Wali
+            'wali_nik' => 'nullable|string|max:16',
+            'wali_full_name' => 'required|string|max:255',
+            'wali_birth_place' => 'nullable|string|max:100',
+            'wali_birth_date' => 'nullable|date',
+            'wali_gender' => ['required', new Enum(Gender::class)],
+            'wali_hubungan' => ['required', new Enum(HubunganWaliSantri::class)],
+            'wali_pendidikan' => ['nullable', new Enum(PendidikanTerakhir::class)],
+            'wali_pekerjaan' => ['nullable', new Enum(PekerjaanWali::class)],
+            'wali_phone' => 'nullable|string|max:20',
         ]);
 
         // Validasi lokasi harus di Makassar
@@ -339,7 +362,22 @@ class SantriController extends Controller
                 ->withErrors(['village_id' => 'Lokasi harus berada di wilayah Kota Makassar.']);
         }
 
-        DB::transaction(function () use ($validated, $santri) {
+        DB::transaction(function () use ($validated, $santri, $unit) {
+            // Get location IDs for region creation
+            $locationIds = $this->locationService->getAdminTpaLocationIds();
+
+            // Create or find Region for santri address
+            $region = Region::firstOrCreate([
+                'province_id' => $locationIds['province_id'],
+                'city_id' => $locationIds['city_id'],
+                'district_id' => $validated['district_id'],
+                'village_id' => $validated['village_id'],
+            ], [
+                'jalan' => $validated['address'] ?? null,
+                'rt' => $validated['rt'] ?? null,
+                'rw' => $validated['rw'] ?? null,
+            ]);
+
             // Update Person
             $santri->person->update([
                 'nik' => $validated['nik'] ?? null,
@@ -351,6 +389,7 @@ class SantriController extends Controller
 
             // Update Santri
             $santri->update([
+                'region_id' => $region->id,
                 'village_id' => $validated['village_id'],
                 'child_order' => $validated['child_order'] ?? null,
                 'siblings_count' => $validated['siblings_count'] ?? null,
@@ -363,6 +402,56 @@ class SantriController extends Controller
                 'kelas_mengaji' => $validated['kelas_mengaji'],
                 'status_santri' => $validated['status_santri'],
             ]);
+
+            if (! empty($validated['joined_at'])) {
+                $santri->santriUnits()
+                    ->where('unit_id', $unit->id)
+                    ->update(['joined_at' => $validated['joined_at']]);
+            }
+
+            // Update/Create Wali (Guardian)
+            $guardianSantri = $santri->guardianSantris()->first();
+
+            if ($guardianSantri) {
+                $guardianSantri->guardian->person->update([
+                    'nik' => $validated['wali_nik'] ?? null,
+                    'full_name' => $validated['wali_full_name'],
+                    'birth_place' => $validated['wali_birth_place'] ?? null,
+                    'birth_date' => $validated['wali_birth_date'] ?? null,
+                    'gender' => $validated['wali_gender'],
+                    'phone' => $validated['wali_phone'] ?? null,
+                ]);
+
+                $guardianSantri->guardian->update([
+                    'pendidikan_terakhir' => $validated['wali_pendidikan'] ?? null,
+                    'pekerjaan' => $validated['wali_pekerjaan'] ?? null,
+                ]);
+
+                $guardianSantri->update([
+                    'hubungan' => $validated['wali_hubungan'],
+                ]);
+            } else {
+                $guardianPerson = Person::create([
+                    'nik' => $validated['wali_nik'] ?? null,
+                    'full_name' => $validated['wali_full_name'],
+                    'birth_place' => $validated['wali_birth_place'] ?? null,
+                    'birth_date' => $validated['wali_birth_date'] ?? null,
+                    'gender' => $validated['wali_gender'],
+                    'phone' => $validated['wali_phone'] ?? null,
+                ]);
+
+                $guardian = Guardian::create([
+                    'person_id' => $guardianPerson->id,
+                    'pendidikan_terakhir' => $validated['wali_pendidikan'] ?? null,
+                    'pekerjaan' => $validated['wali_pekerjaan'] ?? null,
+                ]);
+
+                GuardianSantri::create([
+                    'guardian_id' => $guardian->id,
+                    'santri_id' => $santri->id,
+                    'hubungan' => $validated['wali_hubungan'],
+                ]);
+            }
         });
 
         return redirect()
