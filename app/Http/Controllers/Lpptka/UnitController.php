@@ -45,7 +45,7 @@ class UnitController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('unit_number', 'like', "%{$search}%");
+                    ->orWhere('unit_number', 'like', "%{$search}%");
             });
         }
 
@@ -80,6 +80,8 @@ class UnitController extends Controller
      */
     public function store(Request $request)
     {
+        // dd('validated');
+
         $validated = $request->validate([
             // Identitas Unit
             'unit_number' => 'required|string|max:50|unique:units,unit_number',
@@ -89,7 +91,7 @@ class UnitController extends Controller
             'mosque_name' => 'nullable|string|max:255',
             'founder' => 'nullable|string|max:255',
             'formed_at' => 'nullable|date',
-            'joined_year' => 'nullable|integer|min:1900|max:' . date('Y'),
+            'joined_year' => 'nullable|integer|min:1900|max:'.date('Y'),
             'waktu_kegiatan' => ['required', new Enum(WaktuKegiatan::class)],
             'email' => 'nullable|email|max:255',
 
@@ -105,8 +107,8 @@ class UnitController extends Controller
             // Kepala Unit
             'head_nik' => 'nullable|string|max:16',
             'head_name' => 'required|string|max:255',
-            'head_birth_place' => 'nullable|string|max:100',
-            'head_birth_date' => 'nullable|date',
+            'head_birth_place' => 'required|string|max:100',
+            'head_birth_date' => 'required|date',
             'head_gender' => ['required', new Enum(Gender::class)],
             'head_education' => ['nullable', new Enum(PendidikanTerakhir::class)],
             'head_job' => ['nullable', new Enum(PekerjaanWali::class)],
@@ -350,6 +352,7 @@ class UnitController extends Controller
 
         try {
             $this->approvalService->resetToPending($unit);
+
             return back()->with('success', 'Unit berhasil diajukan ulang untuk approval.');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());

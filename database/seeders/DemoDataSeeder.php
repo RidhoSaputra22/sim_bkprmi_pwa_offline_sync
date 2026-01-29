@@ -6,11 +6,14 @@ use App\Enum\HubunganWaliSantri;
 use App\Enum\RoleType;
 use App\Models\Activity;
 use App\Models\ActivityLog;
+use App\Models\City;
+use App\Models\District;
 use App\Models\EducationLevel;
 use App\Models\Guardian;
 use App\Models\GuardianSantri;
 use App\Models\Job;
 use App\Models\Person;
+use App\Models\Province;
 use App\Models\Region;
 use App\Models\Santri;
 use App\Models\SantriUnit;
@@ -19,6 +22,7 @@ use App\Models\UnitAdmin;
 use App\Models\UnitHead;
 use App\Models\User;
 use App\Models\UserRole;
+use App\Models\Village;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
@@ -27,7 +31,15 @@ class DemoDataSeeder extends Seeder
     public function run(): void
     {
         // Regions
-        $regions = Region::factory()->count(20)->create();
+        $regions = Region::create([
+            'province_id' => Province::first()->id,
+            'city_id' => City::first()->id,
+            'district_id' => District::first()->id,
+            'village_id' => Village::first()->id,
+            'jalan' => 'Some Street',
+            'rt' => '001',
+            'rw' => '002',
+        ]);
 
         // Persons
         $educationLevelIds = EducationLevel::query()->pluck('id')->all();
@@ -83,7 +95,7 @@ class DemoDataSeeder extends Seeder
 
         // Units
         $units = Unit::factory()->count(10)->create([
-            'region_id' => $regions->random()->id,
+            'region_id' => $regions->id,
         ]);
 
         // Unit heads: one per unit
@@ -108,7 +120,7 @@ class DemoDataSeeder extends Seeder
             ->state(function () use ($persons, $regions) {
                 return [
                     'person_id' => $persons->random()->id,
-                    'region_id' => $regions->random()->id,
+                    'region_id' => $regions->id,
                 ];
             })
             ->create();

@@ -33,6 +33,11 @@ class DatabaseSeeder extends Seeder
             'full_name' => 'Admin LPPTKA',
         ]);
 
+        // Create Admin LPPTKA
+        $adminTpa = Person::factory()->create([
+            'full_name' => 'Admin TPA',
+        ]);
+
         // Create User SuperAdmin
         $userSuperAdmin = User::factory()->create([
             'person_id' => $superAdminPerson->id,
@@ -47,6 +52,12 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('adminlpptka'),
         ]);
 
+        $userAdminTpa = User::factory()->create([
+            'person_id' => $adminTpa->id,
+            'email' => 'admin.tpa@bkprmi.com',
+            'password' => bcrypt('admintpa'),
+        ]);
+
         // Assign Role SuperAdmin
         UserRole::query()->firstOrCreate([
             'user_id' => $userSuperAdmin->id,
@@ -59,10 +70,15 @@ class DatabaseSeeder extends Seeder
             'role' => RoleType::ADMIN_LPPTKA->value,
         ]);
 
+        // Assign Role Admin TPA
+        UserRole::query()->firstOrCreate([
+            'user_id' => $userAdminTpa->id,
+            'role' => RoleType::ADMIN_TPA->value,
+        ]);
+
         $this->call([
             MasterDataSeeder::class,
             DemoDataSeeder::class,
         ]);
-
     }
 }
