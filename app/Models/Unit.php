@@ -142,6 +142,22 @@ class Unit extends Model
         return $this->hasMany(Activity::class);
     }
 
+    /**
+     * Guru-guru yang mengajar di unit ini
+     */
+    public function teachers(): HasMany
+    {
+        return $this->hasMany(Teacher::class);
+    }
+
+    /**
+     * Guru-guru yang aktif mengajar di unit ini
+     */
+    public function activeTeachers(): HasMany
+    {
+        return $this->hasMany(Teacher::class)->where('is_active', true);
+    }
+
     // ========================================
     // APPROVAL SYSTEM METHODS
     // ========================================

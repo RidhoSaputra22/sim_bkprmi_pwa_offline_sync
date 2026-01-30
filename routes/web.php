@@ -9,6 +9,7 @@ use App\Http\Controllers\SuperAdmin\ReportController;
 use App\Http\Controllers\SuperAdmin\UnitApprovalController;
 use App\Http\Controllers\Tpa\DashboardController as TpaDashboardController;
 use App\Http\Controllers\Tpa\SantriController as TpaSantriController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 
@@ -207,6 +208,17 @@ Route::prefix('tpa')
 
         // Santri Management
         Route::resource('santri', TpaSantriController::class);
+
+        // Teacher/Guru Management
+        Route::resource('teachers', TeacherController::class)->except(['index', 'create', 'store']);
+        Route::get('/guru', [TeacherController::class, 'index'])->name('teachers.index');
+        Route::get('/guru/create', [TeacherController::class, 'create'])->name('teachers.create');
+        Route::post('/guru', [TeacherController::class, 'store'])->name('teachers.store');
+
+        // AJAX routes for location cascading
+        Route::get('/api/cities', [TeacherController::class, 'getCities'])->name('api.cities');
+        Route::get('/api/districts', [TeacherController::class, 'getDistricts'])->name('api.districts');
+        Route::get('/api/villages', [TeacherController::class, 'getVillages'])->name('api.villages');
 
         // Unit Profile (view/edit own unit only)
         Route::get('/unit', function () {

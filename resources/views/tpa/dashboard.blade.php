@@ -127,7 +127,7 @@
     <!-- Quick Actions -->
     <div class="mt-8">
         <h3 class="text-lg font-semibold mb-4">Aksi Cepat</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <a href="{{ route('tpa.santri.create') }}"
                 class="card bg-primary text-primary-content shadow hover:shadow-lg transition-shadow">
                 <div class="card-body items-center text-center">
@@ -149,6 +149,18 @@
                     </svg>
                     <h3 class="card-title">Daftar Santri</h3>
                     <p class="text-sm opacity-80">Kelola data santri</p>
+                </div>
+            </a>
+
+            <a href="{{ route('tpa.teachers.index') }}"
+                class="card bg-info text-info-content shadow hover:shadow-lg transition-shadow">
+                <div class="card-body items-center text-center">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <h3 class="card-title">Daftar Guru</h3>
+                    <p class="text-sm opacity-80">Kelola data guru</p>
                 </div>
             </a>
 
