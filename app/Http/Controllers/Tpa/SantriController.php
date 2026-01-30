@@ -157,7 +157,8 @@ class SantriController extends Controller
             'wali_gender' => ['required', new Enum(Gender::class)],
             'wali_hubungan' => ['required', new Enum(HubunganWaliSantri::class)],
             'wali_pendidikan' => ['nullable', new Enum(PendidikanTerakhir::class)],
-            'wali_pekerjaan' => ['nullable', new Enum(PekerjaanWali::class)],
+            'wali_pekerjaan' => 'nullable|array',
+            'wali_pekerjaan.*' => ['nullable', new Enum(PekerjaanWali::class)],
             'wali_phone' => 'nullable|string|max:20',
         ]);
 
@@ -351,7 +352,8 @@ class SantriController extends Controller
             'wali_gender' => ['required', new Enum(Gender::class)],
             'wali_hubungan' => ['required', new Enum(HubunganWaliSantri::class)],
             'wali_pendidikan' => ['nullable', new Enum(PendidikanTerakhir::class)],
-            'wali_pekerjaan' => ['nullable', new Enum(PekerjaanWali::class)],
+            'wali_pekerjaan' => 'nullable|array',
+            'wali_pekerjaan.*' => ['nullable', new Enum(PekerjaanWali::class)],
             'wali_phone' => 'nullable|string|max:20',
         ]);
 

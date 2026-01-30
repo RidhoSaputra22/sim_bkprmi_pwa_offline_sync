@@ -14,7 +14,7 @@ return new class extends Migration
         // Update unit_heads table - add pendidikan and pekerjaan
         Schema::table('unit_heads', function (Blueprint $table) {
             $table->string('pendidikan_terakhir')->nullable()->after('person_id');
-            $table->string('pekerjaan')->nullable()->after('pendidikan_terakhir');
+            $table->json('pekerjaan')->nullable()->after('pendidikan_terakhir');
         });
     }
 

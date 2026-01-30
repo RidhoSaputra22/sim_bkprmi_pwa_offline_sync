@@ -389,16 +389,19 @@
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">Pekerjaan Wali</span></label>
-                            <select name="wali_pekerjaan"
-                                class="select select-bordered @error('wali_pekerjaan') select-error @enderror">
-                                <option value="">-- Pilih Pekerjaan --</option>
+                            <div
+                                class="space-y-2 p-4 grid grid-cols-3 border border-base-300 rounded-lg @error('wali_pekerjaan') border-error @enderror">
                                 @foreach(\App\Enum\PekerjaanWali::cases() as $pekerjaan)
-                                <option value="{{ $pekerjaan->value }}"
-                                    {{ old('wali_pekerjaan') == $pekerjaan->value ? 'selected' : '' }}>
-                                    {{ $pekerjaan->getLabel() }}
-                                </option>
+                                <label class="gap-2 cursor-pointer hover:bg-base-200 p-2 rounded">
+                                    <input type="checkbox" name="wali_pekerjaan[]" value="{{ $pekerjaan->value }}"
+                                        class="checkbox checkbox-sm"
+                                        {{ (is_array(old('wali_pekerjaan', $guardianSantri?->guardian?->pekerjaan ?? [])) && in_array($pekerjaan->value, old('wali_pekerjaan', $guardianSantri?->guardian?->pekerjaan ?? []))) ? 'checked' : '' }}>
+                                    <span class="label-text">{{ $pekerjaan->getLabel() }}</span>
+                                </label>
                                 @endforeach
-                            </select>
+                            </div>
+                            <label class="label"><span class="label-text-alt">Pilih satu atau lebih
+                                    pekerjaan</span></label>
                             @error('wali_pekerjaan')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror

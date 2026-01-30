@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Enum\RoleType;
-use App\Enum\StatusApprovalUnit;
 use App\Models\Person;
 use App\Models\Unit;
 use App\Models\User;
@@ -120,12 +119,15 @@ class UnitApprovalService
 
         return DB::transaction(function () use ($unit, $personData, $email, $password) {
             // Buat Person untuk admin
-            $person = Person::create([
+            $person = Person::firstOrCreate([
+
                 'nik' => $personData['nik'] ?? null,
                 'full_name' => $personData['full_name'],
+                'gender' => $personData['gender'] ?? null,
+
+            ], [
                 'birth_place' => $personData['birth_place'] ?? null,
                 'birth_date' => $personData['birth_date'] ?? null,
-                'gender' => $personData['gender'] ?? null,
                 'phone' => $personData['phone'] ?? null,
                 'email' => $email,
             ]);

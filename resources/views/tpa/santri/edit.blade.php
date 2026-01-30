@@ -280,20 +280,22 @@
                             <div class="form-control">
                                 <label class="label"><span class="label-text">Nama Ayah Kandung</span></label>
                                 <input type="text" name="nama_ayah" value="{{ old('nama_ayah', $santri->nama_ayah) }}"
-                                       class="input input-bordered @error('nama_ayah') input-error @enderror"
-                                       placeholder="Nama lengkap ayah kandung">
+                                    class="input input-bordered @error('nama_ayah') input-error @enderror"
+                                    placeholder="Nama lengkap ayah kandung">
                                 @error('nama_ayah')
-                                <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                                <label class="label"><span
+                                        class="label-text-alt text-error">{{ $message }}</span></label>
                                 @enderror
                             </div>
 
                             <div class="form-control">
                                 <label class="label"><span class="label-text">Nama Ibu Kandung</span></label>
                                 <input type="text" name="nama_ibu" value="{{ old('nama_ibu', $santri->nama_ibu) }}"
-                                       class="input input-bordered @error('nama_ibu') input-error @enderror"
-                                       placeholder="Nama lengkap ibu kandung">
+                                    class="input input-bordered @error('nama_ibu') input-error @enderror"
+                                    placeholder="Nama lengkap ibu kandung">
                                 @error('nama_ibu')
-                                <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                                <label class="label"><span
+                                        class="label-text-alt text-error">{{ $message }}</span></label>
                                 @enderror
                             </div>
                         </div>
@@ -397,16 +399,19 @@
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">Pekerjaan Wali</span></label>
-                            <select name="wali_pekerjaan"
-                                class="select select-bordered @error('wali_pekerjaan') select-error @enderror">
-                                <option value="">-- Pilih Pekerjaan --</option>
+                            <div
+                                class="space-y-2 p-4 grid grid-cols-3 border border-base-300 rounded-lg @error('wali_pekerjaan') border-error @enderror">
                                 @foreach(\App\Enum\PekerjaanWali::cases() as $pekerjaan)
-                                <option value="{{ $pekerjaan->value }}"
-                                    {{ old('wali_pekerjaan', $guardianSantri?->guardian?->pekerjaan?->value) == $pekerjaan->value ? 'selected' : '' }}>
-                                    {{ $pekerjaan->getLabel() }}
-                                </option>
+                                <label class="gap-2 cursor-pointer hover:bg-base-200 p-2 rounded">
+                                    <input type="checkbox" name="wali_pekerjaan[]" value="{{ $pekerjaan->value }}"
+                                        class="checkbox checkbox-sm"
+                                        {{ (is_array(old('wali_pekerjaan', $guardianSantri?->guardian?->pekerjaan ?? [])) && in_array($pekerjaan->value, old('wali_pekerjaan', $guardianSantri?->guardian?->pekerjaan ?? []))) ? 'checked' : '' }}>
+                                    <span class="label-text">{{ $pekerjaan->getLabel() }}</span>
+                                </label>
                                 @endforeach
-                            </select>
+                            </div>
+                            <label class="label"><span class="label-text-alt">Pilih satu atau lebih
+                                    pekerjaan</span></label>
                             @error('wali_pekerjaan')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror

@@ -208,9 +208,18 @@
                                 <span class="text-base-content/60">No. HP</span>
                                 <span>{{ $guardianSantri->guardian?->person?->phone ?? '-' }}</span>
                             </div>
-                            <div class="flex justify-between">
+                            <div class="flex justify-between gap-2 ">
                                 <span class="text-base-content/60">Pekerjaan</span>
-                                <span>{{ $guardianSantri->guardian?->pekerjaan?->getLabel() ?? '-' }}</span>
+                                <span>
+                                    @if($guardianSantri->guardian?->pekerjaan_enums)
+                                    @foreach($guardianSantri->guardian->pekerjaan_enums as $pekerjaan)
+                                    <span
+                                        class="badge badge-sm badge-primary mr-1 mb-2">{{ $pekerjaan->getLabel() }}</span>
+                                    @endforeach
+                                    @else
+                                    -
+                                    @endif
+                                </span>
                             </div>
                         </div>
                     </div>

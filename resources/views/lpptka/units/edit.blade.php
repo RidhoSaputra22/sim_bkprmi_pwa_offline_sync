@@ -539,20 +539,24 @@
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">Pekerjaan</span></label>
-                            <select name="head_job"
-                                class="select select-bordered @error('head_job') select-error @enderror">
-                                <option value="">-- Pilih Pekerjaan --</option>
-                                @foreach(\App\Enum\PekerjaanWali::cases() as $job)
-                                <option value="{{ $job->value }}"
-                                    {{ old('head_job', $unit->unitHead?->pekerjaan?->value) == $job->value ? 'selected' : '' }}>
-                                    {{ $job->getLabel() }}
-                                </option>
+                            <div
+                                class="grid grid-cols-3 gap-2 p-4 border border-base-300 rounded-lg @error('head_job') border-error @enderror">
+                                @foreach(\App\Enum\PekerjaanWali::cases() as $pekerjaan)
+                                <label class="flex items-center gap-2 cursor-pointer hover:bg-base-200 p-2 rounded">
+                                    <input type="checkbox" name="head_job[]" value="{{ $pekerjaan->value }}"
+                                        class="checkbox checkbox-sm"
+                                        {{ (is_array(old('head_job', $unit->unitHead?->pekerjaan ?? [])) && in_array($pekerjaan->value, old('head_job', $unit->unitHead?->pekerjaan ?? []))) ? 'checked' : '' }}>
+                                    <span class="label-text">{{ $pekerjaan->getLabel() }}</span>
+                                </label>
                                 @endforeach
-                            </select>
+                            </div>
+                            <label class="label"><span class="label-text-alt">Pilih satu atau lebih
+                                    pekerjaan</span></label>
                             @error('head_job')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
+
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">Nomor HP</span></label>

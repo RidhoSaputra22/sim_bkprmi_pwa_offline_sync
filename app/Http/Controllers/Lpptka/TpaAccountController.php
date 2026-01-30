@@ -73,7 +73,7 @@ class TpaAccountController extends Controller
     {
         $validated = $request->validate([
             'full_name' => 'required|string|max:255',
-            'nik' => 'nullable|string|max:16|unique:persons,nik',
+            'nik' => 'nullable|string|max:16',
             'birth_place' => 'nullable|string|max:100',
             'birth_date' => 'nullable|date',
             'gender' => ['required', new Enum(Gender::class)],

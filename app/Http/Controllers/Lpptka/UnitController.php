@@ -121,7 +121,8 @@ class UnitController extends Controller
             'head_birth_date' => 'required|date',
             'head_gender' => ['required', new Enum(Gender::class)],
             'head_education' => ['nullable', new Enum(PendidikanTerakhir::class)],
-            'head_job' => ['nullable', new Enum(PekerjaanWali::class)],
+            'head_job' => 'nullable|array',
+            'head_job.*' => ['nullable', new Enum(PekerjaanWali::class)],
             'head_phone' => 'nullable|string|max:20',
 
             // Admin Unit
@@ -183,8 +184,8 @@ class UnitController extends Controller
             UnitHead::create([
                 'unit_id' => $unit->id,
                 'person_id' => $headPerson->id,
-                'education_level' => $validated['head_education'] ?? null,
-                'job' => $validated['head_job'] ?? null,
+                'pendidikan_terakhir' => $validated['head_education'] ?? null,
+                'pekerjaan' => $validated['head_job'] ?? null,
             ]);
 
             // Create Admin if provided
@@ -312,7 +313,8 @@ class UnitController extends Controller
             'head_birth_date' => 'required|date',
             'head_gender' => ['required', new Enum(Gender::class)],
             'head_education' => ['nullable', new Enum(PendidikanTerakhir::class)],
-            'head_job' => ['nullable', new Enum(PekerjaanWali::class)],
+            'head_job' => 'nullable|array',
+            'head_job.*' => ['nullable', new Enum(PekerjaanWali::class)],
             'head_phone' => 'nullable|string|max:20',
 
             // Admin Unit
@@ -370,13 +372,13 @@ class UnitController extends Controller
 
                 // Update Unit Head
                 $unit->unitHead->update([
-                    'education_level' => $validated['head_education'] ?? null,
-                    'job' => $validated['head_job'] ?? null,
+                    'pendidikan_terakhir' => $validated['head_education'] ?? null,
+                    'pekerjaan' => $validated['head_job'] ?? null,
                 ]);
             }
 
             // Update or create Admin
-            if (!empty($validated['admin_name'])) {
+            if (! empty($validated['admin_name'])) {
                 if ($unit->unitAdmin?->person) {
                     // Update existing admin
                     $unit->unitAdmin->person->update([

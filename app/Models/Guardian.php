@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Guardian extends Model
 {
@@ -21,8 +22,23 @@ class Guardian extends Model
 
     protected $casts = [
         'pendidikan_terakhir' => PendidikanTerakhir::class,
-        'pekerjaan' => PekerjaanWali::class,
+        'pekerjaan' => 'array',
     ];
+
+    /**
+     * Get pekerjaan as enum instances
+     */
+    public function getPekerjaanEnumsAttribute()
+    {
+        if (!$this->pekerjaan) {
+            return [];
+        }
+
+        return collect($this->pekerjaan)
+            ->map(fn($value) => PekerjaanWali::tryFrom($value))
+            ->filter()
+            ->toArray();
+    }
 
     public function person(): BelongsTo
     {
@@ -34,7 +50,7 @@ class Guardian extends Model
         return $this->hasMany(GuardianSantri::class);
     }
 
-    public function santris()
+    public function santris(): HasManyThrough
     {
         return $this->hasManyThrough(
             Santri::class,

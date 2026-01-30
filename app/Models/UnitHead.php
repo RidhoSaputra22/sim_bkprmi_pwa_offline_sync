@@ -21,8 +21,23 @@ class UnitHead extends Model
 
     protected $casts = [
         'pendidikan_terakhir' => PendidikanTerakhir::class,
-        'pekerjaan' => PekerjaanWali::class,
+        'pekerjaan' => 'array',
     ];
+
+    /**
+     * Get pekerjaan as enum instances
+     */
+    public function getPekerjaanEnumsAttribute()
+    {
+        if (!$this->pekerjaan) {
+            return [];
+        }
+
+        return collect($this->pekerjaan)
+            ->map(fn($value) => PekerjaanWali::tryFrom($value))
+            ->filter()
+            ->toArray();
+    }
 
     public function unit(): BelongsTo
     {

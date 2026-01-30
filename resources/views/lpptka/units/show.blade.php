@@ -178,11 +178,19 @@
                         </div>
                         <div>
                             <p class="text-sm text-base-content/60">Pendidikan Terakhir</p>
-                            <p>{{ $unit->unitHead->education_level?->getLabel() ?? '-' }}</p>
+                            <p>{{ $unit->unitHead->pendidikan_terakhir?->getLabel() ?? '-' }}</p>
                         </div>
                         <div>
                             <p class="text-sm text-base-content/60">Pekerjaan</p>
-                            <p>{{ $unit->unitHead->job?->getLabel() ?? '-' }}</p>
+                            @if($unit->unitHead?->pekerjaan && is_array($unit->unitHead->pekerjaan))
+                            @foreach($unit->unitHead->getPekerjaanEnumsAttribute() as $pekerjaan)
+                            <span class="badge badge-sm badge-primary mr-1 mb-1">{{ $pekerjaan->getLabel() }}</span>
+                            @endforeach
+                            @elseif($unit->unitHead?->pekerjaan)
+                            <p>{{ $unit->unitHead->pekerjaan }}</p>
+                            @else
+                            <p>-</p>
+                            @endif
                         </div>
                         <div>
                             <p class="text-sm text-base-content/60">No. HP</p>
