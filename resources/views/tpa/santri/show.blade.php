@@ -160,6 +160,24 @@
                 </div>
             </div>
 
+            <!-- Nama Orang Tua -->
+            <div class="card bg-base-100 shadow">
+                <div class="card-body">
+                    <h2 class="card-title">Nama Orang Tua</h2>
+
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div>
+                            <p class="text-sm text-base-content/60">Nama Ayah Kandung</p>
+                            <p class="font-medium">{{ $santri->nama_ayah ?? '-' }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-base-content/60">Nama Ibu Kandung</p>
+                            <p class="font-medium">{{ $santri->nama_ibu ?? '-' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Data Wali -->
             <div class="card bg-base-100 shadow">
                 <div class="card-body">

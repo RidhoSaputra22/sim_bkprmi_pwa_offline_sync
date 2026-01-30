@@ -273,6 +273,36 @@
 
                     @php($guardianSantri = $santri->guardianSantris?->first())
 
+                    <!-- Nama Orang Tua -->
+                    <div class="mb-6">
+                        <h3 class="font-semibold text-lg mb-4">NAMA ORANG TUA</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-control">
+                                <label class="label"><span class="label-text">Nama Ayah Kandung</span></label>
+                                <input type="text" name="nama_ayah" value="{{ old('nama_ayah', $santri->nama_ayah) }}"
+                                       class="input input-bordered @error('nama_ayah') input-error @enderror"
+                                       placeholder="Nama lengkap ayah kandung">
+                                @error('nama_ayah')
+                                <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                                @enderror
+                            </div>
+
+                            <div class="form-control">
+                                <label class="label"><span class="label-text">Nama Ibu Kandung</span></label>
+                                <input type="text" name="nama_ibu" value="{{ old('nama_ibu', $santri->nama_ibu) }}"
+                                       class="input input-bordered @error('nama_ibu') input-error @enderror"
+                                       placeholder="Nama lengkap ibu kandung">
+                                @error('nama_ibu')
+                                <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Wali -->
+                    <div class="divider"></div>
+                    <h3 class="font-semibold text-lg mb-4">DATA WALI</h3>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="form-control">
                             <label class="label"><span class="label-text">Nama Wali <span

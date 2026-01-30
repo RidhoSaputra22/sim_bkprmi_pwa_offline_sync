@@ -43,8 +43,8 @@ class UnitController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('unit_number', 'like', "%{$search}%")
-                  ->orWhere('mosque_name', 'like', "%{$search}%");
+                    ->orWhere('unit_number', 'like', "%{$search}%")
+                    ->orWhere('mosque_name', 'like', "%{$search}%");
             });
         }
 
@@ -89,7 +89,7 @@ class UnitController extends Controller
             'mosque_name' => 'nullable|string|max:255',
             'founder' => 'nullable|string|max:255',
             'formed_at' => 'nullable|date',
-            'joined_year' => 'nullable|integer|min:1900|max:' . date('Y'),
+            'joined_year' => 'nullable|integer|min:1900|max:'.date('Y'),
             'waktu_kegiatan' => ['required', new Enum(WaktuKegiatan::class)],
             'email' => 'nullable|email|max:255',
 
@@ -187,7 +187,7 @@ class UnitController extends Controller
             ]);
 
             // Create Admin if provided
-            if (!empty($validated['admin_nama'])) {
+            if (! empty($validated['admin_nama'])) {
                 $adminPerson = Person::create([
                     'full_name' => $validated['admin_nama'],
                     'phone' => $validated['admin_phone'],
@@ -208,7 +208,8 @@ class UnitController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withInput()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+
+            return back()->withInput()->with('error', 'Gagal menyimpan data: '.$e->getMessage());
         }
     }
 
@@ -230,7 +231,7 @@ class UnitController extends Controller
      */
     public function edit(Unit $unit)
     {
-        $unit->load(['village.district.city.province', 'unitHead.person', 'unitAdmin.person']);
+        $unit->load(['village.district.city.province', 'unitHead.person', 'unitAdmin.person', 'region']);
         $provinces = Province::orderBy('name')->get();
 
         $unitHead = $unit->unitHead;
@@ -257,14 +258,14 @@ class UnitController extends Controller
     {
         $validated = $request->validate([
             // Identitas Unit
-            'unit_number' => 'required|string|max:50|unique:units,unit_number,' . $unit->id,
+            'unit_number' => 'required|string|max:50|unique:units,unit_number,'.$unit->id,
             'name' => 'required|string|max:255',
             'tipe_lokasi' => ['required', new Enum(TipeLokasi::class)],
             'status_bangunan' => ['required', new Enum(StatusBangunan::class)],
             'mosque_name' => 'nullable|string|max:255',
             'founder' => 'nullable|string|max:255',
             'formed_at' => 'nullable|date',
-            'joined_year' => 'nullable|integer|min:1900|max:' . date('Y'),
+            'joined_year' => 'nullable|integer|min:1900|max:'.date('Y'),
             'waktu_kegiatan' => ['required', new Enum(WaktuKegiatan::class)],
             'email' => 'nullable|email|max:255',
 
@@ -305,14 +306,24 @@ class UnitController extends Controller
         DB::beginTransaction();
 
         try {
+            // Create or find Region for address
+            $region = Region::firstOrCreate([
+                'province_id' => $validated['province_id'],
+                'city_id' => $validated['city_id'],
+                'district_id' => $validated['district_id'],
+                'village_id' => $validated['village_id'],
+            ], [
+                'jalan' => $validated['address'],
+                'rt' => $validated['rt'],
+                'rw' => $validated['rw'],
+            ]);
+
             // Update Unit
             $unit->update([
                 'unit_number' => $validated['unit_number'],
                 'name' => $validated['name'],
                 'village_id' => $validated['village_id'],
-                'address' => $validated['address'],
-                'rt' => $validated['rt'],
-                'rw' => $validated['rw'],
+                'region_id' => $region->id,
                 'tipe_lokasi' => $validated['tipe_lokasi'],
                 'status_bangunan' => $validated['status_bangunan'],
                 'waktu_kegiatan' => $validated['waktu_kegiatan'],
@@ -350,7 +361,7 @@ class UnitController extends Controller
             );
 
             // Update or create Admin
-            if (!empty($validated['admin_nama'])) {
+            if (! empty($validated['admin_nama'])) {
                 $existingAdmin = $unit->unitAdmin;
 
                 if ($existingAdmin) {
@@ -381,7 +392,8 @@ class UnitController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withInput()->with('error', 'Gagal memperbarui data: ' . $e->getMessage());
+
+            return back()->withInput()->with('error', 'Gagal memperbarui data: '.$e->getMessage());
         }
     }
 

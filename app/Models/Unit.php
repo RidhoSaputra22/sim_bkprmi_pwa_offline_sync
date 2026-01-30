@@ -33,11 +33,17 @@ class Unit extends Model
         'formed_at',
         'joined_year',
         'email',
+        'phone',
         'jumlah_tka_4_7',
         'jumlah_tpa_7_12',
         'jumlah_tqa_wisuda',
         'jumlah_guru_laki_laki',
         'jumlah_guru_perempuan',
+        'jumlah_tka',
+        'jumlah_tpa',
+        'jumlah_tqa',
+        'guru_laki',
+        'guru_perempuan',
         // Approval System Fields
         'approval_status',
         'approved_at',
@@ -62,6 +68,11 @@ class Unit extends Model
         'jumlah_tqa_wisuda' => 'integer',
         'jumlah_guru_laki_laki' => 'integer',
         'jumlah_guru_perempuan' => 'integer',
+        'jumlah_tka' => 'integer',
+        'jumlah_tpa' => 'integer',
+        'jumlah_tqa' => 'integer',
+        'guru_laki' => 'integer',
+        'guru_perempuan' => 'integer',
     ];
 
     public function region(): BelongsTo

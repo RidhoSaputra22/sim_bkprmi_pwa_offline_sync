@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sim-bkprmi-v3';
+const CACHE_NAME = 'sim-bkprmi-v4';
 const OFFLINE_URL = '/offline.html';
 
 // Assets to precache
@@ -9,14 +9,11 @@ const PRECACHE_ASSETS = [
     '/icons/icon-512x512.png',
     '/manifest.webmanifest',
     '/register-sw.js',
-    '/js/offline-db.js',
-    '/js/offline-sync.js',
-    '/js/offline-form.js',
 ];
 
 // Install - cache assets
 self.addEventListener('install', (event) => {
-    console.log('[SW] Installing v3...');
+    console.log('[SW] Installing v4...');
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
@@ -37,7 +34,7 @@ self.addEventListener('install', (event) => {
 
 // Activate - cleanup and take control
 self.addEventListener('activate', (event) => {
-    console.log('[SW] Activating v3...');
+    console.log('[SW] Activating v4...');
     event.waitUntil(
         caches.keys()
             .then((cacheNames) => {

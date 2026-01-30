@@ -8,16 +8,27 @@
     <meta name="theme-color" content="#1e40af">
     <meta name="description" content="Sistem Informasi Manajemen BKPRMI">
 
+    <!-- PWA Meta Tags -->
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="SIM BKPRMI">
 
     <title>{{ $title ?? 'SIM BKPRMI' }} - Admin TPA</title>
 
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet" />
 
+    <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="{{ asset('register-sw.js') }}"></script>
+
+    <!-- PWA Service Worker -->
+    <script src="{{ asset('register-sw.js') }}" defer></script>
+
+    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 

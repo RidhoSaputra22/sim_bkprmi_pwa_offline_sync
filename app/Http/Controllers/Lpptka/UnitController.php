@@ -94,6 +94,7 @@ class UnitController extends Controller
             'joined_year' => 'nullable|integer|min:1900|max:'.date('Y'),
             'waktu_kegiatan' => ['required', new Enum(WaktuKegiatan::class)],
             'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
 
             // Alamat
             'province_id' => 'required|exists:provinces,id',
@@ -103,6 +104,15 @@ class UnitController extends Controller
             'jalan' => 'nullable|string|max:255',
             'rt' => 'nullable|string|max:5',
             'rw' => 'nullable|string|max:5',
+
+            // Keadaan Santri
+            'jumlah_tka' => 'nullable|integer|min:0',
+            'jumlah_tpa' => 'nullable|integer|min:0',
+            'jumlah_tqa' => 'nullable|integer|min:0',
+
+            // Keadaan Guru
+            'guru_laki' => 'nullable|integer|min:0',
+            'guru_perempuan' => 'nullable|integer|min:0',
 
             // Kepala Unit
             'head_nik' => 'nullable|string|max:16',
@@ -150,6 +160,12 @@ class UnitController extends Controller
                 'formed_at' => $validated['formed_at'] ?? null,
                 'joined_year' => $validated['joined_year'] ?? null,
                 'email' => $validated['email'] ?? null,
+                'phone' => $validated['phone'] ?? null,
+                'jumlah_tka' => $validated['jumlah_tka'] ?? 0,
+                'jumlah_tpa' => $validated['jumlah_tpa'] ?? 0,
+                'jumlah_tqa' => $validated['jumlah_tqa'] ?? 0,
+                'guru_laki' => $validated['guru_laki'] ?? 0,
+                'guru_perempuan' => $validated['guru_perempuan'] ?? 0,
                 'approval_status' => StatusApprovalUnit::PENDING,
             ]);
 
@@ -157,8 +173,8 @@ class UnitController extends Controller
             $headPerson = Person::create([
                 'nik' => $validated['head_nik'] ?? null,
                 'full_name' => $validated['head_name'],
-                'birth_place' => $validated['head_birth_place'] ?? null,
-                'birth_date' => $validated['head_birth_date'] ?? null,
+                'birth_place' => $validated['head_birth_place'],
+                'birth_date' => $validated['head_birth_date'],
                 'gender' => $validated['head_gender'],
                 'phone' => $validated['head_phone'] ?? null,
             ]);
@@ -167,6 +183,8 @@ class UnitController extends Controller
             UnitHead::create([
                 'unit_id' => $unit->id,
                 'person_id' => $headPerson->id,
+                'education_level' => $validated['head_education'] ?? null,
+                'job' => $validated['head_job'] ?? null,
             ]);
 
             // Create Admin if provided
@@ -264,17 +282,60 @@ class UnitController extends Controller
             'status_bangunan' => ['nullable', new Enum(StatusBangunan::class)],
             'waktu_kegiatan' => ['nullable', new Enum(WaktuKegiatan::class)],
             'founder' => 'nullable|string|max:255',
+            'formed_at' => 'nullable|date',
+            'joined_year' => 'nullable|integer|min:1900|max:'.date('Y'),
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
+
+            // Alamat
+            'province_id' => 'required|exists:provinces,id',
+            'city_id' => 'required|exists:cities,id',
+            'district_id' => 'required|exists:districts,id',
             'village_id' => 'required|exists:villages,id',
+            'jalan' => 'nullable|string|max:255',
+            'rt' => 'nullable|string|max:5',
+            'rw' => 'nullable|string|max:5',
+
+            // Keadaan Santri
+            'jumlah_tka' => 'nullable|integer|min:0',
+            'jumlah_tpa' => 'nullable|integer|min:0',
+            'jumlah_tqa' => 'nullable|integer|min:0',
+
+            // Keadaan Guru
+            'guru_laki' => 'nullable|integer|min:0',
+            'guru_perempuan' => 'nullable|integer|min:0',
+
+            // Kepala Unit
             'head_name' => 'required|string|max:255',
             'head_nik' => 'nullable|string|max:16',
-            'head_gender' => ['nullable', new Enum(Gender::class)],
+            'head_birth_place' => 'required|string|max:100',
+            'head_birth_date' => 'required|date',
+            'head_gender' => ['required', new Enum(Gender::class)],
+            'head_education' => ['nullable', new Enum(PendidikanTerakhir::class)],
+            'head_job' => ['nullable', new Enum(PekerjaanWali::class)],
             'head_phone' => 'nullable|string|max:20',
+
+            // Admin Unit
+            'admin_name' => 'nullable|string|max:255',
+            'admin_phone' => 'nullable|string|max:20',
+            'admin_email' => 'nullable|email|max:255',
+
             'certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
         DB::transaction(function () use ($validated, $request, $unit) {
+            // Update or create Region
+            $region = Region::updateOrCreate([
+                'province_id' => $validated['province_id'],
+                'city_id' => $validated['city_id'],
+                'district_id' => $validated['district_id'],
+                'village_id' => $validated['village_id'],
+            ], [
+                'jalan' => $validated['jalan'] ?? null,
+                'rt' => $validated['rt'] ?? null,
+                'rw' => $validated['rw'] ?? null,
+            ]);
+
             // Update Unit
             $unit->update([
                 'name' => $validated['name'],
@@ -283,9 +344,17 @@ class UnitController extends Controller
                 'status_bangunan' => $validated['status_bangunan'] ?? null,
                 'waktu_kegiatan' => $validated['waktu_kegiatan'] ?? null,
                 'founder' => $validated['founder'] ?? null,
+                'formed_at' => $validated['formed_at'] ?? null,
+                'joined_year' => $validated['joined_year'] ?? null,
                 'email' => $validated['email'] ?? null,
                 'phone' => $validated['phone'] ?? null,
                 'village_id' => $validated['village_id'],
+                'region_id' => $region->id,
+                'jumlah_tka' => $validated['jumlah_tka'] ?? 0,
+                'jumlah_tpa' => $validated['jumlah_tpa'] ?? 0,
+                'jumlah_tqa' => $validated['jumlah_tqa'] ?? 0,
+                'guru_laki' => $validated['guru_laki'] ?? 0,
+                'guru_perempuan' => $validated['guru_perempuan'] ?? 0,
             ]);
 
             // Update Unit Head Person
@@ -293,9 +362,41 @@ class UnitController extends Controller
                 $unit->unitHead->person->update([
                     'full_name' => $validated['head_name'],
                     'nik' => $validated['head_nik'] ?? null,
-                    'gender' => $validated['head_gender'] ?? null,
+                    'birth_place' => $validated['head_birth_place'],
+                    'birth_date' => $validated['head_birth_date'],
+                    'gender' => $validated['head_gender'],
                     'phone' => $validated['head_phone'] ?? null,
                 ]);
+
+                // Update Unit Head
+                $unit->unitHead->update([
+                    'education_level' => $validated['head_education'] ?? null,
+                    'job' => $validated['head_job'] ?? null,
+                ]);
+            }
+
+            // Update or create Admin
+            if (!empty($validated['admin_name'])) {
+                if ($unit->unitAdmin?->person) {
+                    // Update existing admin
+                    $unit->unitAdmin->person->update([
+                        'full_name' => $validated['admin_name'],
+                        'phone' => $validated['admin_phone'] ?? null,
+                        'email' => $validated['admin_email'] ?? null,
+                    ]);
+                } else {
+                    // Create new admin
+                    $adminPerson = Person::create([
+                        'full_name' => $validated['admin_name'],
+                        'phone' => $validated['admin_phone'] ?? null,
+                        'email' => $validated['admin_email'] ?? null,
+                    ]);
+
+                    UnitAdmin::create([
+                        'unit_id' => $unit->id,
+                        'person_id' => $adminPerson->id,
+                    ]);
+                }
             }
 
             // Upload certificate if provided

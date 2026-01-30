@@ -91,3 +91,12 @@
     height: 25px;
     margin-right: 0.5rem;
 }
+
+.form-control input[type="radio"] {
+    width: 25px;
+    height: 25px;
+    margin-right: 0.1rem;
+
+}
+
+
