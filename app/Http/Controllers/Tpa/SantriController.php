@@ -73,7 +73,7 @@ class SantriController extends Controller
             $search = $request->search;
             $query->whereHas('person', function ($q) use ($search) {
                 $q->where('full_name', 'like', "%{$search}%")
-                  ->orWhere('nik', 'like', "%{$search}%");
+                    ->orWhere('nik', 'like', "%{$search}%");
             });
         }
 
@@ -122,7 +122,7 @@ class SantriController extends Controller
 
         $validated = $request->validate([
             // Data Santri
-            'nik' => 'nullable|string|max:16|unique:people,nik',
+            'nik' => 'nullable|string|max:16|unique:persons,nik',
             'full_name' => 'required|string|max:255',
             'birth_place' => 'nullable|string|max:100',
             'birth_date' => 'nullable|date',
