@@ -324,11 +324,11 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Navigation buttons -->
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
-            
+
             <!-- Pagination -->
             <div class="swiper-pagination"></div>
         </div>
