@@ -57,14 +57,14 @@ class ForgotPasswordController extends Controller
 
         // Kirim email
         $user = User::where('email', $request->email)->first();
-        
+
         try {
             Mail::to($request->email)->send(new ResetPasswordMail($token, $user));
-            
+
             return back()->with('success', 'Link reset password telah dikirim ke email Anda. Silakan cek inbox atau spam folder.');
         } catch (\Exception $e) {
             \Log::error('Error sending reset password email: ' . $e->getMessage());
-            
+
             return back()->with('error', 'Gagal mengirim email. Silakan coba lagi atau hubungi administrator.');
         }
     }

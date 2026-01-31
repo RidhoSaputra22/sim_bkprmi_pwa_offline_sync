@@ -130,7 +130,7 @@
             <div class="greeting">Halo, {{ $name }}!</div>
 
             <div class="message">
-                Kami menerima permintaan untuk mereset password akun Anda di Sistem Informasi Manajemen BKPRMI. 
+                Kami menerima permintaan untuk mereset password akun Anda di Sistem Informasi Manajemen BKPRMI.
                 Klik tombol di bawah ini untuk membuat password baru:
             </div>
 
