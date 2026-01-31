@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ResetPasswordMail;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use App\Models\User;
-use App\Mail\ResetPasswordMail;
+use Log;
 
 class ForgotPasswordController extends Controller
 {
@@ -43,10 +44,12 @@ class ForgotPasswordController extends Controller
             return back()->with('info', 'Link reset password sudah dikirim ke email Anda. Silakan cek inbox atau spam folder.');
         }
 
+        // dd($existingToken);
         // Generate token
         $token = Str::random(64);
 
         // Simpan atau update token
+
         DB::table('password_reset_tokens')->updateOrInsert(
             ['email' => $request->email],
             [
@@ -63,7 +66,8 @@ class ForgotPasswordController extends Controller
 
             return back()->with('success', 'Link reset password telah dikirim ke email Anda. Silakan cek inbox atau spam folder.');
         } catch (\Exception $e) {
-            \Log::error('Error sending reset password email: ' . $e->getMessage());
+            Log::error('Error sending reset password email: '.$e->getMessage());
+            DB::table('password_reset_tokens')->where('email', $request->email)->delete();
 
             return back()->with('error', 'Gagal mengirim email. Silakan coba lagi atau hubungi administrator.');
         }
