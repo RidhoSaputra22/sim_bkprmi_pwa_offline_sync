@@ -131,7 +131,7 @@ class UnitController extends Controller
             'admin_email' => 'nullable|email|max:255',
 
             // Sertifikat (opsional saat create)
-            'certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
         ]);
 
         DB::transaction(function () use ($validated, $request) {
@@ -312,7 +312,7 @@ class UnitController extends Controller
             'admin_phone' => 'nullable|string|max:20',
             'admin_email' => 'nullable|email|max:255',
 
-            'certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+            'certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
         ]);
 
         DB::transaction(function () use ($validated, $request, $unit) {
