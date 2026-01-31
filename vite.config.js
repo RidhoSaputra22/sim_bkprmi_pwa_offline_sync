@@ -10,6 +10,28 @@ export default defineConfig({
             refresh: true,
         }),
         tailwindcss(),
+            // Simple Vite plugin to remove @property at-rules from CSS to avoid
+            // unknown at-rule warnings during esbuild CSS optimization.
+            function stripPropertyAtRule() {
+                return {
+                    name: 'strip-property-at-rule',
+                    enforce: 'post',
+                    transform(code, id) {
+                        if (typeof code !== 'string') return null;
+
+                        // Only act if CSS @property appears in the code
+                        if (!code.includes('@property')) return null;
+
+                        // Remove any @property { ... } blocks
+                        const cleaned = code.replace(/@property\s+[^{]+\{[^}]*\}/g, '');
+                        if (cleaned === code) return null;
+                        return {
+                            code: cleaned,
+                            map: null,
+                        };
+                    },
+                };
+            }(),
         VitePWA({
             registerType: 'autoUpdate',
             injectRegister: false, // We'll manually register with custom scope
