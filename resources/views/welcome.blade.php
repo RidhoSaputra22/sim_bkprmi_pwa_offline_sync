@@ -31,6 +31,10 @@
     <!-- Alpine.js for interactive components -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+    <!-- Swiper.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
     <style>
     /* Custom animations */
     @keyframes fadeInUp {
@@ -92,6 +96,43 @@
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Swiper Custom Styles */
+    .swiper {
+        width: 100%;
+        height: 500px;
+    }
+
+    @media (min-width: 1024px) {
+        .swiper {
+            height: 600px;
+        }
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: white;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    .swiper-button-next:after,
+    .swiper-button-prev:after {
+        font-size: 20px;
+    }
+
+    .swiper-pagination-bullet {
+        background: white;
+        opacity: 0.5;
+    }
+
+    .swiper-pagination-bullet-active {
+        opacity: 1;
+        background: #fbbf24;
     }
     </style>
 </head>
@@ -188,106 +229,108 @@
         </div>
     </div>
 
-    <!-- Hero Section with Carousel -->
+    <!-- Hero Section with Swiper Carousel -->
     <section id="beranda" class="relative">
-        <div class="carousel w-full h-[500px] lg:h-[600px]">
-            <div id="slide1" class="carousel-item relative w-full">
-                <div class="hero-gradient w-full flex items-center">
-                    <div class="hero-content text-center text-neutral-content w-full">
-                        <div class="max-w-4xl animate-fadeInUp">
-                            <h1 class="mb-5 text-4xl lg:text-6xl font-bold text-white">
-                                Sistem Informasi Manajemen
-                                <span class="text-yellow-300">BKPRMI</span>
-                            </h1>
-                            <p class="mb-8 text-lg lg:text-xl text-blue-100">
-                                Badan Komunikasi Pemuda Remaja Masjid Indonesia
-                                <br>Wadah Pembinaan Generasi Muda Muslim Indonesia
-                            </p>
-                            <div class="flex flex-wrap gap-4 justify-center">
-                                <a href="#tentang" class="btn btn-warning btn-lg">
+        <div class="swiper heroSwiper">
+            <div class="swiper-wrapper">
+                <!-- Slide 1 -->
+                <div class="swiper-slide">
+                    <div class="hero-gradient w-full h-full flex items-center">
+                        <div class="hero-content text-center text-neutral-content w-full">
+                            <div class="max-w-4xl animate-fadeInUp">
+                                <h1 class="mb-5 text-4xl lg:text-6xl font-bold text-white">
+                                    Sistem Informasi Manajemen
+                                    <span class="text-yellow-300">BKPRMI</span>
+                                </h1>
+                                <p class="mb-8 text-lg lg:text-xl text-blue-100">
+                                    Badan Komunikasi Pemuda Remaja Masjid Indonesia
+                                    <br>Wadah Pembinaan Generasi Muda Muslim Indonesia
+                                </p>
+                                <div class="flex flex-wrap gap-4 justify-center">
+                                    <a href="#tentang" class="btn btn-warning btn-lg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        Tentang Kami
+                                    </a>
+                                    <a href="{{ route('login') }}"
+                                        class="btn btn-outline btn-lg text-white border-white hover:bg-white hover:text-primary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                                        </svg>
+                                        Masuk Sistem
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="swiper-slide">
+                    <div class="w-full h-full bg-gradient-to-r from-emerald-600 to-teal-500 flex items-center">
+                        <div class="hero-content text-center text-neutral-content w-full">
+                            <div class="max-w-4xl animate-fadeInUp">
+                                <div class="badge badge-warning badge-lg mb-4">LPPTKA-BKPRMI</div>
+                                <h1 class="mb-5 text-4xl lg:text-5xl font-bold text-white">
+                                    Lembaga Pendidikan & Pengembangan
+                                    <br>Tilawatil Qur'an & Anak
+                                </h1>
+                                <p class="mb-8 text-lg lg:text-xl text-emerald-100">
+                                    Mengelola TPA/TPQ, TKA/TKQ, dan TQA di seluruh Indonesia
+                                    <br>Membina generasi Qur'ani untuk Indonesia Emas
+                                </p>
+                                <a href="#lpptka" class="btn btn-warning btn-lg">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                                     </svg>
-                                    Tentang Kami
-                                </a>
-                                <a href="{{ route('login') }}"
-                                    class="btn btn-outline btn-lg text-white border-white hover:bg-white hover:text-primary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                                    </svg>
-                                    Masuk Sistem
+                                    Selengkapnya
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                    <a href="#slide3" class="btn btn-circle glass">❮</a>
-                    <a href="#slide2" class="btn btn-circle glass">❯</a>
-                </div>
-            </div>
-            <div id="slide2" class="carousel-item relative w-full">
-                <div class="w-full bg-gradient-to-r from-emerald-600 to-teal-500 flex items-center">
-                    <div class="hero-content text-center text-neutral-content w-full">
-                        <div class="max-w-4xl animate-fadeInUp">
-                            <div class="badge badge-warning badge-lg mb-4">LPPTKA-BKPRMI</div>
-                            <h1 class="mb-5 text-4xl lg:text-5xl font-bold text-white">
-                                Lembaga Pendidikan & Pengembangan
-                                <br>Tilawatil Qur'an & Anak
-                            </h1>
-                            <p class="mb-8 text-lg lg:text-xl text-emerald-100">
-                                Mengelola TPA/TPQ, TKA/TKQ, dan TQA di seluruh Indonesia
-                                <br>Membina generasi Qur'ani untuk Indonesia Emas
-                            </p>
-                            <a href="#lpptka" class="btn btn-warning btn-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                </svg>
-                                Selengkapnya
-                            </a>
+
+                <!-- Slide 3 -->
+                <div class="swiper-slide">
+                    <div class="w-full h-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center">
+                        <div class="hero-content text-center text-neutral-content w-full">
+                            <div class="max-w-4xl animate-fadeInUp">
+                                <div class="badge badge-warning badge-lg mb-4">AYO KEMBALI KE MASJID</div>
+                                <h1 class="mb-5 text-4xl lg:text-5xl font-bold text-white">
+                                    Makmurkan Masjid
+                                    <br>Bangun Peradaban
+                                </h1>
+                                <p class="mb-8 text-lg lg:text-xl text-purple-100">
+                                    Masjid adalah pusat kegiatan umat Islam
+                                    <br>Mari bersama makmurkan masjid dengan kegiatan positif
+                                </p>
+                                <a href="#program" class="btn btn-warning btn-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                    </svg>
+                                    Lihat Program
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                    <a href="#slide1" class="btn btn-circle glass">❮</a>
-                    <a href="#slide3" class="btn btn-circle glass">❯</a>
-                </div>
             </div>
-            <div id="slide3" class="carousel-item relative w-full">
-                <div class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center">
-                    <div class="hero-content text-center text-neutral-content w-full">
-                        <div class="max-w-4xl animate-fadeInUp">
-                            <div class="badge badge-warning badge-lg mb-4">AYO KEMBALI KE MASJID</div>
-                            <h1 class="mb-5 text-4xl lg:text-5xl font-bold text-white">
-                                Makmurkan Masjid
-                                <br>Bangun Peradaban
-                            </h1>
-                            <p class="mb-8 text-lg lg:text-xl text-purple-100">
-                                Masjid adalah pusat kegiatan umat Islam
-                                <br>Mari bersama makmurkan masjid dengan kegiatan positif
-                            </p>
-                            <a href="#program" class="btn btn-warning btn-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                </svg>
-                                Lihat Program
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                    <a href="#slide2" class="btn btn-circle glass">❮</a>
-                    <a href="#slide1" class="btn btn-circle glass">❯</a>
-                </div>
-            </div>
+            
+            <!-- Navigation buttons -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            
+            <!-- Pagination -->
+            <div class="swiper-pagination"></div>
         </div>
     </section>
 
@@ -974,16 +1017,27 @@
         });
     });
 
-    // Auto-slide carousel
-    let currentSlide = 1;
-    setInterval(() => {
-        currentSlide = currentSlide >= 3 ? 1 : currentSlide + 1;
-        document.querySelector(`#slide${currentSlide}`).scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest',
-            inline: 'start'
-        });
-    }, 5000);
+    // Initialize Swiper
+    const swiper = new Swiper('.heroSwiper', {
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        effect: 'fade',
+        fadeEffect: {
+            crossFade: true
+        },
+        speed: 800,
+    });
     </script>
 </body>
 
