@@ -7,6 +7,7 @@ use App\Http\Controllers\Lpptka\DashboardController as LpptkaDashboardController
 use App\Http\Controllers\Lpptka\TpaAccountController;
 use App\Http\Controllers\Lpptka\UnitController as LpptkaUnitController;
 use App\Http\Controllers\SuperAdmin\DashboardController as SuperAdminDashboardController;
+use App\Http\Controllers\SuperAdmin\ProfileController as SuperAdminProfileController;
 use App\Http\Controllers\SuperAdmin\ReportController;
 use App\Http\Controllers\SuperAdmin\UnitApprovalController;
 use App\Http\Controllers\Tpa\DashboardController as TpaDashboardController;
@@ -38,6 +39,11 @@ Route::prefix('superadmin')
     ->group(function () {
         // Dashboard
         Route::get('/', [SuperAdminDashboardController::class, 'index'])->name('dashboard');
+
+        // Profile Management
+        Route::get('/profile', [SuperAdminProfileController::class, 'show'])->name('profile');
+        Route::put('/profile', [SuperAdminProfileController::class, 'update'])->name('profile.update');
+        Route::put('/password', [SuperAdminProfileController::class, 'updatePassword'])->name('password.update');
 
         // Unit Approval Management
         Route::prefix('units/approval')->name('units.approval.')->group(function () {

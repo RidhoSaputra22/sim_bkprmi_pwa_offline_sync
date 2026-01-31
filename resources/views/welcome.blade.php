@@ -873,9 +873,9 @@
                         </div>
                         <h3 class="card-title">Alamat</h3>
                         <p class="text-base-content/70 text-sm">
-                            Sekretariat DPP BKPRMI<br>
-                            Jl. Masjid No. 1<br>
-                            Jakarta Pusat, Indonesia
+                            Sekretariat DPD BKPRMI Kota Makassar,<br>
+                            Jl. Mangga II Blok RD No. 1,<br>
+                            Nusa Tamalanrea Indah, Makassar.
                         </p>
                     </div>
                 </div>

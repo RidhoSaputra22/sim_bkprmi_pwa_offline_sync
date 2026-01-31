@@ -3,8 +3,9 @@
 
     @param string $name - Select name
     @param string $label - Label text
-    @param array $options - Options array [value => label]
-    @param string $selected - Selected value
+    @param array $options - Options array: [value => label] OR [['value' => x, 'label' => y]]
+    @param string $value - Selected value (use instead of selected)
+    @param string $selected - Selected value (deprecated, use value)
     @param string $placeholder - Placeholder option
     @param string $error - Error message
     @param bool $required - Required field
@@ -14,11 +15,17 @@
     'name',
     'label' => null,
     'options' => [],
+    'value' => null,
     'selected' => null,
     'placeholder' => 'Pilih...',
     'error' => null,
     'required' => false,
 ])
+
+@php
+    // Support both 'value' and 'selected' prop for backwards compatibility
+    $selectedValue = $value ?? $selected;
+@endphp
 
 <div class="form-control w-full">
     @if($label)
@@ -39,11 +46,21 @@
         {{ $required ? 'required' : '' }}
     >
         @if($placeholder)
-            <option value="" disabled {{ !$selected ? 'selected' : '' }}>{{ $placeholder }}</option>
+            <option value="" disabled {{ !old($name, $selectedValue) ? 'selected' : '' }}>{{ $placeholder }}</option>
         @endif
 
-        @foreach($options as $value => $optionLabel)
-            <option value="{{ $value }}" {{ old($name, $selected) == $value ? 'selected' : '' }}>
+        @foreach($options as $key => $option)
+            @php
+                // Support both formats: [value => label] and [['value' => x, 'label' => y]]
+                if (is_array($option) && isset($option['value']) && isset($option['label'])) {
+                    $optionValue = $option['value'];
+                    $optionLabel = $option['label'];
+                } else {
+                    $optionValue = $key;
+                    $optionLabel = $option;
+                }
+            @endphp
+            <option value="{{ $optionValue }}" {{ old($name, $selectedValue) == $optionValue ? 'selected' : '' }}>
                 {{ $optionLabel }}
             </option>
         @endforeach

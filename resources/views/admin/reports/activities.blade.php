@@ -26,28 +26,30 @@
     <!-- Filter -->
     <x-ui.card class="mb-6" :compact="true">
         <form method="GET" class="flex flex-wrap gap-4">
-            <select name="unit_id" class="select select-bordered select-sm">
-                <option value="">Semua Unit</option>
-                @foreach($units as $unit)
-                    <option value="{{ $unit->id }}" {{ request('unit_id') == $unit->id ? 'selected' : '' }}>
-                        {{ $unit->name }}
-                    </option>
-                @endforeach
-            </select>
-            <select name="year" class="select select-bordered select-sm">
-                <option value="">Tahun</option>
-                @for($y = date('Y'); $y >= date('Y') - 5; $y--)
-                    <option value="{{ $y }}" {{ request('year') == $y ? 'selected' : '' }}>{{ $y }}</option>
-                @endfor
-            </select>
-            <select name="month" class="select select-bordered select-sm">
-                <option value="">Bulan</option>
-                @foreach(range(1, 12) as $m)
-                    <option value="{{ $m }}" {{ request('month') == $m ? 'selected' : '' }}>
-                        {{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}
-                    </option>
-                @endforeach
-            </select>
+            <x-ui.select
+                name="unit_id"
+                :options="$units->map(fn($u) => ['value' => $u->id, 'label' => $u->name])->toArray()"
+                :value="request('unit_id')"
+                placeholder="Semua Unit"
+                class="select-sm"
+            />
+
+            <x-ui.select
+                name="year"
+                :options="collect(range(date('Y'), date('Y') - 5))->map(fn($y) => ['value' => $y, 'label' => $y])->toArray()"
+                :value="request('year')"
+                placeholder="Tahun"
+                class="select-sm"
+            />
+
+            <x-ui.select
+                name="month"
+                :options="collect(range(1, 12))->map(fn($m) => ['value' => $m, 'label' => \Carbon\Carbon::create()->month($m)->translatedFormat('F')])->toArray()"
+                :value="request('month')"
+                placeholder="Bulan"
+                class="select-sm"
+            />
+
             <x-ui.button type="primary" size="sm">Filter</x-ui.button>
         </form>
     </x-ui.card>

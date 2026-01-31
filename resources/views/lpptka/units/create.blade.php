@@ -265,7 +265,8 @@
                         </div>
 
                         <div class="form-control">
-                            <label class="label"><span class="label-text">Email</span></label>
+                            <label class="label"><span class="label-text">Email
+                                </span></label>
                             <input type="email" name="email" value="{{ old('email') }}"
                                 class="input input-bordered @error('email') input-error @enderror"
                                 placeholder="email@example.com">
@@ -545,7 +546,8 @@
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">Pekerjaan</span></label>
-                            <div class="grid grid-cols-3 gap-2 p-4 border border-base-300 rounded-lg @error('head_job') border-error @enderror">
+                            <div
+                                class="grid grid-cols-3 gap-2 p-4 border border-base-300 rounded-lg @error('head_job') border-error @enderror">
                                 @foreach(\App\Enum\PekerjaanWali::cases() as $pekerjaan)
                                 <label class="flex items-center gap-2 cursor-pointer hover:bg-base-200 p-2 rounded">
                                     <input type="checkbox" name="head_job[]" value="{{ $pekerjaan->value }}"
@@ -555,7 +557,8 @@
                                 </label>
                                 @endforeach
                             </div>
-                            <label class="label"><span class="label-text-alt">Pilih satu atau lebih pekerjaan</span></label>
+                            <label class="label"><span class="label-text-alt">Pilih satu atau lebih
+                                    pekerjaan</span></label>
                             @error('head_job')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror

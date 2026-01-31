@@ -9,36 +9,26 @@
         <div class="card-body">
             <form method="GET" action="{{ route('member.activities.index') }}" class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Cari Kegiatan</span>
-                        </label>
-                        <input type="text"
-                               name="search"
-                               value="{{ request('search') }}"
-                               placeholder="Nama atau deskripsi..."
-                               class="input input-bordered w-full">
-                    </div>
+                    <x-ui.input
+                        name="search"
+                        label="Cari Kegiatan"
+                        :value="request('search')"
+                        placeholder="Nama atau deskripsi..."
+                    />
 
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Tanggal Mulai</span>
-                        </label>
-                        <input type="date"
-                               name="start_date"
-                               value="{{ request('start_date') }}"
-                               class="input input-bordered w-full">
-                    </div>
+                    <x-ui.input
+                        name="start_date"
+                        type="date"
+                        label="Tanggal Mulai"
+                        :value="request('start_date')"
+                    />
 
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Tanggal Selesai</span>
-                        </label>
-                        <input type="date"
-                               name="end_date"
-                               value="{{ request('end_date') }}"
-                               class="input input-bordered w-full">
-                    </div>
+                    <x-ui.input
+                        name="end_date"
+                        type="date"
+                        label="Tanggal Selesai"
+                        :value="request('end_date')"
+                    />
 
                     <div class="form-control">
                         <label class="label">

@@ -20,32 +20,29 @@
         <div class="card-body">
             <form action="{{ route('tpa.santri.index') }}" method="GET" class="flex flex-wrap gap-4">
                 <div class="form-control flex-1 min-w-[200px]">
-                    <input type="text" name="search" value="{{ request('search') }}" class="input input-bordered"
-                        placeholder="Cari nama santri...">
+                    <x-ui.input
+                        name="search"
+                        :value="request('search')"
+                        placeholder="Cari nama santri..."
+                    />
                 </div>
 
                 <div class="form-control w-40">
-                    <select name="jenjang" class="select select-bordered">
-                        <option value="">Semua Jenjang</option>
-                        @foreach(\App\Enum\JenjangSantri::cases() as $jenjang)
-                        <option value="{{ $jenjang->value }}"
-                            {{ request('jenjang') == $jenjang->value ? 'selected' : '' }}>
-                            {{ $jenjang->getLabel() }}
-                        </option>
-                        @endforeach
-                    </select>
+                    <x-ui.select
+                        name="jenjang"
+                        :options="collect(App\Enum\JenjangSantri::cases())->map(fn($j) => ['value' => $j->value, 'label' => $j->getLabel()])->toArray()"
+                        :value="request('jenjang')"
+                        placeholder="Semua Jenjang"
+                    />
                 </div>
 
                 <div class="form-control w-40">
-                    <select name="status" class="select select-bordered">
-                        <option value="">Semua Status</option>
-                        @foreach(\App\Enum\StatusSantri::cases() as $status)
-                        <option value="{{ $status->value }}"
-                            {{ request('status') == $status->value ? 'selected' : '' }}>
-                            {{ $status->getLabel() }}
-                        </option>
-                        @endforeach
-                    </select>
+                    <x-ui.select
+                        name="status"
+                        :options="collect(App\Enum\StatusSantri::cases())->map(fn($s) => ['value' => $s->value, 'label' => $s->getLabel()])->toArray()"
+                        :value="request('status')"
+                        placeholder="Semua Status"
+                    />
                 </div>
 
                 <div class="form-control w-40">

@@ -238,11 +238,6 @@ class UnitController extends Controller
      */
     public function edit(Unit $unit)
     {
-        // Hanya bisa edit jika masih pending atau rejected
-        if ($unit->isApproved() && $unit->hasAdminAccount()) {
-            return back()->with('error', 'Unit yang sudah memiliki akun tidak dapat diedit.');
-        }
-
         $unit->load(['village.district.city.province', 'unitHead.person', 'unitAdmin.person']);
         $provinces = Province::orderBy('name')->get();
 
@@ -271,11 +266,6 @@ class UnitController extends Controller
      */
     public function update(Request $request, Unit $unit)
     {
-        // Hanya bisa edit jika masih pending atau rejected
-        if ($unit->isApproved() && $unit->hasAdminAccount()) {
-            return back()->with('error', 'Unit yang sudah memiliki akun tidak dapat diedit.');
-        }
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'mosque_name' => 'nullable|string|max:255',

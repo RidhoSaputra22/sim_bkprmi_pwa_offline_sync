@@ -3,7 +3,8 @@
         <div class="flex items-center gap-4">
             <a href="{{ route('lpptka.tpa-accounts.index') }}" class="btn btn-ghost btn-sm">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
             </a>
             <div>
@@ -25,88 +26,74 @@
 
                         <div class="space-y-4">
                             <!-- Admin Info -->
-                            <div class="form-control">
-                                <label class="label"><span class="label-text">Nama Lengkap Admin <span class="text-error">*</span></span></label>
-                                <input type="text" name="full_name" value="{{ old('full_name', $unit->unitHead?->person?->full_name) }}"
-                                       class="input input-bordered @error('full_name') input-error @enderror"
-                                       placeholder="Nama lengkap admin TPA" required>
-                                @error('full_name')
-                                <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                                @enderror
-                                <label class="label"><span class="label-text-alt">Bisa menggunakan nama kepala unit atau nama lain</span></label>
-                            </div>
+                            <x-ui.input
+                                name="full_name"
+                                label="Nama Lengkap Admin"
+                                :value="old('full_name', $unit->unitHead?->person?->full_name)"
+                                placeholder="Nama lengkap admin TPA"
+                                :required="true"
+                                helpText="Bisa menggunakan nama kepala unit atau nama lain"
+                            />
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="form-control">
-                                    <label class="label"><span class="label-text">Jenis Kelamin <span class="text-error">*</span></span></label>
-                                    <select name="gender" class="select select-bordered @error('gender') select-error @enderror" required>
-                                        <option value="" disabled {{ old('gender', $unit->unitHead?->person?->gender?->value) ? '' : 'selected' }}>Pilih</option>
-                                        @foreach($genderOptions as $gender)
-                                            <option value="{{ $gender->value }}" @selected(old('gender', $unit->unitHead?->person?->gender?->value) === $gender->value)>
-                                                {{ $gender->getLabel() }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('gender')
-                                    <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                                    @enderror
-                                </div>
+                                <x-ui.select
+                                    name="gender"
+                                    label="Jenis Kelamin"
+                                    :options="collect($genderOptions)->map(fn($g) => ['value' => $g->value, 'label' => $g->getLabel()])->toArray()"
+                                    :value="old('gender', $unit->unitHead?->person?->gender?->value)"
+                                    placeholder="Pilih"
+                                    :required="true"
+                                />
 
-                                <div class="form-control">
-                                    <label class="label"><span class="label-text">NIK (Opsional)</span></label>
-                                    <input type="text" name="nik" value="{{ old('nik', $unit->unitHead?->person?->nik) }}"
-                                           class="input input-bordered @error('nik') input-error @enderror"
-                                           placeholder="16 digit">
-                                    @error('nik')
-                                    <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                                    @enderror
-                                </div>
+                                <x-ui.input
+                                    name="nik"
+                                    label="NIK (Opsional)"
+                                    :value="old('nik', $unit->unitHead?->person?->nik)"
+                                    placeholder="16 digit"
+                                    maxlength="16"
+                                />
                             </div>
 
-                            <div class="form-control">
-                                <label class="label"><span class="label-text">Email <span class="text-error">*</span></span></label>
-                                <input type="email" name="email" value="{{ old('email') }}"
-                                       class="input input-bordered @error('email') input-error @enderror"
-                                       placeholder="email@example.com" required>
-                                @error('email')
-                                <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                                @enderror
-                                <label class="label"><span class="label-text-alt">Email ini akan digunakan untuk login</span></label>
-                            </div>
+                            <x-ui.input
+                                name="email"
+                                type="email"
+                                label="Email"
+                                :value="old('email', $unit->unitAdmin?->person?->email ?? '')"
+                                placeholder="email@example.com"
+                                :required="true"
+                                helpText="Email ini akan digunakan untuk login"
+                            />
 
-                            <div class="form-control">
-                                <label class="label"><span class="label-text">No. HP</span></label>
-                                <input type="text" name="phone" value="{{ old('phone', $unit->unitHead?->person?->phone) }}"
-                                       class="input input-bordered @error('phone') input-error @enderror"
-                                       placeholder="08xxxxxxxxxx">
-                                @error('phone')
-                                <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                                @enderror
-                            </div>
+                            <x-ui.input
+                                name="phone"
+                                label="No. HP"
+                                :value="old('phone', $unit->unitHead?->person?->phone)"
+                                placeholder="08xxxxxxxxxx"
+                            />
 
                             <div class="divider"></div>
 
                             <!-- Password -->
-                            <div class="form-control">
-                                <label class="label"><span class="label-text">Password <span class="text-error">*</span></span></label>
-                                <input type="password" name="password"
-                                       class="input input-bordered @error('password') input-error @enderror"
-                                       placeholder="Minimal 8 karakter" required>
-                                @error('password')
-                                <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                                @enderror
-                            </div>
+                            <x-ui.input
+                                name="password"
+                                type="password"
+                                label="Password"
+                                placeholder="Minimal 8 karakter"
+                                :required="true"
+                            />
 
-                            <div class="form-control">
-                                <label class="label"><span class="label-text">Konfirmasi Password <span class="text-error">*</span></span></label>
-                                <input type="password" name="password_confirmation"
-                                       class="input input-bordered"
-                                       placeholder="Ulangi password" required>
-                            </div>
+                            <x-ui.input
+                                name="password_confirmation"
+                                type="password"
+                                label="Konfirmasi Password"
+                                placeholder="Ulangi password"
+                                :required="true"
+                            />
 
                             <div class="alert alert-info">
                                 <svg class="stroke-current shrink-0 w-6 h-6" fill="none" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                                 <div>
                                     <p class="font-medium">Catatan Penting:</p>
@@ -123,7 +110,8 @@
                             <a href="{{ route('lpptka.tpa-accounts.index') }}" class="btn btn-ghost">Batal</a>
                             <button type="submit" class="btn btn-primary">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
                                 </svg>
                                 Buat Akun
                             </button>
@@ -154,7 +142,8 @@
                         </div>
                         <div>
                             <p class="text-sm text-base-content/60">Lokasi</p>
-                            <p>{{ $unit->village?->district?->city?->name ?? '-' }}, {{ $unit->village?->district?->name ?? '-' }}</p>
+                            <p>{{ $unit->village?->district?->city?->name ?? '-' }},
+                                {{ $unit->village?->district?->name ?? '-' }}</p>
                         </div>
                     </div>
                 </div>

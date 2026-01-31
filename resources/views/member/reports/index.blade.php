@@ -25,33 +25,23 @@
                 <form action="{{ route('member.reports.download.santri') }}" method="POST" class="space-y-4">
                     @csrf
 
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Filter Unit (Opsional)</span>
-                        </label>
-                        <select name="unit_id" class="select select-bordered w-full">
-                            <option value="">Semua Unit</option>
-                            @foreach(\App\Models\Unit::orderBy('name')->get() as $unit)
-                                <option value="{{ $unit->id }}">{{ $unit->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <x-ui.select
+                        name="unit_id"
+                        label="Filter Unit (Opsional)"
+                        :options="\App\Models\Unit::orderBy('name')->get()->map(fn($u) => ['value' => $u->id, 'label' => $u->name])->toArray()"
+                        placeholder="Semua Unit"
+                    />
 
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Format</span>
-                        </label>
-                        <div class="flex flex-col gap-2">
-                            <label class="label cursor-pointer justify-start gap-2">
-                                <input type="radio" name="format" value="pdf" checked class="radio radio-primary radio-sm">
-                                <span class="label-text">PDF</span>
-                            </label>
-                            <label class="label cursor-pointer justify-start gap-2">
-                                <input type="radio" name="format" value="excel" disabled class="radio radio-sm">
-                                <span class="label-text text-base-content/50">Excel (Coming Soon)</span>
-                            </label>
-                        </div>
-                    </div>
+                    <x-ui.radio
+                        name="format"
+                        label="Format"
+                        :options="[
+                            ['value' => 'pdf', 'label' => 'PDF'],
+                            ['value' => 'excel', 'label' => 'Excel (Coming Soon)']
+                        ]"
+                        value="pdf"
+                        layout="vertical"
+                    />
 
                     <div class="space-y-2 pt-2">
                         <button type="submit" class="btn btn-primary w-full gap-2">
@@ -92,47 +82,35 @@
                 <form action="{{ route('member.reports.download.activity') }}" method="POST" class="space-y-4">
                     @csrf
 
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Tanggal Mulai</span>
-                        </label>
-                        <input type="date" name="start_date" class="input input-bordered w-full">
-                    </div>
+                    <x-ui.input
+                        name="start_date"
+                        type="date"
+                        label="Tanggal Mulai"
+                    />
 
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Tanggal Selesai</span>
-                        </label>
-                        <input type="date" name="end_date" class="input input-bordered w-full">
-                    </div>
+                    <x-ui.input
+                        name="end_date"
+                        type="date"
+                        label="Tanggal Selesai"
+                    />
 
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Filter Unit (Opsional)</span>
-                        </label>
-                        <select name="unit_id" class="select select-bordered w-full">
-                            <option value="">Semua Unit</option>
-                            @foreach(\App\Models\Unit::orderBy('name')->get() as $unit)
-                                <option value="{{ $unit->id }}">{{ $unit->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <x-ui.select
+                        name="unit_id"
+                        label="Filter Unit (Opsional)"
+                        :options="\App\Models\Unit::orderBy('name')->get()->map(fn($u) => ['value' => $u->id, 'label' => $u->name])->toArray()"
+                        placeholder="Semua Unit"
+                    />
 
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Format</span>
-                        </label>
-                        <div class="flex flex-col gap-2">
-                            <label class="label cursor-pointer justify-start gap-2">
-                                <input type="radio" name="format" value="pdf" checked class="radio radio-secondary radio-sm">
-                                <span class="label-text">PDF</span>
-                            </label>
-                            <label class="label cursor-pointer justify-start gap-2">
-                                <input type="radio" name="format" value="excel" disabled class="radio radio-sm">
-                                <span class="label-text text-base-content/50">Excel (Coming Soon)</span>
-                            </label>
-                        </div>
-                    </div>
+                    <x-ui.radio
+                        name="format"
+                        label="Format"
+                        :options="[
+                            ['value' => 'pdf', 'label' => 'PDF'],
+                            ['value' => 'excel', 'label' => 'Excel (Coming Soon)']
+                        ]"
+                        value="pdf"
+                        layout="vertical"
+                    />
 
                     <div class="space-y-2 pt-2">
                         <button type="submit" class="btn btn-secondary w-full gap-2">
@@ -173,33 +151,23 @@
                 <form action="{{ route('member.reports.download.unit') }}" method="POST" class="space-y-4">
                     @csrf
 
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Filter Region (Opsional)</span>
-                        </label>
-                        <select name="region_id" class="select select-bordered w-full">
-                            <option value="">Semua Region</option>
-                            @foreach(\App\Models\Region::orderBy('name')->get() as $region)
-                                <option value="{{ $region->id }}">{{ $region->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <x-ui.select
+                        name="region_id"
+                        label="Filter Region (Opsional)"
+                        :options="\App\Models\Region::orderBy('name')->get()->map(fn($r) => ['value' => $r->id, 'label' => $r->name])->toArray()"
+                        placeholder="Semua Region"
+                    />
 
-                    <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Format</span>
-                        </label>
-                        <div class="flex flex-col gap-2">
-                            <label class="label cursor-pointer justify-start gap-2">
-                                <input type="radio" name="format" value="pdf" checked class="radio radio-accent radio-sm">
-                                <span class="label-text">PDF</span>
-                            </label>
-                            <label class="label cursor-pointer justify-start gap-2">
-                                <input type="radio" name="format" value="excel" disabled class="radio radio-sm">
-                                <span class="label-text text-base-content/50">Excel (Coming Soon)</span>
-                            </label>
-                        </div>
-                    </div>
+                    <x-ui.radio
+                        name="format"
+                        label="Format"
+                        :options="[
+                            ['value' => 'pdf', 'label' => 'PDF'],
+                            ['value' => 'excel', 'label' => 'Excel (Coming Soon)']
+                        ]"
+                        value="pdf"
+                        layout="vertical"
+                    />
 
                     <div class="space-y-2 pt-2">
                         <button type="submit" class="btn btn-accent w-full gap-2">
