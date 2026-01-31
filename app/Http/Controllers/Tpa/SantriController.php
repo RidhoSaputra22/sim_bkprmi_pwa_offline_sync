@@ -50,7 +50,8 @@ class SantriController extends Controller
         $unit = $this->getUserUnit();
 
         $query = Santri::whereHas('santriUnits', function ($q) use ($unit) {
-            $q->where('unit_id', $unit->id);
+            $q->where('unit_id', $unit->id)
+                ->whereNull('left_at');
         })->with(['person', 'village.district', 'guardianSantris.guardian.person']);
 
         // Filter by jenjang

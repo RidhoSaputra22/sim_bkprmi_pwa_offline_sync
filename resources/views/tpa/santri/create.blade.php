@@ -35,15 +35,6 @@
                             @enderror
                         </div>
 
-                        <div class="form-control">
-                            <label class="label"><span class="label-text">Nama Panggilan</span></label>
-                            <input type="text" name="nama_panggilan" value="{{ old('nama_panggilan') }}"
-                                class="input input-bordered @error('nama_panggilan') input-error @enderror"
-                                placeholder="Nama panggilan">
-                            @error('nama_panggilan')
-                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                            @enderror
-                        </div>
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">NIK</span></label>

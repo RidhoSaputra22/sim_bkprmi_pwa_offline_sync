@@ -36,10 +36,7 @@
                             <p class="text-sm text-base-content/60">Nama Lengkap</p>
                             <p class="font-medium">{{ $santri->person?->full_name ?? '-' }}</p>
                         </div>
-                        <div>
-                            <p class="text-sm text-base-content/60">Nama Panggilan</p>
-                            <p>{{ $santri->person?->nickname ?? '-' }}</p>
-                        </div>
+
                         <div>
                             <p class="text-sm text-base-content/60">NIK</p>
                             <p class="font-mono">{{ $santri->person?->nik ?? '-' }}</p>
