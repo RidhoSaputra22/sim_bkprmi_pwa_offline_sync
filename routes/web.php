@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Lpptka\DashboardController as LpptkaDashboardController;
 use App\Http\Controllers\Lpptka\TpaAccountController;
 use App\Http\Controllers\Lpptka\UnitController as LpptkaUnitController;
@@ -19,6 +21,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Password Reset Routes
+Route::get('/password/forgot', [ForgotPasswordController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetPasswordForm'])->name('password.reset');
+Route::post('/password/reset', [ResetPasswordController::class, 'resetPassword'])->name('password.update');
 
 // ========================================
 // SUPERADMIN BKPRMI ROUTES

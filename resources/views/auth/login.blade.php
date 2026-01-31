@@ -42,6 +42,13 @@
                 </x-ui.alert>
             @endif
 
+            <!-- Success Message -->
+            @if(session('success'))
+                <x-ui.alert type="success" :dismissible="true">
+                    {{ session('success') }}
+                </x-ui.alert>
+            @endif
+
             <!-- Login Form -->
             <form method="POST" action="{{ route('login') }}" class="space-y-4">
                 @csrf
@@ -68,7 +75,7 @@
                         <span class="label-text">Ingat saya</span>
                     </label>
 
-                    <a href="#" class="link link-primary text-sm">Lupa password?</a>
+                    <a href="{{ route('password.request') }}" class="link link-primary text-sm">Lupa password?</a>
                 </div>
 
                 <x-ui.button type="primary" class="w-full">

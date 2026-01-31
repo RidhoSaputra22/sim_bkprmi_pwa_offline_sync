@@ -31,6 +31,7 @@
     <script src="{{ asset('js/offline-db.js') }}"></script>
     <script src="{{ asset('js/offline-sync.js') }}"></script>
     <script src="{{ asset('js/offline-form.js') }}"></script>
+    <script src="{{ asset('js/pwa-management.js') }}"></script>
 
     <!-- Alpine.js for interactive components -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
