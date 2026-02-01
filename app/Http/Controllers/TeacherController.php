@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class TeacherController extends Controller
 {
@@ -96,8 +97,7 @@ class TeacherController extends Controller
 
             // Pendidikan & Pekerjaan
             'education_level_id' => ['nullable', 'exists:education_levels,id'],
-            'pekerjaan' => ['nullable', 'array'],
-            'pekerjaan.*' => [Rule::in(array_column(PekerjaanWali::cases(), 'value'))],
+            'pekerjaan' => ['nullable', new Enum(PekerjaanWali::class)],
 
             // Alamat
             'province_id' => ['nullable', 'exists:provinces,id'],
@@ -138,6 +138,11 @@ class TeacherController extends Controller
         // Add unit_id
         $validated['unit_id'] = $unit->id;
         $validated['is_active'] = true;
+        
+        // Wrap pekerjaan in array if present
+        if (!empty($validated['pekerjaan'])) {
+            $validated['pekerjaan'] = [$validated['pekerjaan']];
+        }
 
         $teacher = Teacher::create($validated);
 
@@ -216,8 +221,7 @@ class TeacherController extends Controller
 
             // Pendidikan & Pekerjaan
             'education_level_id' => ['nullable', 'exists:education_levels,id'],
-            'pekerjaan' => ['nullable', 'array'],
-            'pekerjaan.*' => [Rule::in(array_column(PekerjaanWali::cases(), 'value'))],
+            'pekerjaan' => ['nullable', new Enum(PekerjaanWali::class)],
 
             // Alamat
             'province_id' => ['nullable', 'exists:provinces,id'],
@@ -268,6 +272,11 @@ class TeacherController extends Controller
                 Storage::disk('public')->delete($teacher->sertifikat_pelatihan_path);
             }
             $validated['sertifikat_pelatihan_path'] = $request->file('sertifikat_pelatihan')->store('teachers/certificates/teaching', 'public');
+        }
+
+        // Wrap pekerjaan in array if present
+        if (!empty($validated['pekerjaan'])) {
+            $validated['pekerjaan'] = [$validated['pekerjaan']];
         }
 
         $teacher->update($validated);

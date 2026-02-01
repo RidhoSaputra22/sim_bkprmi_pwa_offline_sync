@@ -116,7 +116,7 @@ class TeacherManagementTest extends TestCase
             'gender' => Gender::LAKI_LAKI->value,
             'phone' => '081234567890',
             'education_level_id' => $educationLevel->id,
-            'pekerjaan' => [PekerjaanWali::WIRASWASTA->value],
+            'pekerjaan' => PekerjaanWali::WIRASWASTA->value,
             'province_id' => $province->id,
             'jalan' => 'Jl. Merdeka No. 123',
             'rt' => '001',
@@ -164,7 +164,7 @@ class TeacherManagementTest extends TestCase
             'gender' => Gender::PEREMPUAN->value,
             'phone' => '082345678901',
             'education_level_id' => $educationLevel->id,
-            'pekerjaan' => [PekerjaanWali::ASN_PNS->value, PekerjaanWali::WIRASWASTA->value],
+            'pekerjaan' => PekerjaanWali::ASN_PNS->value,
             'jabatan_utama' => JabatanGuru::WALI_KELAS->value,
             'level_lmd' => LevelLMD::LMD_3->value,
             'level_pelatihan_guru' => LevelPelatihanGuru::LEVEL_A->value,
@@ -588,14 +588,14 @@ class TeacherManagementTest extends TestCase
             'unit_id' => $this->unit->id,
             'birth_date' => now()->subYears(30),
             'tugas_tambahan' => ['admin_operator', 'guru_iqra'],
-            'pekerjaan' => [PekerjaanWali::WIRASWASTA->value, PekerjaanWali::ASN_PNS->value],
+            'pekerjaan' => [PekerjaanWali::WIRASWASTA->value],
         ]);
 
         $this->assertEquals(30, $teacher->age);
         $this->assertIsArray($teacher->tugas_tambahan_labels);
         $this->assertCount(2, $teacher->tugas_tambahan_labels);
         $this->assertIsArray($teacher->pekerjaan_labels);
-        $this->assertCount(2, $teacher->pekerjaan_labels);
+        $this->assertCount(1, $teacher->pekerjaan_labels);
     }
 
     /** @test */

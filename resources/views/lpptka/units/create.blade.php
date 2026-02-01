@@ -153,7 +153,7 @@
                                         class="text-error">*</span></span></label>
                             <input type="text" name="unit_number" value="{{ old('unit_number') }}"
                                 class="input input-bordered @error('unit_number') input-error @enderror"
-                                placeholder="Contoh: 001/TPA/2026" required>
+                                placeholder="Contoh: 001" required>
                             @error('unit_number')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
@@ -164,7 +164,7 @@
                                         class="text-error">*</span></span></label>
                             <input type="text" name="name" value="{{ old('name') }}"
                                 class="input input-bordered @error('name') input-error @enderror"
-                                placeholder="Contoh: TPA Al-Ikhlas" required>
+                                placeholder="Contoh: Al-Ikhlas" required>
                             @error('name')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
@@ -544,25 +544,14 @@
                             @enderror
                         </div>
 
-                        <div class="form-control">
-                            <label class="label"><span class="label-text">Pekerjaan</span></label>
-                            <div
-                                class="grid grid-cols-3 gap-2 p-4 border border-base-300 rounded-lg @error('head_job') border-error @enderror">
-                                @foreach(\App\Enum\PekerjaanWali::cases() as $pekerjaan)
-                                <label class="flex items-center gap-2 cursor-pointer hover:bg-base-200 p-2 rounded">
-                                    <input type="checkbox" name="head_job[]" value="{{ $pekerjaan->value }}"
-                                        class="checkbox checkbox-sm"
-                                        {{ (is_array(old('head_job')) && in_array($pekerjaan->value, old('head_job'))) ? 'checked' : '' }}>
-                                    <span class="label-text">{{ $pekerjaan->getLabel() }}</span>
-                                </label>
-                                @endforeach
-                            </div>
-                            <label class="label"><span class="label-text-alt">Pilih satu atau lebih
-                                    pekerjaan</span></label>
-                            @error('head_job')
-                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                            @enderror
-                        </div>
+                        <x-ui.select
+                            name="head_job"
+                            label="Pekerjaan Utama (Sesuai Kartu Keluarga)"
+                            :options="array_map(fn($job) => ['value' => $job->value, 'label' => $job->getLabel()], \App\Enum\PekerjaanWali::cases())"
+                            :value="old('head_job')"
+                            placeholder="-- Pilih Pekerjaan --"
+                            searchPlaceholder="Cari pekerjaan..."
+                        />
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">Nomor HP</span></label>

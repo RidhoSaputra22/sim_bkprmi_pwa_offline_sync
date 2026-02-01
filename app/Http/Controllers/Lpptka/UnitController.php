@@ -18,9 +18,9 @@ use App\Models\UnitAdmin;
 use App\Models\UnitHead;
 use App\Services\UnitApprovalService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rules\Enum;
 
 class UnitController extends Controller
 {
@@ -185,7 +185,7 @@ class UnitController extends Controller
                 'unit_id' => $unit->id,
                 'person_id' => $headPerson->id,
                 'pendidikan_terakhir' => $validated['head_education'] ?? null,
-                'pekerjaan' => $validated['head_job'] ?? null,
+                'pekerjaan' => !empty($validated['head_job']) ? [$validated['head_job']] : null,
             ]);
 
             // Create Admin if provided
@@ -303,8 +303,7 @@ class UnitController extends Controller
             'head_birth_date' => 'required|date',
             'head_gender' => ['required', new Enum(Gender::class)],
             'head_education' => ['nullable', new Enum(PendidikanTerakhir::class)],
-            'head_job' => 'nullable|array',
-            'head_job.*' => ['nullable', new Enum(PekerjaanWali::class)],
+            'head_job' => ['nullable', new Enum(PekerjaanWali::class)],
             'head_phone' => 'nullable|string|max:20',
 
             // Admin Unit

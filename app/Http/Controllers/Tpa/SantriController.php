@@ -18,9 +18,9 @@ use App\Models\Santri;
 use App\Models\SantriUnit;
 use App\Services\LocationFilterService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rules\Enum;
 
 class SantriController extends Controller
 {
@@ -233,7 +233,7 @@ class SantriController extends Controller
             $guardian = Guardian::create([
                 'person_id' => $guardianPerson->id,
                 'pendidikan_terakhir' => $validated['wali_pendidikan'] ?? null,
-                'pekerjaan' => $validated['wali_pekerjaan'] ?? null,
+                'pekerjaan' => !empty($validated['wali_pekerjaan']) ? [$validated['wali_pekerjaan']] : null,
             ]);
 
             // Link Guardian to Santri with relationship
@@ -427,7 +427,7 @@ class SantriController extends Controller
 
                 $guardianSantri->guardian->update([
                     'pendidikan_terakhir' => $validated['wali_pendidikan'] ?? null,
-                    'pekerjaan' => $validated['wali_pekerjaan'] ?? null,
+                    'pekerjaan' => !empty($validated['wali_pekerjaan']) ? [$validated['wali_pekerjaan']] : null,
                 ]);
 
                 $guardianSantri->update([
@@ -446,7 +446,7 @@ class SantriController extends Controller
                 $guardian = Guardian::create([
                     'person_id' => $guardianPerson->id,
                     'pendidikan_terakhir' => $validated['wali_pendidikan'] ?? null,
-                    'pekerjaan' => $validated['wali_pekerjaan'] ?? null,
+                    'pekerjaan' => !empty($validated['wali_pekerjaan']) ? [$validated['wali_pekerjaan']] : null,
                 ]);
 
                 GuardianSantri::create([

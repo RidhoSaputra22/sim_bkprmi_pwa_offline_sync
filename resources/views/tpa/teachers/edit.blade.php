@@ -105,22 +105,16 @@
                         @enderror
                     </div>
 
-                    <!-- Pekerjaan Utama (Multi-Select) -->
-                    <div class="form-control col-span-full">
-                        <label class="label"><span class="label-text">Pekerjaan Utama Sesuai KK</span></label>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 border border-base-300 rounded-lg p-4">
-                            @foreach($pekerjaanOptions as $pekerjaan)
-                            <label class="label cursor-pointer justify-start gap-2">
-                                <input type="checkbox" name="pekerjaan[]" value="{{ $pekerjaan->value }}"
-                                    class="checkbox checkbox-primary" {{ in_array($pekerjaan->value, old('pekerjaan', $teacher->pekerjaan ?? [])) ? 'checked' : '' }}>
-                                <span class="label-text">{{ $pekerjaan->getLabel() }}</span>
-                            </label>
-                            @endforeach
-                        </div>
-                        <label class="label"><span class="label-text-alt">Dapat memilih lebih dari satu</span></label>
-                        @error('pekerjaan')
-                        <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                        @enderror
+                    <!-- Pekerjaan Utama -->
+                    <div class="col-span-full">
+                        <x-ui.select
+                            name="pekerjaan"
+                            label="Pekerjaan Utama Sesuai KK"
+                            :options="array_map(fn($job) => ['value' => $job->value, 'label' => $job->getLabel()], $pekerjaanOptions)"
+                            :value="old('pekerjaan', $teacher->pekerjaan[0] ?? null)"
+                            placeholder="-- Pilih Pekerjaan --"
+                            searchPlaceholder="Cari pekerjaan..."
+                        />
                     </div>
 
                     <!-- Nomor HP -->

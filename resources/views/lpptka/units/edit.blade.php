@@ -537,25 +537,14 @@
                             @enderror
                         </div>
 
-                        <div class="form-control">
-                            <label class="label"><span class="label-text">Pekerjaan</span></label>
-                            <div
-                                class="grid grid-cols-3 gap-2 p-4 border border-base-300 rounded-lg @error('head_job') border-error @enderror">
-                                @foreach(\App\Enum\PekerjaanWali::cases() as $pekerjaan)
-                                <label class="flex items-center gap-2 cursor-pointer hover:bg-base-200 p-2 rounded">
-                                    <input type="checkbox" name="head_job[]" value="{{ $pekerjaan->value }}"
-                                        class="checkbox checkbox-sm"
-                                        {{ (is_array(old('head_job', $unit->unitHead?->pekerjaan ?? [])) && in_array($pekerjaan->value, old('head_job', $unit->unitHead?->pekerjaan ?? []))) ? 'checked' : '' }}>
-                                    <span class="label-text">{{ $pekerjaan->getLabel() }}</span>
-                                </label>
-                                @endforeach
-                            </div>
-                            <label class="label"><span class="label-text-alt">Pilih satu atau lebih
-                                    pekerjaan</span></label>
-                            @error('head_job')
-                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                            @enderror
-                        </div>
+                        <x-ui.select
+                            name="head_job"
+                            label="Pekerjaan"
+                            :options="array_map(fn($job) => ['value' => $job->value, 'label' => $job->getLabel()], \App\Enum\PekerjaanWali::cases())"
+                            :value="old('head_job', $unit->unitHead?->pekerjaan[0] ?? null)"
+                            placeholder="-- Pilih Pekerjaan --"
+                            searchPlaceholder="Cari pekerjaan..."
+                        />
 
 
                         <div class="form-control">
