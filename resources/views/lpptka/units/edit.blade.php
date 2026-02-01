@@ -537,14 +537,10 @@
                             @enderror
                         </div>
 
-                        <x-ui.select
-                            name="head_job"
-                            label="Pekerjaan"
+                        <x-ui.select name="head_job" label="Pekerjaan Utama (Sesuai Kartu Keluarga)"
                             :options="array_map(fn($job) => ['value' => $job->value, 'label' => $job->getLabel()], \App\Enum\PekerjaanWali::cases())"
                             :value="old('head_job', $unit->unitHead?->pekerjaan[0] ?? null)"
-                            placeholder="-- Pilih Pekerjaan --"
-                            searchPlaceholder="Cari pekerjaan..."
-                        />
+                            placeholder="-- Pilih Pekerjaan --" searchPlaceholder="Cari pekerjaan..." />
 
 
                         <div class="form-control">
