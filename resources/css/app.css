@@ -17,6 +17,14 @@
     --secondary-color: #059669;
 }
 
+/* Active menu styling */
+.menu li > a.active,
+.menu li > details[open] > summary.active {
+    background-color: var(--primary-color, #1e40af);
+    color: white;
+    font-weight: 600;
+}
+
 /* Offline indicator */
 .offline-indicator {
     position: fixed;
