@@ -138,7 +138,7 @@ class TeacherController extends Controller
         // Add unit_id
         $validated['unit_id'] = $unit->id;
         $validated['is_active'] = true;
-        
+
         // Wrap pekerjaan in array if present
         if (!empty($validated['pekerjaan'])) {
             $validated['pekerjaan'] = [$validated['pekerjaan']];

@@ -29,7 +29,7 @@
 @php
     // Support both 'value' and 'selected' prop for backwards compatibility
     $selectedValue = old($name, $value ?? $selected);
-    
+
     // Normalize options to consistent format
     $normalizedOptions = [];
     foreach ($options as $key => $option) {
@@ -63,7 +63,7 @@
             options: @js($normalizedOptions),
             get filteredOptions() {
                 if (!this.searchTerm) return this.options;
-                return this.options.filter(option => 
+                return this.options.filter(option =>
                     option.label.toLowerCase().includes(this.searchTerm.toLowerCase())
                 );
             },
@@ -80,13 +80,13 @@
                     this.selectedLabel = selected.label;
                 }
             }
-        }" 
+        }"
         @click.outside="open = false"
         class="relative">
-            
+
             {{-- Hidden input for form submission --}}
             <input type="hidden" name="{{ $name }}" x-model="selectedValue" {{ $required ? 'required' : '' }}>
-            
+
             {{-- Display/Trigger Button --}}
             <button
                 type="button"
@@ -100,15 +100,15 @@
             </button>
 
             {{-- Dropdown --}}
-            <div x-show="open" 
+            <div x-show="open"
                 x-transition
                 class="absolute z-50 w-full mt-1 bg-base-100 border border-base-300 rounded-lg shadow-lg">
-                
+
                 {{-- Search Input --}}
                 <div class="p-2 border-b border-base-300">
                     <div class="relative">
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             x-model="searchTerm"
                             placeholder="{{ $searchPlaceholder }}"
                             class="input input-sm input-bordered w-full pr-8"

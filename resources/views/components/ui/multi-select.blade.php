@@ -30,7 +30,7 @@
     if (!is_array($selectedValues)) {
         $selectedValues = [];
     }
-    
+
     // Normalize options to consistent format
     $normalizedOptions = [];
     foreach ($options as $key => $option) {
@@ -61,7 +61,7 @@
         options: @js($normalizedOptions),
         get filteredOptions() {
             if (!this.searchTerm) return this.options;
-            return this.options.filter(option => 
+            return this.options.filter(option =>
                 option.label.toLowerCase().includes(this.searchTerm.toLowerCase())
             );
         },
@@ -85,15 +85,15 @@
                 this.selectedValues.splice(index, 1);
             }
         }
-    }" 
+    }"
     @click.outside="open = false"
     class="relative">
-        
+
         {{-- Hidden inputs for form submission --}}
         <template x-for="value in selectedValues" :key="value">
             <input type="hidden" :name="'{{ $name }}[]'" :value="value">
         </template>
-        
+
         {{-- Display/Trigger Button --}}
         <button
             type="button"
@@ -124,15 +124,15 @@
         </div>
 
         {{-- Dropdown --}}
-        <div x-show="open" 
+        <div x-show="open"
             x-transition
             class="absolute z-50 w-full mt-1 bg-base-100 border border-base-300 rounded-lg shadow-lg">
-            
+
             {{-- Search Input --}}
             <div class="p-2 border-b border-base-300">
                 <div class="relative">
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         x-model="searchTerm"
                         :placeholder="@js($searchPlaceholder)"
                         class="input input-sm input-bordered w-full pr-8"
