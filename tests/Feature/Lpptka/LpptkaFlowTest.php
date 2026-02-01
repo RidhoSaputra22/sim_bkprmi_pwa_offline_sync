@@ -474,6 +474,200 @@ class LpptkaFlowTest extends TestCase
     }
 
     // ============================================================
+    // PROFILE TESTS
+    // ============================================================
+
+    /** @test */
+    public function lpptka_admin_can_view_profile()
+    {
+        $response = $this->actingAs($this->adminLpptka)
+            ->get(route('lpptka.profile'));
+
+        $response->assertStatus(200);
+        $response->assertViewIs('lpptka.profile');
+        $response->assertViewHas('user');
+        $response->assertViewHas('stats');
+        $response->assertSee('Profil Admin LPPTKA');
+        $response->assertSee($this->adminLpptka->person->full_name);
+        $response->assertSee($this->adminLpptka->email);
+    }
+
+    /** @test */
+    public function lpptka_admin_can_update_profile()
+    {
+        $response = $this->actingAs($this->adminLpptka)
+            ->put(route('lpptka.profile.update'), [
+                'full_name' => 'Admin LPPTKA Updated',
+                'email' => 'admin.lpptka.updated@bkprmi.test',
+                'phone' => '081234567890',
+            ]);
+
+        $response->assertRedirect(route('lpptka.profile'));
+        $response->assertSessionHas('success', 'Profil berhasil diperbarui');
+
+        // Verify person updated
+        $this->adminLpptka->person->refresh();
+        $this->assertEquals('Admin LPPTKA Updated', $this->adminLpptka->person->full_name);
+        $this->assertEquals('081234567890', $this->adminLpptka->person->phone);
+
+        // Verify user email updated
+        $this->adminLpptka->refresh();
+        $this->assertEquals('admin.lpptka.updated@bkprmi.test', $this->adminLpptka->email);
+    }
+
+    /** @test */
+    public function lpptka_admin_profile_requires_full_name_and_email()
+    {
+        $response = $this->actingAs($this->adminLpptka)
+            ->put(route('lpptka.profile.update'), [
+                'full_name' => '',
+                'email' => '',
+            ]);
+
+        $response->assertSessionHasErrors(['full_name', 'email']);
+    }
+
+    /** @test */
+    public function lpptka_admin_email_must_be_unique()
+    {
+        // Create another user with different email
+        $otherPerson = Person::factory()->create(['full_name' => 'Other Admin']);
+        $otherUser = User::factory()->create([
+            'person_id' => $otherPerson->id,
+            'email' => 'other.admin@bkprmi.test',
+        ]);
+
+        // Try to update with existing email
+        $response = $this->actingAs($this->adminLpptka)
+            ->put(route('lpptka.profile.update'), [
+                'full_name' => 'Admin LPPTKA',
+                'email' => 'other.admin@bkprmi.test', // Email already exists
+                'phone' => '081234567890',
+            ]);
+
+        $response->assertSessionHasErrors(['email']);
+    }
+
+    /** @test */
+    public function lpptka_admin_can_update_password()
+    {
+        $response = $this->actingAs($this->adminLpptka)
+            ->put(route('lpptka.password.update'), [
+                'current_password' => 'password123',
+                'password' => 'newpassword123',
+                'password_confirmation' => 'newpassword123',
+            ]);
+
+        $response->assertRedirect(route('lpptka.profile'));
+        $response->assertSessionHas('success', 'Password berhasil diperbarui');
+
+        // Verify can login with new password
+        $this->post(route('logout'));
+        $this->assertGuest();
+
+        $loginResponse = $this->post(route('login'), [
+            'email' => 'admin.lpptka@bkprmi.test',
+            'password' => 'newpassword123',
+        ]);
+
+        $this->assertAuthenticated();
+        $loginResponse->assertRedirect(route('lpptka.dashboard'));
+    }
+
+    /** @test */
+    public function lpptka_admin_password_update_requires_correct_current_password()
+    {
+        $response = $this->actingAs($this->adminLpptka)
+            ->put(route('lpptka.password.update'), [
+                'current_password' => 'wrongpassword',
+                'password' => 'newpassword123',
+                'password_confirmation' => 'newpassword123',
+            ]);
+
+        $response->assertSessionHasErrors(['current_password']);
+    }
+
+    /** @test */
+    public function lpptka_admin_password_update_requires_confirmation()
+    {
+        $response = $this->actingAs($this->adminLpptka)
+            ->put(route('lpptka.password.update'), [
+                'current_password' => 'password123',
+                'password' => 'newpassword123',
+                'password_confirmation' => 'differentpassword',
+            ]);
+
+        $response->assertSessionHasErrors(['password']);
+    }
+
+    /** @test */
+    public function lpptka_admin_password_must_be_at_least_8_characters()
+    {
+        $response = $this->actingAs($this->adminLpptka)
+            ->put(route('lpptka.password.update'), [
+                'current_password' => 'password123',
+                'password' => 'short',
+                'password_confirmation' => 'short',
+            ]);
+
+        $response->assertSessionHasErrors(['password']);
+    }
+
+    /** @test */
+    public function lpptka_admin_profile_shows_correct_statistics()
+    {
+        // Create some units with different statuses
+        $unit1 = $this->createUnit('TPA Test 1', StatusApprovalUnit::APPROVED);
+        $unit2 = $this->createUnit('TPA Test 2', StatusApprovalUnit::PENDING);
+        $unit3 = $this->createUnit('TPA Test 3', StatusApprovalUnit::APPROVED);
+
+        // Create admin TPA user
+        $adminTpaPerson = Person::factory()->create(['full_name' => 'Admin TPA']);
+        $adminTpa = User::factory()->create([
+            'person_id' => $adminTpaPerson->id,
+            'email' => 'admin.tpa@test.com',
+            'is_active' => true,
+        ]);
+        UserRole::create([
+            'user_id' => $adminTpa->id,
+            'role' => RoleType::ADMIN_TPA->value,
+        ]);
+
+        $response = $this->actingAs($this->adminLpptka)
+            ->get(route('lpptka.profile'));
+
+        $response->assertStatus(200);
+        $response->assertViewHas('stats');
+
+        $stats = $response->viewData('stats');
+        $this->assertEquals(3, $stats['total_units']);
+        $this->assertEquals(1, $stats['pending_units']);
+        $this->assertEquals(2, $stats['approved_units']);
+        $this->assertEquals(1, $stats['active_accounts']);
+    }
+
+    /** @test */
+    public function non_lpptka_admin_cannot_access_profile()
+    {
+        // Create user with different role (admin TPA)
+        $tpaPerson = Person::factory()->create(['full_name' => 'Admin TPA']);
+        $tpaUser = User::factory()->create([
+            'person_id' => $tpaPerson->id,
+            'email' => 'admin.tpa.test@test.com',
+        ]);
+        UserRole::create([
+            'user_id' => $tpaUser->id,
+            'role' => RoleType::ADMIN_TPA->value,
+        ]);
+
+        $response = $this->actingAs($tpaUser)
+            ->get(route('lpptka.profile'));
+
+        // Middleware redirects when access is denied
+        $response->assertStatus(302);
+    }
+
+    // ============================================================
     // HELPER METHODS
     // ============================================================
 

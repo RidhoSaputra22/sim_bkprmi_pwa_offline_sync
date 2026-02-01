@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Lpptka\DashboardController as LpptkaDashboardController;
+use App\Http\Controllers\Lpptka\ProfileController as LpptkaProfileController;
 use App\Http\Controllers\Lpptka\TpaAccountController;
 use App\Http\Controllers\Lpptka\UnitController as LpptkaUnitController;
 use App\Http\Controllers\SuperAdmin\DashboardController as SuperAdminDashboardController;
@@ -191,6 +192,11 @@ Route::prefix('lpptka')
     ->group(function () {
         // Dashboard
         Route::get('/', [LpptkaDashboardController::class, 'index'])->name('dashboard');
+
+        // Profile Management
+        Route::get('/profile', [LpptkaProfileController::class, 'show'])->name('profile');
+        Route::put('/profile', [LpptkaProfileController::class, 'update'])->name('profile.update');
+        Route::put('/password', [LpptkaProfileController::class, 'updatePassword'])->name('password.update');
 
         // Unit/TPA Management
         Route::resource('units', LpptkaUnitController::class);
