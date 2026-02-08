@@ -1,5 +1,5 @@
 /**
- * SIM BKPRMI - Offline Form Handler
+ * BKPRMI KOTA MAKASSAR - Offline Form Handler
  * Intercepts form submissions for offline support
  */
 

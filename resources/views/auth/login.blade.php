@@ -7,14 +7,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#1e40af">
 
-    <title>Login - SIM BKPRMI</title>
+    <title>Login - BKPRMI KOTA MAKASSAR</title>
 
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="SIM BKPRMI">
+    <meta name="apple-mobile-web-app-title" content="BKPRMI KOTA MAKASSAR">
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet" />
@@ -34,7 +34,7 @@
                     class="w-16 h-16 rounded-xl bg-primary flex items-center justify-center text-primary-content font-bold text-2xl mx-auto mb-4">
                     B
                 </div>
-                <h1 class="text-2xl font-bold">SIM BKPRMI</h1>
+                <h1 class="text-2xl font-bold">BKPRMI KOTA MAKASSAR</h1>
                 <p class="text-base-content/60">Sistem Informasi Manajemen</p>
             </div>
 
@@ -96,7 +96,7 @@
             </svg>
             <div>
                 <h3 class="font-bold">Install Aplikasi</h3>
-                <div class="text-xs">Install SIM BKPRMI untuk akses lebih cepat</div>
+                <div class="text-xs">Install BKPRMI KOTA MAKASSAR untuk akses lebih cepat</div>
             </div>
             <button class="btn btn-sm btn-primary" id="pwa-install-btn">Install</button>
             <button class="btn btn-sm btn-ghost" id="pwa-dismiss-btn">Nanti</button>

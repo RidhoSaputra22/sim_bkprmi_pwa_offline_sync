@@ -1,10 +1,10 @@
-# Panduan Reset Password - SIM BKPRMI
+# Panduan Reset Password - BKPRMI KOTA MAKASSAR
 
 ## 🔐 Cara Reset Password
 
 ### Jika Lupa Password:
 
-1. **Buka halaman login** SIM BKPRMI
+1. **Buka halaman login** BKPRMI KOTA MAKASSAR
 2. **Klik link "Lupa password?"** di bawah form login
 3. **Masukkan email** yang terdaftar di sistem
 4. **Klik "Kirim Link Reset Password"**
@@ -54,5 +54,5 @@ Fitur ini tersedia untuk:
 
 ---
 
-**SIM BKPRMI** - Sistem Informasi Manajemen  
+**BKPRMI KOTA MAKASSAR** - Sistem Informasi Manajemen  
 © 2026 BKPRMI. All rights reserved.

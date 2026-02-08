@@ -42,7 +42,7 @@ export default defineConfig({
                 globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
             },
             manifest: {
-                name: 'SIM BKPRMI',
+                name: 'BKPRMI KOTA MAKASSAR',
                 short_name: 'BKPRMI',
                 description: 'Sistem Informasi Manajemen BKPRMI',
                 theme_color: '#1e40af',
@@ -104,14 +104,14 @@ export default defineConfig({
                         sizes: '512x512',
                         type: 'image/png',
                         form_factor: 'wide',
-                        label: 'SIM BKPRMI Dashboard'
+                        label: 'BKPRMI KOTA MAKASSAR Dashboard'
                     },
                     {
                         src: '/icons/icon-512x512.png',
                         sizes: '512x512',
                         type: 'image/png',
                         form_factor: 'narrow',
-                        label: 'SIM BKPRMI Mobile'
+                        label: 'BKPRMI KOTA MAKASSAR Mobile'
                     }
                 ]
             }

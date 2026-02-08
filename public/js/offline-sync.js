@@ -1,5 +1,5 @@
 /**
- * SIM BKPRMI - Offline Sync Manager
+ * BKPRMI KOTA MAKASSAR - Offline Sync Manager
  * Handles syncing offline data when back online
  */
 

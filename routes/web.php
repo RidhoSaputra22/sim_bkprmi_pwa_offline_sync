@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\Lpptka\DashboardController as LpptkaDashboardController;
 use App\Http\Controllers\Lpptka\ProfileController as LpptkaProfileController;
 use App\Http\Controllers\Lpptka\TpaAccountController;
@@ -11,9 +12,9 @@ use App\Http\Controllers\SuperAdmin\DashboardController as SuperAdminDashboardCo
 use App\Http\Controllers\SuperAdmin\ProfileController as SuperAdminProfileController;
 use App\Http\Controllers\SuperAdmin\ReportController;
 use App\Http\Controllers\SuperAdmin\UnitApprovalController;
+use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\Tpa\DashboardController as TpaDashboardController;
 use App\Http\Controllers\Tpa\SantriController as TpaSantriController;
-use App\Http\Controllers\TeacherController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 
@@ -272,9 +273,8 @@ Route::prefix('tpa')
 // ========================================
 // LANDING PAGE
 // ========================================
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', [GuestController::class, 'index'])->name('home');
+Route::get('/berita/{slug}', [GuestController::class, 'berita'])->name('guest.berita');
 
 // Redirect authenticated users to their dashboard
 Route::get('/dashboard', function () {

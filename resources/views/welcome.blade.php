@@ -14,9 +14,9 @@
     <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="SIM BKPRMI">
+    <meta name="apple-mobile-web-app-title" content="BKPRMI KOTA MAKASSAR">
 
-    <title>SIM BKPRMI - Sistem Informasi Manajemen BKPRMI</title>
+    <title>BKPRMI KOTA MAKASSAR - Sistem Informasi Manajemen BKPRMI</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -187,8 +187,8 @@
                 </ul>
             </div>
             <a href="/" class="btn btn-ghost text-xl">
-                <img src="/icons/icon-72x72.png" alt="Logo BKPRMI" class="h-10 w-10">
-                <span class="hidden md:inline font-bold text-primary">SIM BKPRMI</span>
+                <img src="{{ asset('images/logo.jpg') }}" alt="Logo BKPRMI" class="h-10 w-10">
+                <span class="hidden md:inline font-bold text-primary">BKPRMI KOTA MAKASSAR</span>
             </a>
         </div>
         <div class="navbar-center hidden lg:flex">
@@ -433,7 +433,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
                                             d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                                     </svg>
-                                    <h4 class="text-xl font-bold">SIM BKPRMI</h4>
+                                    <h4 class="text-xl font-bold">BKPRMI KOTA MAKASSAR</h4>
                                     <p class="text-sm text-base-content/70">Sistem Informasi Terpadu</p>
                                 </div>
                             </div>
@@ -686,58 +686,15 @@
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- News Card 1 -->
-                <div class="card bg-base-100 shadow-xl card-hover transition-all duration-300">
-                    <figure class="relative">
-                        <div
-                            class="bg-gradient-to-br from-primary to-primary-focus w-full h-48 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white/50" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                            </svg>
-                        </div>
-                        <div class="badge badge-primary absolute top-4 left-4">BERITA</div>
-                    </figure>
-                    <div class="card-body">
-                        <div class="flex items-center gap-2 text-sm text-base-content/60 mb-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span>28 Januari 2026</span>
-                        </div>
-                        <h3 class="card-title text-lg line-clamp-2">
-                            Pelaksanaan Musyawarah Wilayah BKPRMI
-                        </h3>
-                        <p class="text-sm text-base-content/70 line-clamp-3">
-                            Musyawarah wilayah BKPRMI dilaksanakan untuk membahas program kerja dan konsolidasi
-                            organisasi...
-                        </p>
-                        <div class="card-actions justify-end mt-4">
-                            <a href="#" class="btn btn-ghost btn-sm text-primary">
-                                Baca Selengkapnya
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+
 
                 <!-- News Card 2 -->
+                @foreach ($beritas as $berita)
                 <div class="card bg-base-100 shadow-xl card-hover transition-all duration-300">
                     <figure class="relative">
                         <div
                             class="bg-gradient-to-br from-emerald-500 to-teal-600 w-full h-48 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white/50" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
+                            <img src="{{ asset('images/' . $berita['thumbnail']) }}" alt="">
                         </div>
                         <div class="badge badge-success absolute top-4 left-4">LPPTKA</div>
                     </figure>
@@ -748,16 +705,17 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                            <span>25 Januari 2026</span>
+                            <span>{{ $berita['date'] }}</span>
                         </div>
                         <h3 class="card-title text-lg line-clamp-2">
-                            Pelatihan Guru TPA/TPQ Tingkat Nasional
+                            {{ $berita['title'] }}
                         </h3>
                         <p class="text-sm text-base-content/70 line-clamp-3">
-                            LPPTKA-BKPRMI mengadakan pelatihan peningkatan kapasitas guru TPA/TPQ secara nasional...
+                            {{ $berita['subtitle'] }}
                         </p>
                         <div class="card-actions justify-end mt-4">
-                            <a href="#" class="btn btn-ghost btn-sm text-primary">
+                            <a href="{{ route('guest.berita', ['slug' => $berita['slug']]) }}"
+                                class="btn btn-ghost btn-sm text-primary">
                                 Baca Selengkapnya
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
@@ -769,46 +727,9 @@
                     </div>
                 </div>
 
-                <!-- News Card 3 -->
-                <div class="card bg-base-100 shadow-xl card-hover transition-all duration-300">
-                    <figure class="relative">
-                        <div
-                            class="bg-gradient-to-br from-amber-500 to-orange-600 w-full h-48 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-white/50" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                            </svg>
-                        </div>
-                        <div class="badge badge-warning absolute top-4 left-4">SOSIAL</div>
-                    </figure>
-                    <div class="card-body">
-                        <div class="flex items-center gap-2 text-sm text-base-content/60 mb-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                            <span>20 Januari 2026</span>
-                        </div>
-                        <h3 class="card-title text-lg line-clamp-2">
-                            BKPRMI Peduli: Bantuan untuk Korban Bencana
-                        </h3>
-                        <p class="text-sm text-base-content/70 line-clamp-3">
-                            BKPRMI menyalurkan bantuan kepada warga yang terdampak bencana sebagai bentuk kepedulian...
-                        </p>
-                        <div class="card-actions justify-end mt-4">
-                            <a href="#" class="btn btn-ghost btn-sm text-primary">
-                                Baca Selengkapnya
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+
+
             </div>
         </div>
     </section>
@@ -966,7 +887,7 @@
         <aside>
             <img src="/icons/icon-72x72.png" alt="Logo BKPRMI" class="h-16 w-16 mb-4">
             <p class="font-bold text-lg">
-                SIM BKPRMI
+                BKPRMI KOTA MAKASSAR
             </p>
             <p>Sistem Informasi Manajemen<br>Badan Komunikasi Pemuda Remaja Masjid Indonesia</p>
             <p class="mt-4 text-sm opacity-80">

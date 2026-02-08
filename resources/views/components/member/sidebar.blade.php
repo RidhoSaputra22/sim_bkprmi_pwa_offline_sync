@@ -12,7 +12,7 @@
                      </div>
                  </div>
                  <div>
-                     <h1 class="font-bold">SIM BKPRMI</h1>
+                     <h1 class="font-bold">BKPRMI KOTA MAKASSAR</h1>
                      <p class="text-xs text-base-content/60">Member Portal</p>
                  </div>
              </a>

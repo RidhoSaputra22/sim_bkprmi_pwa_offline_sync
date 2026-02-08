@@ -1,5 +1,5 @@
 /**
- * SIM BKPRMI - Offline Database Manager
+ * BKPRMI KOTA MAKASSAR - Offline Database Manager
  * Uses IndexedDB for offline data storage
  */
 

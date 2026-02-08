@@ -569,7 +569,7 @@ Member mencetak laporan langsung dari browser.
 │     │  │ 2  │ Budi     │ TPA Y   │ TKA    │ Aktif │ │        │
 │     │  └────┴──────────┴─────────┴────────┴───────┘ │        │
 │     │                                                 │        │
-│     │  Dicetak dari SIM BKPRMI © 2026                │        │
+│     │  Dicetak dari BKPRMI KOTA MAKASSAR © 2026                │        │
 │     └─────────────────────────────────────────────────┘        │
 │                    │                                            │
 │                    ▼                                            │

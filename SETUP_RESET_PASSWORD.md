@@ -1,4 +1,4 @@
-# Setup Reset Password via Email - SIM BKPRMI
+# Setup Reset Password via Email - BKPRMI KOTA MAKASSAR
 
 ## 📋 Fitur yang Ditambahkan
 

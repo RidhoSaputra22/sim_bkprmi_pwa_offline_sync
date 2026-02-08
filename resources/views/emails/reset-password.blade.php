@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password - SIM BKPRMI</title>
+    <title>Reset Password - BKPRMI KOTA MAKASSAR</title>
     <style>
     body {
         font-family: 'Arial', sans-serif;
@@ -142,7 +142,7 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>SIM BKPRMI</h1>
+            <h1>BKPRMI KOTA MAKASSAR</h1>
             <p>Sistem Informasi Manajemen</p>
         </div>
 
@@ -196,7 +196,7 @@
         <!-- Footer -->
         <div class="footer">
             <p><strong>BKPRMI - Badai Komandai Pengajian Remaja Muhammadiyah Indonesia</strong></p>
-            <p>© {{ date('Y') }} SIM BKPRMI. All rights reserved.</p>
+            <p>© {{ date('Y') }} BKPRMI KOTA MAKASSAR. All rights reserved.</p>
             <p style="margin-top: 10px;">
                 Butuh bantuan? Hubungi administrator sistem Anda.
             </p>

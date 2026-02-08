@@ -1,5 +1,5 @@
 /**
- * Offline Sync Module for SIM BKPRMI PWA
+ * Offline Sync Module for BKPRMI KOTA MAKASSAR PWA
  * Handles IndexedDB storage and synchronization
  */
 

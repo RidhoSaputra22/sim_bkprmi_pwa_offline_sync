@@ -1,6 +1,6 @@
 # UI Components Documentation
 
-Dokumentasi lengkap untuk semua komponen UI yang tersedia di SIM BKPRMI.
+Dokumentasi lengkap untuk semua komponen UI yang tersedia di BKPRMI KOTA MAKASSAR.
 
 ## 📋 Daftar Komponen
 

@@ -10,7 +10,7 @@
          </label>
      </div>
      <div class="flex-1">
-         <span class="text-lg font-bold">SIM BKPRMI</span>
+         <span class="text-lg font-bold">BKPRMI KOTA MAKASSAR</span>
      </div>
      <div class="flex-none">
          <div class="dropdown dropdown-end">

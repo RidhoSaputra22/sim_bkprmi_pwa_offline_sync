@@ -12,9 +12,9 @@
     <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="SIM BKPRMI">
+    <meta name="apple-mobile-web-app-title" content="BKPRMI KOTA MAKASSAR">
 
-    <title>{{ $title ?? 'SIM BKPRMI' }} - Admin Panel</title>
+    <title>{{ $title ?? 'BKPRMI KOTA MAKASSAR' }} - Admin Panel</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

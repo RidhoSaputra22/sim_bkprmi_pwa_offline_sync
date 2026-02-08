@@ -1,4 +1,4 @@
-// Service Worker Registration for SIM BKPRMI PWA
+// Service Worker Registration for BKPRMI KOTA MAKASSAR PWA
 (function() {
     'use strict';
 
