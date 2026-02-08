@@ -1,5 +1,7 @@
 @import 'tailwindcss';
-@plugin 'daisyui';
+@plugin "daisyui" {
+  exclude:  rootcolor;
+};
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -13,14 +15,14 @@
 
 /* Custom theme colors for BKPRMI */
 :root {
-    --primary-color: #1e40af;
+    --primary-color: #025325;
     --secondary-color: #059669;
 }
 
 /* Active menu styling */
 .menu li > a.active,
 .menu li > details[open] > summary.active {
-    background-color: var(--primary-color, #1e40af);
+    background-color: var(--primary-color, #025325);
     color: white;
     font-weight: 600;
 }

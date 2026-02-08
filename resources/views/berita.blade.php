@@ -261,7 +261,8 @@
     <!-- Footer -->
     <footer class="footer footer-center bg-primary text-primary-content p-10">
         <aside>
-            <img src="/icons/icon-72x72.png" alt="Logo BKPRMI" class="h-16 w-16 mb-4">
+            <img src="{{ asset('images/logo.jpg') }}" alt="Logo BKPRMI" class="h-10 w-10">
+
             <p class="font-bold text-lg">
                 BKPRMI KOTA MAKASSAR
             </p>
