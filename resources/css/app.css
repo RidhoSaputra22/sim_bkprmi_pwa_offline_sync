@@ -216,6 +216,11 @@
     font-weight: 600;
 }
 
+.link-primary {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
 /* Additional custom styles can be added below */
 
 .bg-gradient-to-r.from-primary.to-primary-focus {

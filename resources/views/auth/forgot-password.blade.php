@@ -28,9 +28,8 @@
         <div class="card-body">
             <!-- Logo -->
             <div class="text-center mb-6">
-                <div class="w-16 h-16 rounded-xl bg-primary flex items-center justify-center text-primary-content font-bold text-2xl mx-auto mb-4">
-                    B
-                </div>
+              <img src="{{ asset('images/logo.jpg') }}" alt=""
+                    class="mx-auto w-14 h-14 rounded-full object-cover mb-4">
                 <h1 class="text-2xl font-bold">Lupa Password</h1>
                 <p class="text-base-content/60">Masukkan email Anda untuk reset password</p>
             </div>
