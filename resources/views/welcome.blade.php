@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="theme-color" content="#1e40af">
+    <meta name="theme-color" content="#00693E">
     <meta name="description"
         content="Sistem Informasi Manajemen BKPRMI - Badan Komunikasi Pemuda Remaja Masjid Indonesia">
 
@@ -17,6 +17,9 @@
     <meta name="apple-mobile-web-app-title" content="BKPRMI KOTA MAKASSAR">
 
     <title>BKPRMI KOTA MAKASSAR - Sistem Informasi Manajemen BKPRMI</title>
+
+    <link rel="icon" href="{{ asset('images/logo.jpg') }}" type="image/png">
+
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -70,7 +73,7 @@
     }
 
     .hero-gradient {
-        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+        background: linear-gradient(135deg, #025325 0%, #00693E 50%, #059669 100%);
     }
 
     .card-hover:hover {
@@ -242,7 +245,7 @@
                                     Sistem Informasi Manajemen
                                     <span class="text-yellow-300">BKPRMI</span>
                                 </h1>
-                                <p class="mb-8 text-lg lg:text-xl text-blue-100">
+                                <p class="mb-8 text-lg lg:text-xl text-green-100">
                                     Badan Komunikasi Pemuda Remaja Masjid Indonesia
                                     <br>Wadah Pembinaan Generasi Muda Muslim Indonesia
                                 </p>
@@ -272,7 +275,7 @@
 
                 <!-- Slide 2 -->
                 <div class="swiper-slide">
-                    <div class="w-full h-full bg-gradient-to-r from-emerald-600 to-teal-500 flex items-center">
+                    <div class="w-full h-full bg-gradient-to-r from-green-700 to-emerald-600 flex items-center">
                         <div class="hero-content text-center text-neutral-content w-full">
                             <div class="max-w-4xl animate-fadeInUp">
                                 <div class="badge badge-warning badge-lg mb-4">LPPTKA-BKPRMI</div>
@@ -299,7 +302,7 @@
 
                 <!-- Slide 3 -->
                 <div class="swiper-slide">
-                    <div class="w-full h-full bg-gradient-to-r from-purple-600 to-indigo-600 flex items-center">
+                    <div class="w-full h-full bg-gradient-to-r from-green-800 to-green-600 flex items-center">
                         <div class="hero-content text-center text-neutral-content w-full">
                             <div class="max-w-4xl animate-fadeInUp">
                                 <div class="badge badge-warning badge-lg mb-4">AYO KEMBALI KE MASJID</div>
@@ -307,7 +310,7 @@
                                     Makmurkan Masjid
                                     <br>Bangun Peradaban
                                 </h1>
-                                <p class="mb-8 text-lg lg:text-xl text-purple-100">
+                                <p class="mb-8 text-lg lg:text-xl text-green-100">
                                     Masjid adalah pusat kegiatan umat Islam
                                     <br>Mari bersama makmurkan masjid dengan kegiatan positif
                                 </p>
@@ -550,7 +553,7 @@
 
                 <!-- LPPSDM -->
                 <div class="card bg-base-100 shadow-xl border border-base-200 card-hover transition-all duration-300">
-                    <figure class="bg-gradient-to-br from-blue-500 to-indigo-600 px-6 pt-8">
+                    <figure class="bg-gradient-to-br from-green-600 to-emerald-600 px-6 pt-8">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-white" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -558,7 +561,7 @@
                         </svg>
                     </figure>
                     <div class="card-body">
-                        <h3 class="card-title text-blue-600">LPPSDM</h3>
+                        <h3 class="card-title text-green-700">LPPSDM</h3>
                         <p class="text-sm text-base-content/70">
                             Lembaga Pengembangan Pendidikan Sumber Daya Manusia.
                             Pelatihan dan sertifikasi guru ngaji.

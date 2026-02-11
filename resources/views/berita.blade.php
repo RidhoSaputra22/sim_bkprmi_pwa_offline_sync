@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="theme-color" content="#1e40af">
+    <meta name="theme-color" content="#00693E">
     <meta name="description"
         content="Sistem Informasi Manajemen BKPRMI - Badan Komunikasi Pemuda Remaja Masjid Indonesia">
 
@@ -70,7 +70,7 @@
     }
 
     .hero-gradient {
-        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+        background: linear-gradient(135deg, #025325 0%, #00693E 50%, #059669 100%);
     }
 
     .card-hover:hover {
