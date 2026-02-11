@@ -17,7 +17,7 @@
     <meta name="apple-mobile-web-app-title" content="BKPRMI KOTA MAKASSAR">
 
     <title>{{ $title ?? 'BKPRMI KOTA MAKASSAR' }} - Admin TPA</title>
-
+    <link rel="icon" href="{{ asset('images/logo.jpg') }}" type="image/png">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet" />

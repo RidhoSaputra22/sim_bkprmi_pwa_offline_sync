@@ -14,7 +14,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="BKPRMI KOTA MAKASSAR">
-
+  <link rel="icon" href="{{ asset('images/logo.jpg') }}" type="image/png">
     <title>{{ $title ?? 'BKPRMI KOTA MAKASSAR' }} - Admin Panel</title>
 
     <!-- Fonts -->
