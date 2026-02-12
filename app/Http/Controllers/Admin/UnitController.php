@@ -183,7 +183,7 @@ class UnitController extends Controller
                 'unit_id' => $unit->id,
                 'person_id' => $kepalaPerson->id,
                 'pendidikan_terakhir' => $validated['kepala_pendidikan'],
-                'pekerjaan' => $validated['kepala_pekerjaan'],
+                'pekerjaan' => [$validated['kepala_pekerjaan']],
             ]);
 
             // Create Admin if provided
@@ -356,7 +356,7 @@ class UnitController extends Controller
                 [
                     'person_id' => $kepalaPerson->id,
                     'pendidikan_terakhir' => $validated['kepala_pendidikan'],
-                    'pekerjaan' => $validated['kepala_pekerjaan'],
+                    'pekerjaan' => [$validated['kepala_pekerjaan']],
                 ]
             );
 

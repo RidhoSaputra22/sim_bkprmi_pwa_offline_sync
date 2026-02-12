@@ -179,7 +179,7 @@ class SantriController extends Controller
             $guardian = Guardian::create([
                 'person_id' => $waliPerson->id,
                 'pendidikan_terakhir' => $validated['wali_pendidikan'],
-                'pekerjaan' => $validated['wali_pekerjaan'],
+                'pekerjaan' => [$validated['wali_pekerjaan']],
             ]);
 
             // Link guardian to santri
@@ -340,7 +340,7 @@ class SantriController extends Controller
                 ['person_id' => $waliPerson->id],
                 [
                     'pendidikan_terakhir' => $validated['wali_pendidikan'],
-                    'pekerjaan' => $validated['wali_pekerjaan'],
+                    'pekerjaan' => [$validated['wali_pekerjaan']],
                 ]
             );
 
