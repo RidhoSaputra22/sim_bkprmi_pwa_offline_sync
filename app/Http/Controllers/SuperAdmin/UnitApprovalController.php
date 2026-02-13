@@ -71,7 +71,7 @@ class UnitApprovalController extends Controller
     public function approve(Request $request, Unit $unit)
     {
         $request->validate([
-            'notes' => 'nullable|string|max:1000',
+            'notes' => 'required|string|max:1000',
         ]);
 
         try {

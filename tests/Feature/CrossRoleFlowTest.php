@@ -134,16 +134,23 @@ class CrossRoleFlowTest extends TestCase
                 'formed_at' => '2020-01-01',
                 'joined_year' => 2021,
                 'email' => 'integration@test.com',
-                'jumlah_tka_4_7' => 15,
-                'jumlah_tpa_7_12' => 25,
-                'jumlah_tqa_wisuda' => 10,
-                'jumlah_guru_laki_laki' => 3,
-                'jumlah_guru_perempuan' => 4,
+                'phone' => '081234567890',
+                'jumlah_tka' => 15,
+                'jumlah_tpa' => 25,
+                'jumlah_tqa' => 10,
+                'guru_laki' => 3,
+                'guru_perempuan' => 4,
+                'head_nik' => '7371010101800001',
                 'head_name' => 'Bapak Integration',
                 'head_birth_place' => 'Makassar',
                 'head_birth_date' => '1980-01-01',
                 'head_gender' => 'laki-laki',
+                'head_education' => 'sma',
+                'head_job' => 'pedagang',
                 'head_phone' => '081234567890',
+                'admin_name' => 'Admin Integration',
+                'admin_phone' => '081234567891',
+                'admin_email' => 'admin.integration@test.com',
             ]);
         $response->assertRedirect();
 
@@ -218,6 +225,7 @@ class CrossRoleFlowTest extends TestCase
         $response = $this->actingAs($this->adminLpptka)
             ->post(route('lpptka.tpa-accounts.store', $unit), [
                 'full_name' => 'Admin TPA Integration',
+                'nik' => '7371010101900001',
                 'email' => 'admin.tpa.integration@test.com',
                 'password' => 'password123',
                 'password_confirmation' => 'password123',
@@ -261,6 +269,7 @@ class CrossRoleFlowTest extends TestCase
         // Step 4.3: Create santri
         $response = $this->actingAs($adminTpa)
             ->post(route('tpa.santri.store'), [
+                'nik' => '7371010101150001',
                 'full_name' => 'Santri Integration',
                 'gender' => Gender::LAKI_LAKI->value,
                 'birth_place' => 'Makassar',
@@ -272,14 +281,21 @@ class CrossRoleFlowTest extends TestCase
                 'rw' => '001',
                 'child_order' => 1,
                 'siblings_count' => 2,
+                'joined_at' => '2023-01-01',
+                'nama_ayah' => 'Bapak Integration',
+                'nama_ibu' => 'Ibu Integration',
                 'jenjang_santri' => JenjangSantri::TPA->value,
                 'kelas_mengaji' => KelasMengaji::IQRA_1_3->value,
                 'status_santri' => StatusSantri::AKTIF->value,
+                'wali_nik' => '7371010101800002',
                 'wali_full_name' => 'Bapak Wali Integration',
                 'wali_gender' => Gender::LAKI_LAKI->value,
                 'wali_hubungan' => HubunganWaliSantri::AYAH_KANDUNG->value,
                 'wali_birth_place' => 'Makassar',
                 'wali_birth_date' => '1980-01-01',
+                'wali_pendidikan' => 'sma',
+                'wali_pekerjaan' => ['pedagang'],
+                'wali_phone' => '081234567892',
             ]);
         $response->assertRedirect();
 
@@ -408,11 +424,23 @@ class CrossRoleFlowTest extends TestCase
                 'formed_at' => '2020-01-01',
                 'joined_year' => 2021,
                 'email' => 'resubmit@test.com',
+                'phone' => '081234567890',
+                'jumlah_tka' => 10,
+                'jumlah_tpa' => 20,
+                'jumlah_tqa' => 5,
+                'guru_laki' => 3,
+                'guru_perempuan' => 4,
+                'head_nik' => '7371010101800003',
                 'head_name' => 'Bapak Resubmit',
                 'head_birth_place' => 'Makassar',
                 'head_birth_date' => '1980-01-01',
                 'head_gender' => 'laki-laki',
+                'head_education' => 'sma',
+                'head_job' => 'pedagang',
                 'head_phone' => '081234567890',
+                'admin_name' => 'Admin Resubmit',
+                'admin_phone' => '081234567891',
+                'admin_email' => 'admin.resubmit@test.com',
             ]);
 
         $unit = Unit::where('name', 'TPA Resubmit Test')->first();

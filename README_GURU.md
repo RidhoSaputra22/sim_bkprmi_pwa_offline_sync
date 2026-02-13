@@ -170,9 +170,9 @@ Teacher::where('level_lmd', LevelLMD::LMD_3)
 
 ### File Upload Validation
 ```php
-'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:1024', // 1MB
-'sertifikat_lmd' => 'nullable|file|mimes:pdf|max:1024',
-'sertifikat_pelatihan' => 'nullable|file|mimes:pdf|max:1024',
+'photo' => 'required|image|mimes:jpg,jpeg,png|max:1024', // 1MB
+'sertifikat_lmd' => 'required|file|mimes:pdf|max:1024',
+'sertifikat_pelatihan' => 'required|file|mimes:pdf|max:1024',
 ```
 
 ### Data Validation

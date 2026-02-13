@@ -72,7 +72,7 @@ class ArchiveController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:1000',
+            'description' => 'required|string|max:1000',
             'category' => 'required|string|in:dokumen,foto,laporan,sertifikat,lainnya',
             'file' => 'required|file|max:10240|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png,gif,webp,zip,rar',
         ]);

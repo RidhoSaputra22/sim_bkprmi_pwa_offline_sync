@@ -66,7 +66,7 @@ class ActivityController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'required|string',
             'activity_date' => 'required|date',
             'unit_id' => 'required|exists:units,id',
         ]);
@@ -110,7 +110,7 @@ class ActivityController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'required|string',
             'activity_date' => 'required|date',
             'unit_id' => 'required|exists:units,id',
         ]);

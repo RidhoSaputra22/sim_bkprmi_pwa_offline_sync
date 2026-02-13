@@ -228,9 +228,9 @@
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">Mulai Terbentuk pada Tanggal</span></label>
-                            <input type="date" name="founded_date" value="{{ old('founded_date') }}"
-                                class="input input-bordered @error('founded_date') input-error @enderror">
-                            @error('founded_date')
+                            <input type="date" name="formed_at" value="{{ old('formed_at') }}"
+                                class="input input-bordered @error('formed_at') input-error @enderror">
+                            @error('formed_at')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
@@ -238,10 +238,10 @@
                         <div class="form-control">
                             <label class="label"><span class="label-text">Bergabung Dengan LPPTKA Pada
                                     Tahun</span></label>
-                            <input type="number" name="joined_lpptka_year" value="{{ old('joined_lpptka_year') }}"
-                                class="input input-bordered @error('joined_lpptka_year') input-error @enderror"
+                            <input type="number" name="joined_year" value="{{ old('joined_year') }}"
+                                class="input input-bordered @error('joined_year') input-error @enderror"
                                 placeholder="Contoh: 2026" min="1900" max="2100">
-                            @error('joined_lpptka_year')
+                            @error('joined_year')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>

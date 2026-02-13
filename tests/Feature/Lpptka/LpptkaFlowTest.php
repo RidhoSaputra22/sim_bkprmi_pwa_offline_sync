@@ -168,11 +168,23 @@ class LpptkaFlowTest extends TestCase
             'formed_at' => '2020-01-01',
             'joined_year' => 2021,
             'email' => 'tpabaru@test.com',
+            'phone' => '081234567890',
+            'jumlah_tka' => 10,
+            'jumlah_tpa' => 20,
+            'jumlah_tqa' => 5,
+            'guru_laki' => 3,
+            'guru_perempuan' => 4,
+            'head_nik' => '7371010101800001',
             'head_name' => 'Bapak Ahmad',
             'head_birth_place' => 'Makassar',
             'head_birth_date' => '1980-01-01',
             'head_gender' => 'laki-laki',
+            'head_education' => 'sma',
+            'head_job' => 'pedagang',
             'head_phone' => '081234567890',
+            'admin_name' => 'Admin TPA Baru',
+            'admin_phone' => '081234567891',
+            'admin_email' => 'admin.tpabaru@test.com',
         ];
 
         $response = $this->actingAs($this->adminLpptka)
@@ -235,11 +247,23 @@ class LpptkaFlowTest extends TestCase
                 'formed_at' => '2019-01-01',
                 'joined_year' => 2020,
                 'email' => 'updated@test.com',
+                'phone' => '081234567890',
+                'jumlah_tka' => 10,
+                'jumlah_tpa' => 20,
+                'jumlah_tqa' => 5,
+                'guru_laki' => 3,
+                'guru_perempuan' => 4,
+                'head_nik' => '7371010101800001',
                 'head_name' => 'Bapak Ahmad Updated',
                 'head_birth_place' => 'Makassar',
                 'head_birth_date' => '1980-01-01',
                 'head_gender' => 'laki-laki',
+                'head_education' => 'sma',
+                'head_job' => 'pedagang',
                 'head_phone' => '081234567890',
+                'admin_name' => 'Admin Updated',
+                'admin_phone' => '081234567891',
+                'admin_email' => 'admin.updated@test.com',
             ]);
 
         $response->assertRedirect(route('lpptka.units.show', $unit));
@@ -305,6 +329,7 @@ class LpptkaFlowTest extends TestCase
         $response = $this->actingAs($this->adminLpptka)
             ->post(route('lpptka.tpa-accounts.store', $unit), [
                 'full_name' => 'Admin TPA Test',
+                'nik' => '7371010101900001',
                 'email' => 'admintpa@test.com',
                 'password' => 'password123',
                 'password_confirmation' => 'password123',
@@ -388,11 +413,23 @@ class LpptkaFlowTest extends TestCase
                 'formed_at' => '2020-01-01',
                 'joined_year' => 2021,
                 'email' => 'flowtest@test.com',
+                'phone' => '081234567890',
+                'jumlah_tka' => 10,
+                'jumlah_tpa' => 20,
+                'jumlah_tqa' => 5,
+                'guru_laki' => 3,
+                'guru_perempuan' => 4,
+                'head_nik' => '7371010101800001',
                 'head_name' => 'Bapak Flow',
                 'head_birth_place' => 'Makassar',
                 'head_birth_date' => '1980-01-01',
                 'head_gender' => 'laki-laki',
+                'head_education' => 'sma',
+                'head_job' => 'pedagang',
                 'head_phone' => '081234567890',
+                'admin_name' => 'Admin Flow',
+                'admin_phone' => '081234567891',
+                'admin_email' => 'admin.flow@test.com',
             ]);
         $response->assertRedirect();
 
@@ -445,6 +482,7 @@ class LpptkaFlowTest extends TestCase
         $response = $this->actingAs($this->adminLpptka)
             ->post(route('lpptka.tpa-accounts.store', $unit), [
                 'full_name' => 'Admin TPA Flow',
+                'nik' => '7371010101900002',
                 'email' => 'admintpaflow@test.com',
                 'password' => 'password123',
                 'password_confirmation' => 'password123',

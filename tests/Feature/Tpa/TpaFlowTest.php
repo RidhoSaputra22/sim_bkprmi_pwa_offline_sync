@@ -181,6 +181,7 @@ class TpaFlowTest extends TestCase
     public function tpa_admin_can_create_new_santri()
     {
         $santriData = [
+            'nik' => '7371010101150001',
             'full_name' => 'Ahmad bin Malik',
             'gender' => Gender::LAKI_LAKI->value,
             'birth_place' => 'Makassar',
@@ -192,14 +193,21 @@ class TpaFlowTest extends TestCase
             'rw' => '002',
             'child_order' => 1,
             'siblings_count' => 2,
+            'joined_at' => '2023-01-01',
+            'nama_ayah' => 'Bapak Malik',
+            'nama_ibu' => 'Ibu Malik',
             'jenjang_santri' => JenjangSantri::TPA->value,
             'kelas_mengaji' => KelasMengaji::IQRA_1_3->value,
             'status_santri' => StatusSantri::AKTIF->value,
+            'wali_nik' => '7371010101800001',
             'wali_full_name' => 'Bapak Malik',
             'wali_gender' => Gender::LAKI_LAKI->value,
             'wali_hubungan' => HubunganWaliSantri::AYAH_KANDUNG->value,
             'wali_birth_place' => 'Makassar',
             'wali_birth_date' => '1980-01-01',
+            'wali_pendidikan' => 'sma',
+            'wali_pekerjaan' => ['pedagang'],
+            'wali_phone' => '081234567892',
         ];
 
         $response = $this->actingAs($this->adminTpa)
@@ -242,6 +250,7 @@ class TpaFlowTest extends TestCase
 
         $response = $this->actingAs($this->adminTpa)
             ->put(route('tpa.santri.update', $santri), [
+                'nik' => '7371010101150002',
                 'full_name' => 'Ahmad Updated',
                 'gender' => Gender::LAKI_LAKI->value,
                 'birth_place' => 'Makassar',
@@ -253,14 +262,21 @@ class TpaFlowTest extends TestCase
                 'rw' => '004',
                 'child_order' => 2,
                 'siblings_count' => 3,
+                'joined_at' => '2023-01-01',
+                'nama_ayah' => 'Bapak Ahmad',
+                'nama_ibu' => 'Ibu Ahmad',
                 'jenjang_santri' => JenjangSantri::TQA->value,
                 'kelas_mengaji' => KelasMengaji::TADARRUS_1_15->value,
                 'status_santri' => StatusSantri::AKTIF->value,
+                'wali_nik' => '7371010101800002',
                 'wali_full_name' => 'Bapak Ahmad',
                 'wali_gender' => Gender::LAKI_LAKI->value,
                 'wali_hubungan' => HubunganWaliSantri::AYAH_KANDUNG->value,
                 'wali_birth_place' => 'Makassar',
                 'wali_birth_date' => '1980-01-01',
+                'wali_pendidikan' => 'sma',
+                'wali_pekerjaan' => ['pedagang'],
+                'wali_phone' => '081234567892',
             ]);
 
         $response->assertRedirect(route('tpa.santri.show', $santri));
@@ -349,6 +365,7 @@ class TpaFlowTest extends TestCase
         // Step 5: Create new santri
         $response = $this->actingAs($this->adminTpa)
             ->post(route('tpa.santri.store'), [
+                'nik' => '7371010101160001',
                 'full_name' => 'Santri Flow Test',
                 'gender' => Gender::LAKI_LAKI->value,
                 'birth_place' => 'Makassar',
@@ -360,14 +377,21 @@ class TpaFlowTest extends TestCase
                 'rw' => '001',
                 'child_order' => 1,
                 'siblings_count' => 2,
+                'joined_at' => '2023-01-01',
+                'nama_ayah' => 'Bapak Flow',
+                'nama_ibu' => 'Ibu Flow',
                 'jenjang_santri' => JenjangSantri::TPA->value,
                 'kelas_mengaji' => KelasMengaji::IQRA_1_3->value,
                 'status_santri' => StatusSantri::AKTIF->value,
+                'wali_nik' => '7371010101800003',
                 'wali_full_name' => 'Wali Flow Test',
                 'wali_gender' => Gender::LAKI_LAKI->value,
                 'wali_hubungan' => HubunganWaliSantri::AYAH_KANDUNG->value,
                 'wali_birth_place' => 'Makassar',
                 'wali_birth_date' => '1980-01-01',
+                'wali_pendidikan' => 'sma',
+                'wali_pekerjaan' => ['pedagang'],
+                'wali_phone' => '081234567892',
             ]);
         $response->assertRedirect();
 
@@ -387,6 +411,7 @@ class TpaFlowTest extends TestCase
         // Step 8: Update santri
         $response = $this->actingAs($this->adminTpa)
             ->put(route('tpa.santri.update', $santri), [
+                'nik' => '7371010101160002',
                 'full_name' => 'Santri Flow Updated',
                 'gender' => Gender::LAKI_LAKI->value,
                 'birth_place' => 'Makassar',
@@ -398,14 +423,21 @@ class TpaFlowTest extends TestCase
                 'rw' => '002',
                 'child_order' => 2,
                 'siblings_count' => 3,
+                'joined_at' => '2023-06-01',
+                'nama_ayah' => 'Bapak Flow Updated',
+                'nama_ibu' => 'Ibu Flow Updated',
                 'jenjang_santri' => JenjangSantri::TQA->value,
                 'kelas_mengaji' => KelasMengaji::IQRA_4_6->value,
                 'status_santri' => StatusSantri::AKTIF->value,
+                'wali_nik' => '7371010101800004',
                 'wali_full_name' => 'Wali Flow Updated',
                 'wali_gender' => Gender::LAKI_LAKI->value,
                 'wali_hubungan' => HubunganWaliSantri::AYAH_KANDUNG->value,
                 'wali_birth_place' => 'Makassar',
                 'wali_birth_date' => '1980-01-01',
+                'wali_pendidikan' => 'sma',
+                'wali_pekerjaan' => ['pedagang'],
+                'wali_phone' => '081234567892',
             ]);
         $response->assertRedirect(route('tpa.santri.show', $santri));
 

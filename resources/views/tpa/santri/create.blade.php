@@ -378,11 +378,11 @@
                             @enderror
                         </div>
 
-                        <x-ui.select
+                        <x-ui.multi-select
                             name="wali_pekerjaan"
                             label="Pekerjaan Wali"
                             :options="array_map(fn($job) => ['value' => $job->value, 'label' => $job->getLabel()], \App\Enum\PekerjaanWali::cases())"
-                            :value="old('wali_pekerjaan', $guardianSantri?->guardian?->pekerjaan[0] ?? null)"
+                            :selected="old('wali_pekerjaan', [])"
                             placeholder="-- Pilih Pekerjaan --"
                             searchPlaceholder="Cari pekerjaan..."
                         />

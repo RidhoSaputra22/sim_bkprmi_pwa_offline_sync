@@ -268,6 +268,16 @@
                             @enderror
                         </div>
 
+                        <div class="form-control">
+                            <label class="label"><span class="label-text">No. Telepon <span class="text-error">*</span></span></label>
+                            <input type="text" name="phone" value="{{ old('phone', $unit->phone) }}"
+                                class="input input-bordered @error('phone') input-error @enderror"
+                                placeholder="08xxxxxxxxxx" required>
+                            @error('phone')
+                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                            @enderror
+                        </div>
+
 
                     </div>
                 </div>

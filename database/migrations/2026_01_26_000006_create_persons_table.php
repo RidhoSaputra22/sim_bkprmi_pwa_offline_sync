@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nik', 16)->nullable()->unique();
             $table->string('full_name');
-            $table->string('birth_place');
-            $table->date('birth_date');
-            $table->enum('gender', ['laki-laki', 'perempuan']);
+            $table->string('birth_place')->nullable();
+            $table->date('birth_date')->nullable();
+            $table->enum('gender', ['laki-laki', 'perempuan'])->nullable();
             $table->foreignId('education_level_id')->nullable();
             $table->foreignId('job_id')->nullable();
             $table->string('phone')->nullable();

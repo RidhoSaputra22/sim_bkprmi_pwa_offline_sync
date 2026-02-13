@@ -45,7 +45,7 @@ class SettingsController extends Controller
         $validated = $request->validate([
             'full_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,'.$user->id,
-            'phone' => 'nullable|string|max:20',
+            'phone' => 'required|string|max:20',
         ]);
 
         // Update person

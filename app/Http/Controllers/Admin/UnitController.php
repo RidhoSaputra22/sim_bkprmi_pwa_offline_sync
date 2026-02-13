@@ -86,12 +86,12 @@ class UnitController extends Controller
             'name' => 'required|string|max:255',
             'tipe_lokasi' => ['required', new Enum(TipeLokasi::class)],
             'status_bangunan' => ['required', new Enum(StatusBangunan::class)],
-            'mosque_name' => 'nullable|string|max:255',
-            'founder' => 'nullable|string|max:255',
-            'formed_at' => 'nullable|date',
-            'joined_year' => 'nullable|integer|min:1900|max:'.date('Y'),
+            'mosque_name' => 'required|string|max:255',
+            'founder' => 'required|string|max:255',
+            'formed_at' => 'required|date',
+            'joined_year' => 'required|integer|min:1900|max:'.date('Y'),
             'waktu_kegiatan' => ['required', new Enum(WaktuKegiatan::class)],
-            'email' => 'nullable|email|max:255',
+            'email' => 'required|email|max:255',
 
             // Alamat
             'province_id' => 'required|exists:provinces,id',
@@ -103,13 +103,13 @@ class UnitController extends Controller
             'rw' => 'required|string|max:5',
 
             // Keadaan Santri
-            'jumlah_tka_4_7' => 'nullable|integer|min:0',
-            'jumlah_tpa_7_12' => 'nullable|integer|min:0',
-            'jumlah_tqa_wisuda' => 'nullable|integer|min:0',
+            'jumlah_tka_4_7' => 'required|integer|min:0',
+            'jumlah_tpa_7_12' => 'required|integer|min:0',
+            'jumlah_tqa_wisuda' => 'required|integer|min:0',
 
             // Keadaan Guru
-            'jumlah_guru_laki_laki' => 'nullable|integer|min:0',
-            'jumlah_guru_perempuan' => 'nullable|integer|min:0',
+            'jumlah_guru_laki_laki' => 'required|integer|min:0',
+            'jumlah_guru_perempuan' => 'required|integer|min:0',
 
             // Kepala Unit
             'kepala_nama' => 'required|string|max:255',
@@ -122,9 +122,9 @@ class UnitController extends Controller
             'kepala_phone' => 'required|string|max:20',
 
             // Admin Unit
-            'admin_nama' => 'nullable|string|max:255',
-            'admin_phone' => 'nullable|string|max:20',
-            'admin_email' => 'nullable|email|max:255',
+            'admin_nama' => 'required|string|max:255',
+            'admin_phone' => 'required|string|max:20',
+            'admin_email' => 'required|email|max:255',
         ]);
 
         DB::beginTransaction();
@@ -262,12 +262,12 @@ class UnitController extends Controller
             'name' => 'required|string|max:255',
             'tipe_lokasi' => ['required', new Enum(TipeLokasi::class)],
             'status_bangunan' => ['required', new Enum(StatusBangunan::class)],
-            'mosque_name' => 'nullable|string|max:255',
-            'founder' => 'nullable|string|max:255',
-            'formed_at' => 'nullable|date',
-            'joined_year' => 'nullable|integer|min:1900|max:'.date('Y'),
+            'mosque_name' => 'required|string|max:255',
+            'founder' => 'required|string|max:255',
+            'formed_at' => 'required|date',
+            'joined_year' => 'required|integer|min:1900|max:'.date('Y'),
             'waktu_kegiatan' => ['required', new Enum(WaktuKegiatan::class)],
-            'email' => 'nullable|email|max:255',
+            'email' => 'required|email|max:255',
 
             // Alamat
             'province_id' => 'required|exists:provinces,id',
@@ -279,13 +279,13 @@ class UnitController extends Controller
             'rw' => 'required|string|max:5',
 
             // Keadaan Santri
-            'jumlah_tka_4_7' => 'nullable|integer|min:0',
-            'jumlah_tpa_7_12' => 'nullable|integer|min:0',
-            'jumlah_tqa_wisuda' => 'nullable|integer|min:0',
+            'jumlah_tka_4_7' => 'required|integer|min:0',
+            'jumlah_tpa_7_12' => 'required|integer|min:0',
+            'jumlah_tqa_wisuda' => 'required|integer|min:0',
 
             // Keadaan Guru
-            'jumlah_guru_laki_laki' => 'nullable|integer|min:0',
-            'jumlah_guru_perempuan' => 'nullable|integer|min:0',
+            'jumlah_guru_laki_laki' => 'required|integer|min:0',
+            'jumlah_guru_perempuan' => 'required|integer|min:0',
 
             // Kepala Unit
             'kepala_nama' => 'required|string|max:255',
@@ -298,9 +298,9 @@ class UnitController extends Controller
             'kepala_phone' => 'required|string|max:20',
 
             // Admin Unit
-            'admin_nama' => 'nullable|string|max:255',
-            'admin_phone' => 'nullable|string|max:20',
-            'admin_email' => 'nullable|email|max:255',
+            'admin_nama' => 'required|string|max:255',
+            'admin_phone' => 'required|string|max:20',
+            'admin_email' => 'required|email|max:255',
         ]);
 
         DB::beginTransaction();

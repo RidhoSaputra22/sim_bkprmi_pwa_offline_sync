@@ -54,6 +54,24 @@
                                 />
                             </div>
 
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <x-ui.input
+                                    name="birth_place"
+                                    label="Tempat Lahir"
+                                    :value="old('birth_place', $unit->unitHead?->person?->birth_place)"
+                                    placeholder="Tempat lahir"
+                                    :required="true"
+                                />
+
+                                <x-ui.input
+                                    name="birth_date"
+                                    type="date"
+                                    label="Tanggal Lahir"
+                                    :value="old('birth_date', $unit->unitHead?->person?->birth_date?->format('Y-m-d'))"
+                                    :required="true"
+                                />
+                            </div>
+
                             <x-ui.input
                                 name="email"
                                 type="email"

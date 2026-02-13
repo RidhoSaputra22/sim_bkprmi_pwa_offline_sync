@@ -29,7 +29,7 @@ class ReportController extends Controller
     {
         $request->validate([
             'format' => 'required|in:pdf,excel',
-            'unit_id' => 'nullable|exists:units,id',
+            'unit_id' => 'required|exists:units,id',
         ]);
 
         $query = Santri::with(['person', 'santriUnits.unit']);
@@ -57,9 +57,9 @@ class ReportController extends Controller
     {
         $request->validate([
             'format' => 'required|in:pdf,excel',
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
-            'unit_id' => 'nullable|exists:units,id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'unit_id' => 'required|exists:units,id',
         ]);
 
         $query = Activity::with(['unit']);
@@ -92,7 +92,7 @@ class ReportController extends Controller
     {
         $request->validate([
             'format' => 'required|in:pdf,excel',
-            'region_id' => 'nullable|exists:regions,id',
+            'region_id' => 'required|exists:regions,id',
         ]);
 
         $query = Unit::with(['region', 'village']);

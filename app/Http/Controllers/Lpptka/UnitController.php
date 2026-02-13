@@ -88,46 +88,46 @@ class UnitController extends Controller
             'name' => 'required|string|max:255',
             'tipe_lokasi' => ['required', new Enum(TipeLokasi::class)],
             'status_bangunan' => ['required', new Enum(StatusBangunan::class)],
-            'mosque_name' => 'nullable|string|max:255',
-            'founder' => 'nullable|string|max:255',
-            'formed_at' => 'nullable|date',
-            'joined_year' => 'nullable|integer|min:1900|max:'.date('Y'),
+            'mosque_name' => 'required|string|max:255',
+            'founder' => 'required|string|max:255',
+            'formed_at' => 'required|date',
+            'joined_year' => 'required|integer|min:1900|max:'.date('Y'),
             'waktu_kegiatan' => ['required', new Enum(WaktuKegiatan::class)],
-            'email' => 'nullable|email|max:255',
-            'phone' => 'nullable|string|max:20',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:20',
 
             // Alamat
             'province_id' => 'required|exists:provinces,id',
             'city_id' => 'required|exists:cities,id',
             'district_id' => 'required|exists:districts,id',
             'village_id' => 'required|exists:villages,id',
-            'jalan' => 'nullable|string|max:255',
-            'rt' => 'nullable|string|max:5',
-            'rw' => 'nullable|string|max:5',
+            'jalan' => 'required|string|max:255',
+            'rt' => 'required|string|max:5',
+            'rw' => 'required|string|max:5',
 
             // Keadaan Santri
-            'jumlah_tka' => 'nullable|integer|min:0',
-            'jumlah_tpa' => 'nullable|integer|min:0',
-            'jumlah_tqa' => 'nullable|integer|min:0',
+            'jumlah_tka' => 'required|integer|min:0',
+            'jumlah_tpa' => 'required|integer|min:0',
+            'jumlah_tqa' => 'required|integer|min:0',
 
             // Keadaan Guru
-            'guru_laki' => 'nullable|integer|min:0',
-            'guru_perempuan' => 'nullable|integer|min:0',
+            'guru_laki' => 'required|integer|min:0',
+            'guru_perempuan' => 'required|integer|min:0',
 
             // Kepala Unit
-            'head_nik' => 'nullable|string|max:16',
+            'head_nik' => 'required|string|max:16',
             'head_name' => 'required|string|max:255',
             'head_birth_place' => 'required|string|max:100',
             'head_birth_date' => 'required|date',
             'head_gender' => ['required', new Enum(Gender::class)],
-            'head_education' => ['nullable', new Enum(PendidikanTerakhir::class)],
-            'head_job' => ['nullable', new Enum(PekerjaanWali::class)],
-            'head_phone' => 'nullable|string|max:20',
+            'head_education' => ['required', new Enum(PendidikanTerakhir::class)],
+            'head_job' => ['required', new Enum(PekerjaanWali::class)],
+            'head_phone' => 'required|string|max:20',
 
             // Admin Unit
-            'admin_name' => 'nullable|string|max:255',
-            'admin_phone' => 'nullable|string|max:20',
-            'admin_email' => 'nullable|email|max:255',
+            'admin_name' => 'required|string|max:255',
+            'admin_phone' => 'required|string|max:20',
+            'admin_email' => 'required|email|max:255',
 
             // Sertifikat (opsional saat create)
             'certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
@@ -184,7 +184,7 @@ class UnitController extends Controller
                 'unit_id' => $unit->id,
                 'person_id' => $headPerson->id,
                 'pendidikan_terakhir' => $validated['head_education'] ?? null,
-                'pekerjaan' => $validated['head_job'] ? [$validated['head_job']] : null,
+                'pekerjaan' => ! empty($validated['head_job']) ? [$validated['head_job']] : null,
             ]);
 
             // Create Admin if provided
@@ -267,48 +267,48 @@ class UnitController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'mosque_name' => 'nullable|string|max:255',
-            'tipe_lokasi' => ['nullable', new Enum(TipeLokasi::class)],
-            'status_bangunan' => ['nullable', new Enum(StatusBangunan::class)],
-            'waktu_kegiatan' => ['nullable', new Enum(WaktuKegiatan::class)],
-            'founder' => 'nullable|string|max:255',
-            'formed_at' => 'nullable|date',
-            'joined_year' => 'nullable|integer|min:1900|max:'.date('Y'),
-            'email' => 'nullable|email|max:255',
-            'phone' => 'nullable|string|max:20',
+            'mosque_name' => 'required|string|max:255',
+            'tipe_lokasi' => ['required', new Enum(TipeLokasi::class)],
+            'status_bangunan' => ['required', new Enum(StatusBangunan::class)],
+            'waktu_kegiatan' => ['required', new Enum(WaktuKegiatan::class)],
+            'founder' => 'required|string|max:255',
+            'formed_at' => 'required|date',
+            'joined_year' => 'required|integer|min:1900|max:'.date('Y'),
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:20',
 
             // Alamat
             'province_id' => 'required|exists:provinces,id',
             'city_id' => 'required|exists:cities,id',
             'district_id' => 'required|exists:districts,id',
             'village_id' => 'required|exists:villages,id',
-            'jalan' => 'nullable|string|max:255',
-            'rt' => 'nullable|string|max:5',
-            'rw' => 'nullable|string|max:5',
+            'jalan' => 'required|string|max:255',
+            'rt' => 'required|string|max:5',
+            'rw' => 'required|string|max:5',
 
             // Keadaan Santri
-            'jumlah_tka' => 'nullable|integer|min:0',
-            'jumlah_tpa' => 'nullable|integer|min:0',
-            'jumlah_tqa' => 'nullable|integer|min:0',
+            'jumlah_tka' => 'required|integer|min:0',
+            'jumlah_tpa' => 'required|integer|min:0',
+            'jumlah_tqa' => 'required|integer|min:0',
 
             // Keadaan Guru
-            'guru_laki' => 'nullable|integer|min:0',
-            'guru_perempuan' => 'nullable|integer|min:0',
+            'guru_laki' => 'required|integer|min:0',
+            'guru_perempuan' => 'required|integer|min:0',
 
             // Kepala Unit
             'head_name' => 'required|string|max:255',
-            'head_nik' => 'nullable|string|max:16',
+            'head_nik' => 'required|string|max:16',
             'head_birth_place' => 'required|string|max:100',
             'head_birth_date' => 'required|date',
             'head_gender' => ['required', new Enum(Gender::class)],
-            'head_education' => ['nullable', new Enum(PendidikanTerakhir::class)],
-            'head_job' => ['nullable', new Enum(PekerjaanWali::class)],
-            'head_phone' => 'nullable|string|max:20',
+            'head_education' => ['required', new Enum(PendidikanTerakhir::class)],
+            'head_job' => ['required', new Enum(PekerjaanWali::class)],
+            'head_phone' => 'required|string|max:20',
 
             // Admin Unit
-            'admin_name' => 'nullable|string|max:255',
-            'admin_phone' => 'nullable|string|max:20',
-            'admin_email' => 'nullable|email|max:255',
+            'admin_name' => 'required|string|max:255',
+            'admin_phone' => 'required|string|max:20',
+            'admin_email' => 'required|email|max:255',
 
             'certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
         ]);
@@ -361,7 +361,7 @@ class UnitController extends Controller
                 // Update Unit Head
                 $unit->unitHead->update([
                     'pendidikan_terakhir' => $validated['head_education'] ?? null,
-                    'pekerjaan' => $validated['head_job'] ? [$validated['head_job']] : null,
+                    'pekerjaan' => ! empty($validated['head_job']) ? [$validated['head_job']] : null,
                 ]);
             }
 

@@ -188,8 +188,11 @@
                     <form action="{{ route('superadmin.units.approval.approve', $unit) }}" method="POST" class="space-y-4">
                         @csrf
                         <div class="form-control">
-                            <label class="label"><span class="label-text">Catatan (opsional)</span></label>
-                            <textarea name="notes" class="textarea textarea-bordered" rows="2" placeholder="Catatan approval..."></textarea>
+                            <label class="label"><span class="label-text">Catatan <span class="text-error">*</span></span></label>
+                            <textarea name="notes" class="textarea textarea-bordered" rows="2" placeholder="Catatan approval..." required></textarea>
+                            @error('notes')
+                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                            @enderror
                         </div>
                         <button type="submit" class="btn btn-success w-full">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

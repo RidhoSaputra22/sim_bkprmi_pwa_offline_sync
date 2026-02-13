@@ -18,9 +18,9 @@ use App\Models\Santri;
 use App\Models\SantriUnit;
 use App\Services\LocationFilterService;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Enum;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules\Enum;
 
 class SantriController extends Controller
 {
@@ -123,27 +123,27 @@ class SantriController extends Controller
 
         $validated = $request->validate([
             // Data Santri
-            'nik' => 'nullable|string|max:16|unique:persons,nik',
+            'nik' => 'required|string|max:16|unique:persons,nik',
             'full_name' => 'required|string|max:255',
-            'birth_place' => 'nullable|string|max:100',
-            'birth_date' => 'nullable|date',
+            'birth_place' => 'required|string|max:100',
+            'birth_date' => 'required|date',
             'gender' => ['required', new Enum(Gender::class)],
-            'child_order' => 'nullable|integer|min:1',
-            'siblings_count' => 'nullable|integer|min:0',
+            'child_order' => 'required|integer|min:1',
+            'siblings_count' => 'required|integer|min:0',
 
             // Keanggotaan Unit
-            'joined_at' => 'nullable|date',
+            'joined_at' => 'required|date',
 
             // Alamat - Restricted to Makassar
             'district_id' => 'required|exists:districts,id',
             'village_id' => 'required|exists:villages,id',
-            'address' => 'nullable|string|max:255',
-            'rt' => 'nullable|string|max:5',
-            'rw' => 'nullable|string|max:5',
+            'address' => 'required|string|max:255',
+            'rt' => 'required|string|max:5',
+            'rw' => 'required|string|max:5',
 
             // Nama Orang Tua
-            'nama_ayah' => 'nullable|string|max:255',
-            'nama_ibu' => 'nullable|string|max:255',
+            'nama_ayah' => 'required|string|max:255',
+            'nama_ibu' => 'required|string|max:255',
 
             // Status Santri
             'jenjang_santri' => ['required', new Enum(JenjangSantri::class)],
@@ -151,16 +151,16 @@ class SantriController extends Controller
             'status_santri' => ['required', new Enum(StatusSantri::class)],
 
             // Data Wali
-            'wali_nik' => 'nullable|string|max:16',
+            'wali_nik' => 'required|string|max:16',
             'wali_full_name' => 'required|string|max:255',
-            'wali_birth_place' => 'nullable|string|max:100',
-            'wali_birth_date' => 'nullable|date',
+            'wali_birth_place' => 'required|string|max:100',
+            'wali_birth_date' => 'required|date',
             'wali_gender' => ['required', new Enum(Gender::class)],
             'wali_hubungan' => ['required', new Enum(HubunganWaliSantri::class)],
-            'wali_pendidikan' => ['nullable', new Enum(PendidikanTerakhir::class)],
-            'wali_pekerjaan' => 'nullable|array',
-            'wali_pekerjaan.*' => ['nullable', new Enum(PekerjaanWali::class)],
-            'wali_phone' => 'nullable|string|max:20',
+            'wali_pendidikan' => ['required', new Enum(PendidikanTerakhir::class)],
+            'wali_pekerjaan' => 'required|array',
+            'wali_pekerjaan.*' => ['required', new Enum(PekerjaanWali::class)],
+            'wali_phone' => 'required|string|max:20',
         ]);
 
         // Validasi lokasi harus di Makassar
@@ -233,7 +233,7 @@ class SantriController extends Controller
             $guardian = Guardian::create([
                 'person_id' => $guardianPerson->id,
                 'pendidikan_terakhir' => $validated['wali_pendidikan'] ?? null,
-                'pekerjaan' => !empty($validated['wali_pekerjaan']) ? [$validated['wali_pekerjaan']] : null,
+                'pekerjaan' => $validated['wali_pekerjaan'] ?? null,
             ]);
 
             // Link Guardian to Santri with relationship
@@ -318,27 +318,27 @@ class SantriController extends Controller
 
         $validated = $request->validate([
             // Data Santri
-            'nik' => 'nullable|string|max:16',
+            'nik' => 'required|string|max:16',
             'full_name' => 'required|string|max:255',
-            'birth_place' => 'nullable|string|max:100',
-            'birth_date' => 'nullable|date',
+            'birth_place' => 'required|string|max:100',
+            'birth_date' => 'required|date',
             'gender' => ['required', new Enum(Gender::class)],
-            'child_order' => 'nullable|integer|min:1',
-            'siblings_count' => 'nullable|integer|min:0',
+            'child_order' => 'required|integer|min:1',
+            'siblings_count' => 'required|integer|min:0',
 
             // Keanggotaan Unit
-            'joined_at' => 'nullable|date',
+            'joined_at' => 'required|date',
 
             // Alamat
             'district_id' => 'required|exists:districts,id',
             'village_id' => 'required|exists:villages,id',
-            'address' => 'nullable|string|max:255',
-            'rt' => 'nullable|string|max:5',
-            'rw' => 'nullable|string|max:5',
+            'address' => 'required|string|max:255',
+            'rt' => 'required|string|max:5',
+            'rw' => 'required|string|max:5',
 
             // Nama Orang Tua
-            'nama_ayah' => 'nullable|string|max:255',
-            'nama_ibu' => 'nullable|string|max:255',
+            'nama_ayah' => 'required|string|max:255',
+            'nama_ibu' => 'required|string|max:255',
 
             // Status Santri
             'jenjang_santri' => ['required', new Enum(JenjangSantri::class)],
@@ -346,16 +346,16 @@ class SantriController extends Controller
             'status_santri' => ['required', new Enum(StatusSantri::class)],
 
             // Data Wali
-            'wali_nik' => 'nullable|string|max:16',
+            'wali_nik' => 'required|string|max:16',
             'wali_full_name' => 'required|string|max:255',
-            'wali_birth_place' => 'nullable|string|max:100',
-            'wali_birth_date' => 'nullable|date',
+            'wali_birth_place' => 'required|string|max:100',
+            'wali_birth_date' => 'required|date',
             'wali_gender' => ['required', new Enum(Gender::class)],
             'wali_hubungan' => ['required', new Enum(HubunganWaliSantri::class)],
-            'wali_pendidikan' => ['nullable', new Enum(PendidikanTerakhir::class)],
-            'wali_pekerjaan' => 'nullable|array',
-            'wali_pekerjaan.*' => ['nullable', new Enum(PekerjaanWali::class)],
-            'wali_phone' => 'nullable|string|max:20',
+            'wali_pendidikan' => ['required', new Enum(PendidikanTerakhir::class)],
+            'wali_pekerjaan' => 'required|array',
+            'wali_pekerjaan.*' => ['required', new Enum(PekerjaanWali::class)],
+            'wali_phone' => 'required|string|max:20',
         ]);
 
         // Validasi lokasi harus di Makassar
@@ -427,7 +427,7 @@ class SantriController extends Controller
 
                 $guardianSantri->guardian->update([
                     'pendidikan_terakhir' => $validated['wali_pendidikan'] ?? null,
-                    'pekerjaan' => !empty($validated['wali_pekerjaan']) ? [$validated['wali_pekerjaan']] : null,
+                    'pekerjaan' => $validated['wali_pekerjaan'] ?? null,
                 ]);
 
                 $guardianSantri->update([
@@ -446,7 +446,7 @@ class SantriController extends Controller
                 $guardian = Guardian::create([
                     'person_id' => $guardianPerson->id,
                     'pendidikan_terakhir' => $validated['wali_pendidikan'] ?? null,
-                    'pekerjaan' => !empty($validated['wali_pekerjaan']) ? [$validated['wali_pekerjaan']] : null,
+                    'pekerjaan' => $validated['wali_pekerjaan'] ?? null,
                 ]);
 
                 GuardianSantri::create([
