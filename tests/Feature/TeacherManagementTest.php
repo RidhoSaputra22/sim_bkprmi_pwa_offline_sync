@@ -28,8 +28,11 @@ class TeacherManagementTest extends TestCase
     use RefreshDatabase, WithFaker;
 
     protected User $adminTpa;
+
     protected Unit $unit;
+
     protected User $otherAdminTpa;
+
     protected Unit $otherUnit;
 
     protected function setUp(): void
@@ -512,7 +515,7 @@ class TeacherManagementTest extends TestCase
     {
         $this->actingAs($this->adminTpa);
 
-        $largePhoto = UploadedFile::fake()->image('large.jpg')->size(2048); // 2MB
+        $largePhoto = UploadedFile::fake()->image('large.jpg')->size(10240); // 10MB
 
         $response = $this->post(route('tpa.teachers.store'), [
             'nik' => '3273010101900001',

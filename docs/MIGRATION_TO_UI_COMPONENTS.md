@@ -106,7 +106,7 @@ File: `resources/views/tpa/teachers/create.blade.php` & `edit.blade.php`
     label="Foto"
     accept="image/jpeg,image/jpg,image/png"
     :preview="true"
-    helpText="Format: JPG, PNG. Max: 2MB"
+    helpText="Format: JPG, PNG. Max: 10MB"
 />
 ```
 

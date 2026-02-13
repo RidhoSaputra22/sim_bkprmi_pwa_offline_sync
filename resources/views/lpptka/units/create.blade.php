@@ -611,7 +611,7 @@
 
                     <div class="form-control">
                         <label class="label"><span class="label-text">File Sertifikat (PDF/JPG/PNG, max
-                                2MB)</span></label>
+                                10MB)</span></label>
                         <input type="file" name="certificate" accept=".pdf,.jpg,.jpeg,.png"
                             class="file-input file-input-bordered w-full @error('certificate') file-input-error @enderror">
                         @error('certificate')
