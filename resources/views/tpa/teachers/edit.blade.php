@@ -17,6 +17,19 @@
         @csrf
         @method('PUT')
 
+        @if ($errors->any())
+        <div class="alert alert-error shadow mb-6">
+            <div>
+                <div class="font-semibold">Form belum valid</div>
+                <ul class="list-disc ml-5 text-sm">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        @endif
+
         <!-- IDENTITAS -->
         <div class="card bg-base-100 shadow mb-6">
             <div class="card-body">
@@ -107,14 +120,10 @@
 
                     <!-- Pekerjaan Utama -->
                     <div class="col-span-full">
-                        <x-ui.select
-                            name="pekerjaan"
-                            label="Pekerjaan Utama Sesuai KK"
+                        <x-ui.select name="pekerjaan" label="Pekerjaan Utama Sesuai KK"
                             :options="array_map(fn($job) => ['value' => $job->value, 'label' => $job->getLabel()], $pekerjaanOptions)"
                             :value="old('pekerjaan', $teacher->pekerjaan[0] ?? null)"
-                            placeholder="-- Pilih Pekerjaan --"
-                            searchPlaceholder="Cari pekerjaan..."
-                        />
+                            placeholder="-- Pilih Pekerjaan --" searchPlaceholder="Cari pekerjaan..." />
                     </div>
 
                     <!-- Nomor HP -->
@@ -405,115 +414,121 @@
 
     @push('scripts')
     <script>
-        // Location cascading select
-        document.addEventListener('DOMContentLoaded', function() {
-            const provinceSelect = document.getElementById('province_id');
-            const citySelect = document.getElementById('city_id');
-            const districtSelect = document.getElementById('district_id');
-            const villageSelect = document.getElementById('village_id');
+    // Location cascading select
+    document.addEventListener('DOMContentLoaded', function() {
+        const provinceSelect = document.getElementById('province_id');
+        const citySelect = document.getElementById('city_id');
+        const districtSelect = document.getElementById('district_id');
+        const villageSelect = document.getElementById('village_id');
 
-            // Load cities on page load if province is selected
-            if (provinceSelect.value) {
-                loadCities(provinceSelect.value, '{{ old('city_id', $teacher->city_id) }}');
-            }
+        // Load cities on page load if province is selected
+        if (provinceSelect.value) {
+            loadCities(provinceSelect.value, '{{ old('
+                city_id ', $teacher->city_id) }}');
+        }
 
-            // Load districts on page load if city is selected
-            if (citySelect.value) {
-                loadDistricts(citySelect.value, '{{ old('district_id', $teacher->district_id) }}');
-            }
+        // Load districts on page load if city is selected
+        if (citySelect.value) {
+            loadDistricts(citySelect.value, '{{ old('
+                district_id ', $teacher->district_id) }}');
+        }
 
-            // Load villages on page load if district is selected
-            if (districtSelect.value) {
-                loadVillages(districtSelect.value, '{{ old('village_id', $teacher->village_id) }}');
-            }
+        // Load villages on page load if district is selected
+        if (districtSelect.value) {
+            loadVillages(districtSelect.value, '{{ old('
+                village_id ', $teacher->village_id) }}');
+        }
 
-            provinceSelect.addEventListener('change', function() {
-                const provinceId = this.value;
-                districtSelect.innerHTML = '<option value="">Pilih Kab/Kota dulu</option>';
-                districtSelect.disabled = true;
-                villageSelect.innerHTML = '<option value="">Pilih Kecamatan dulu</option>';
-                villageSelect.disabled = true;
+        provinceSelect.addEventListener('change', function() {
+            const provinceId = this.value;
+            districtSelect.innerHTML = '<option value="">Pilih Kab/Kota dulu</option>';
+            districtSelect.disabled = true;
+            villageSelect.innerHTML = '<option value="">Pilih Kecamatan dulu</option>';
+            villageSelect.disabled = true;
 
-                if (provinceId) {
-                    loadCities(provinceId);
-                } else {
-                    citySelect.innerHTML = '<option value="">Pilih Provinsi dulu</option>';
-                    citySelect.disabled = true;
-                }
-            });
-
-            citySelect.addEventListener('change', function() {
-                const cityId = this.value;
-                villageSelect.innerHTML = '<option value="">Pilih Kecamatan dulu</option>';
-                villageSelect.disabled = true;
-
-                if (cityId) {
-                    loadDistricts(cityId);
-                } else {
-                    districtSelect.innerHTML = '<option value="">Pilih Kab/Kota dulu</option>';
-                    districtSelect.disabled = true;
-                }
-            });
-
-            districtSelect.addEventListener('change', function() {
-                const districtId = this.value;
-
-                if (districtId) {
-                    loadVillages(districtId);
-                } else {
-                    villageSelect.innerHTML = '<option value="">Pilih Kecamatan dulu</option>';
-                    villageSelect.disabled = true;
-                }
-            });
-
-            function loadCities(provinceId, selectedId = null) {
-                citySelect.innerHTML = '<option value="">Loading...</option>';
+            if (provinceId) {
+                loadCities(provinceId);
+            } else {
+                citySelect.innerHTML = '<option value="">Pilih Provinsi dulu</option>';
                 citySelect.disabled = true;
-
-                fetch(`{{ route('tpa.api.cities') }}?province_id=${provinceId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        citySelect.innerHTML = '<option value="">Pilih Kab/Kota</option>';
-                        data.forEach(city => {
-                            const selected = selectedId && city.id == selectedId ? 'selected' : '';
-                            citySelect.innerHTML += `<option value="${city.id}" ${selected}>${city.name}</option>`;
-                        });
-                        citySelect.disabled = false;
-                    });
-            }
-
-            function loadDistricts(cityId, selectedId = null) {
-                districtSelect.innerHTML = '<option value="">Loading...</option>';
-                districtSelect.disabled = true;
-
-                fetch(`{{ route('tpa.api.districts') }}?city_id=${cityId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        districtSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
-                        data.forEach(district => {
-                            const selected = selectedId && district.id == selectedId ? 'selected' : '';
-                            districtSelect.innerHTML += `<option value="${district.id}" ${selected}>${district.name}</option>`;
-                        });
-                        districtSelect.disabled = false;
-                    });
-            }
-
-            function loadVillages(districtId, selectedId = null) {
-                villageSelect.innerHTML = '<option value="">Loading...</option>';
-                villageSelect.disabled = true;
-
-                fetch(`{{ route('tpa.api.villages') }}?district_id=${districtId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        villageSelect.innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
-                        data.forEach(village => {
-                            const selected = selectedId && village.id == selectedId ? 'selected' : '';
-                            villageSelect.innerHTML += `<option value="${village.id}" ${selected}>${village.name}</option>`;
-                        });
-                        villageSelect.disabled = false;
-                    });
             }
         });
+
+        citySelect.addEventListener('change', function() {
+            const cityId = this.value;
+            villageSelect.innerHTML = '<option value="">Pilih Kecamatan dulu</option>';
+            villageSelect.disabled = true;
+
+            if (cityId) {
+                loadDistricts(cityId);
+            } else {
+                districtSelect.innerHTML = '<option value="">Pilih Kab/Kota dulu</option>';
+                districtSelect.disabled = true;
+            }
+        });
+
+        districtSelect.addEventListener('change', function() {
+            const districtId = this.value;
+
+            if (districtId) {
+                loadVillages(districtId);
+            } else {
+                villageSelect.innerHTML = '<option value="">Pilih Kecamatan dulu</option>';
+                villageSelect.disabled = true;
+            }
+        });
+
+        function loadCities(provinceId, selectedId = null) {
+            citySelect.innerHTML = '<option value="">Loading...</option>';
+            citySelect.disabled = true;
+
+            fetch(`{{ route('tpa.api.cities') }}?province_id=${provinceId}`)
+                .then(response => response.json())
+                .then(data => {
+                    citySelect.innerHTML = '<option value="">Pilih Kab/Kota</option>';
+                    data.forEach(city => {
+                        const selected = selectedId && city.id == selectedId ? 'selected' : '';
+                        citySelect.innerHTML +=
+                            `<option value="${city.id}" ${selected}>${city.name}</option>`;
+                    });
+                    citySelect.disabled = false;
+                });
+        }
+
+        function loadDistricts(cityId, selectedId = null) {
+            districtSelect.innerHTML = '<option value="">Loading...</option>';
+            districtSelect.disabled = true;
+
+            fetch(`{{ route('tpa.api.districts') }}?city_id=${cityId}`)
+                .then(response => response.json())
+                .then(data => {
+                    districtSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+                    data.forEach(district => {
+                        const selected = selectedId && district.id == selectedId ? 'selected' : '';
+                        districtSelect.innerHTML +=
+                            `<option value="${district.id}" ${selected}>${district.name}</option>`;
+                    });
+                    districtSelect.disabled = false;
+                });
+        }
+
+        function loadVillages(districtId, selectedId = null) {
+            villageSelect.innerHTML = '<option value="">Loading...</option>';
+            villageSelect.disabled = true;
+
+            fetch(`{{ route('tpa.api.villages') }}?district_id=${districtId}`)
+                .then(response => response.json())
+                .then(data => {
+                    villageSelect.innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+                    data.forEach(village => {
+                        const selected = selectedId && village.id == selectedId ? 'selected' : '';
+                        villageSelect.innerHTML +=
+                            `<option value="${village.id}" ${selected}>${village.name}</option>`;
+                    });
+                    villageSelect.disabled = false;
+                });
+        }
+    });
     </script>
     @endpush
 </x-layouts.tpa>

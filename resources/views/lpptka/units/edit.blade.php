@@ -146,6 +146,19 @@
         @csrf
         @method('PUT')
 
+        @if ($errors->any())
+        <div class="alert alert-error shadow mb-6">
+            <div>
+                <div class="font-semibold">Form belum valid</div>
+                <ul class="list-disc ml-5 text-sm">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        @endif
+
         <div class="space-y-6">
             <!-- Identitas Unit -->
             <div class="card bg-base-100 shadow">
@@ -269,7 +282,8 @@
                         </div>
 
                         <div class="form-control">
-                            <label class="label"><span class="label-text">No. Telepon <span class="text-error">*</span></span></label>
+                            <label class="label"><span class="label-text">No. Telepon <span
+                                        class="text-error">*</span></span></label>
                             <input type="text" name="phone" value="{{ old('phone', $unit->phone) }}"
                                 class="input input-bordered @error('phone') input-error @enderror"
                                 placeholder="08xxxxxxxxxx" required>

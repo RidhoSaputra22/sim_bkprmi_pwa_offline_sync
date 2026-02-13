@@ -16,6 +16,19 @@
     <form action="{{ route('tpa.teachers.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
+        @if ($errors->any())
+        <div class="alert alert-error shadow mb-6">
+            <div>
+                <div class="font-semibold">Form belum valid</div>
+                <ul class="list-disc ml-5 text-sm">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        @endif
+
         <!-- IDENTITAS -->
         <div class="card bg-base-100 shadow mb-6">
             <div class="card-body">

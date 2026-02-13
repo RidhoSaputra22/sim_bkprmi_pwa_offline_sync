@@ -24,89 +24,63 @@
                     <form action="{{ route('lpptka.tpa-accounts.store', $unit) }}" method="POST">
                         @csrf
 
+                        @if ($errors->any())
+                        <div class="alert alert-error shadow mb-6">
+                            <div>
+                                <div class="font-semibold">Form belum valid</div>
+                                <ul class="list-disc ml-5 text-sm">
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                        @endif
+
                         <div class="space-y-4">
                             <!-- Admin Info -->
-                            <x-ui.input
-                                name="full_name"
-                                label="Nama Lengkap Admin"
+                            <x-ui.input name="full_name" label="Nama Lengkap Admin"
                                 :value="old('full_name', $unit->unitHead?->person?->full_name)"
-                                placeholder="Nama lengkap admin TPA"
-                                :required="true"
-                                helpText="Bisa menggunakan nama kepala unit atau nama lain"
-                            />
+                                placeholder="Nama lengkap admin TPA" :required="true"
+                                helpText="Bisa menggunakan nama kepala unit atau nama lain" />
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <x-ui.select
-                                    name="gender"
-                                    label="Jenis Kelamin"
+                                <x-ui.select name="gender" label="Jenis Kelamin"
                                     :options="collect($genderOptions)->map(fn($g) => ['value' => $g->value, 'label' => $g->getLabel()])->toArray()"
                                     :value="old('gender', $unit->unitHead?->person?->gender?->value)"
-                                    placeholder="Pilih"
-                                    :required="true"
-                                />
+                                    placeholder="Pilih" :required="true" />
 
-                                <x-ui.input
-                                    name="nik"
-                                    label="NIK (Opsional)"
-                                    :value="old('nik', $unit->unitHead?->person?->nik)"
-                                    placeholder="16 digit"
-                                    maxlength="16"
-                                />
+                                <x-ui.input name="nik" label="NIK (Opsional)"
+                                    :value="old('nik', $unit->unitHead?->person?->nik)" placeholder="16 digit"
+                                    maxlength="16" />
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <x-ui.input
-                                    name="birth_place"
-                                    label="Tempat Lahir"
+                                <x-ui.input name="birth_place" label="Tempat Lahir"
                                     :value="old('birth_place', $unit->unitHead?->person?->birth_place)"
-                                    placeholder="Tempat lahir"
-                                    :required="true"
-                                />
+                                    placeholder="Tempat lahir" :required="true" />
 
-                                <x-ui.input
-                                    name="birth_date"
-                                    type="date"
-                                    label="Tanggal Lahir"
+                                <x-ui.input name="birth_date" type="date" label="Tanggal Lahir"
                                     :value="old('birth_date', $unit->unitHead?->person?->birth_date?->format('Y-m-d'))"
-                                    :required="true"
-                                />
+                                    :required="true" />
                             </div>
 
-                            <x-ui.input
-                                name="email"
-                                type="email"
-                                label="Email"
+                            <x-ui.input name="email" type="email" label="Email"
                                 :value="old('email', $unit->unitAdmin?->person?->email ?? '')"
-                                placeholder="email@example.com"
-                                :required="true"
-                                helpText="Email ini akan digunakan untuk login"
-                            />
+                                placeholder="email@example.com" :required="true"
+                                helpText="Email ini akan digunakan untuk login" />
 
-                            <x-ui.input
-                                name="phone"
-                                label="No. HP"
-                                :value="old('phone', $unit->unitHead?->person?->phone)"
-                                placeholder="08xxxxxxxxxx"
-                            />
+                            <x-ui.input name="phone" label="No. HP"
+                                :value="old('phone', $unit->unitHead?->person?->phone)" placeholder="08xxxxxxxxxx" />
 
                             <div class="divider"></div>
 
                             <!-- Password -->
-                            <x-ui.input
-                                name="password"
-                                type="password"
-                                label="Password"
-                                placeholder="Minimal 8 karakter"
-                                :required="true"
-                            />
+                            <x-ui.input name="password" type="password" label="Password"
+                                placeholder="Minimal 8 karakter" :required="true" />
 
-                            <x-ui.input
-                                name="password_confirmation"
-                                type="password"
-                                label="Konfirmasi Password"
-                                placeholder="Ulangi password"
-                                :required="true"
-                            />
+                            <x-ui.input name="password_confirmation" type="password" label="Konfirmasi Password"
+                                placeholder="Ulangi password" :required="true" />
 
                             <div class="alert alert-info">
                                 <svg class="stroke-current shrink-0 w-6 h-6" fill="none" viewBox="0 0 24 24">

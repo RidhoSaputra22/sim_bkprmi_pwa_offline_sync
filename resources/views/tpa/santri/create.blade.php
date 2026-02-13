@@ -17,6 +17,19 @@
     <form action="{{ route('tpa.santri.store') }}" method="POST" x-data="santriForm()">
         @csrf
 
+        @if ($errors->any())
+        <div class="alert alert-error shadow mb-6">
+            <div>
+                <div class="font-semibold">Form belum valid</div>
+                <ul class="list-disc ml-5 text-sm">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        @endif
+
         <div class="space-y-6">
             <!-- Data Santri -->
             <div class="card bg-base-100 shadow">
@@ -378,14 +391,10 @@
                             @enderror
                         </div>
 
-                        <x-ui.multi-select
-                            name="wali_pekerjaan"
-                            label="Pekerjaan Wali"
+                        <x-ui.multi-select name="wali_pekerjaan" label="Pekerjaan Wali"
                             :options="array_map(fn($job) => ['value' => $job->value, 'label' => $job->getLabel()], \App\Enum\PekerjaanWali::cases())"
-                            :selected="old('wali_pekerjaan', [])"
-                            placeholder="-- Pilih Pekerjaan --"
-                            searchPlaceholder="Cari pekerjaan..."
-                        />
+                            :selected="old('wali_pekerjaan', [])" placeholder="-- Pilih Pekerjaan --"
+                            searchPlaceholder="Cari pekerjaan..." />
 
                         <div class="form-control">
                             <label class="label"><span class="label-text">Pendidikan Wali</span></label>
