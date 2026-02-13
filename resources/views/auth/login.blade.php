@@ -73,14 +73,6 @@
                 <a href="{{ route('home') }}" class="link link-primary text-sm">Kembali ke homepage</a>
             </form>
 
-            <!-- Divider -->
-            <div class="divider text-sm text-base-content/50">atau</div>
-
-            <!-- Info -->
-            <p class="text-center text-sm text-base-content/60">
-                Belum punya akun?
-                <a href="#" class="link link-primary">Hubungi Admin</a>
-            </p>
         </div>
     </div>
 

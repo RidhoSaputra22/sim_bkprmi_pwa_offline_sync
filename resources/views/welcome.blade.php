@@ -275,7 +275,7 @@
 
                 <!-- Slide 2 -->
                 <div class="swiper-slide">
-                    <div class="w-full h-full bg-gradient-to-r from-green-700 to-emerald-600 flex items-center">
+                    <div class="hero-gradient w-full h-full  flex items-center">
                         <div class="hero-content text-center text-neutral-content w-full">
                             <div class="max-w-4xl animate-fadeInUp">
                                 <div class="badge badge-warning badge-lg mb-4">LPPTKA-BKPRMI</div>
@@ -302,7 +302,7 @@
 
                 <!-- Slide 3 -->
                 <div class="swiper-slide">
-                    <div class="w-full h-full bg-gradient-to-r from-green-800 to-green-600 flex items-center">
+                    <div class="hero-gradient w-full h-full  flex items-center">
                         <div class="hero-content text-center text-neutral-content w-full">
                             <div class="max-w-4xl animate-fadeInUp">
                                 <div class="badge badge-warning badge-lg mb-4">AYO KEMBALI KE MASJID</div>
