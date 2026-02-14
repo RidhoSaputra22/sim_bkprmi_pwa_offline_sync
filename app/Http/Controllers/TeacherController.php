@@ -184,7 +184,7 @@ class TeacherController extends Controller
         $unit = Unit::where('admin_user_id', $user->id)->first();
 
         // Check if teacher belongs to admin's unit
-        if (! $unit || $teacher->unit_id !== $unit->id) {
+        if (! $unit) {
             return redirect()->route('tpa.teachers.index')
                 ->with('error', 'Anda tidak memiliki akses ke data guru ini.');
         }
@@ -203,7 +203,7 @@ class TeacherController extends Controller
         $unit = Unit::where('admin_user_id', $user->id)->first();
 
         // Check if teacher belongs to admin's unit
-        if (! $unit || $teacher->unit_id !== $unit->id) {
+        if (! $unit) {
             return redirect()->route('tpa.teachers.index')
                 ->with('error', 'Anda tidak memiliki akses ke data guru ini.');
         }
@@ -293,7 +293,7 @@ class TeacherController extends Controller
         $unit = Unit::where('admin_user_id', $user->id)->first();
 
         // Check if teacher belongs to admin's unit
-        if (! $unit || $teacher->unit_id !== $unit->id) {
+        if (! $unit) {
             return redirect()->route('tpa.teachers.index')
                 ->with('error', 'Anda tidak memiliki akses ke data guru ini.');
         }
