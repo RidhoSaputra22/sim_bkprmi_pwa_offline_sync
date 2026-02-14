@@ -115,7 +115,7 @@ class UnitController extends Controller
             'guru_perempuan' => 'required|integer|min:0',
 
             // Kepala Unit
-            'head_nik' => 'required|string|max:16',
+            'head_nik' => 'required|string|max:16|unique:persons,nik',
             'head_name' => 'required|string|max:255',
             'head_birth_place' => 'required|string|max:100',
             'head_birth_date' => 'required|date',
@@ -297,7 +297,7 @@ class UnitController extends Controller
 
             // Kepala Unit
             'head_name' => 'required|string|max:255',
-            'head_nik' => 'required|string|max:16',
+            'head_nik' => 'required|string|max:16|unique:persons,nik,'.optional($unit->unitHead?->person)->id,
             'head_birth_place' => 'required|string|max:100',
             'head_birth_date' => 'required|date',
             'head_gender' => ['required', new Enum(Gender::class)],
