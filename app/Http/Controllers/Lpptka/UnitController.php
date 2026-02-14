@@ -84,7 +84,7 @@ class UnitController extends Controller
 
         $validated = $request->validate([
             // Identitas Unit
-            'unit_number' => 'required|string|max:50|unique:units,unit_number',
+            'unit_number' => 'required|string|max:255|unique:units,unit_number',
             'name' => 'required|string|max:255',
             'tipe_lokasi' => ['required', new Enum(TipeLokasi::class)],
             'status_bangunan' => ['required', new Enum(StatusBangunan::class)],
@@ -130,7 +130,7 @@ class UnitController extends Controller
             'admin_email' => 'required|email|max:255',
 
             // Sertifikat (opsional saat create)
-            'certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+            'certificate' => 'required|file|mimes:pdf,jpg,jpeg,png|max:10240',
         ]);
 
         DB::transaction(function () use ($validated, $request) {
@@ -310,7 +310,7 @@ class UnitController extends Controller
             'admin_phone' => 'required|string|max:20',
             'admin_email' => 'required|email|max:255',
 
-            'certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
+            'certificate' => 'required|file|mimes:pdf,jpg,jpeg,png|max:10240',
         ]);
 
         DB::transaction(function () use ($validated, $request, $unit) {

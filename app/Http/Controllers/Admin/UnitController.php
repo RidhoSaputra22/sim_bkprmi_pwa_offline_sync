@@ -82,7 +82,7 @@ class UnitController extends Controller
     {
         $validated = $request->validate([
             // Identitas Unit
-            'unit_number' => 'required|string|max:50|unique:units,unit_number',
+            'unit_number' => 'required|string|max:255|unique:units,unit_number',
             'name' => 'required|string|max:255',
             'tipe_lokasi' => ['required', new Enum(TipeLokasi::class)],
             'status_bangunan' => ['required', new Enum(StatusBangunan::class)],
@@ -116,14 +116,14 @@ class UnitController extends Controller
             'kepala_nik' => 'required|string|size:16',
             'kepala_tempat_lahir' => 'required|string|max:255',
             'kepala_tanggal_lahir' => 'required|date',
-            'kepala_gender' => ['required', new Enum(Gender::class)],
-            'kepala_pendidikan' => ['required', new Enum(PendidikanTerakhir::class)],
-            'kepala_pekerjaan' => ['required', new Enum(PekerjaanWali::class)],
-            'kepala_phone' => 'required|string|max:20',
+            'kepala_gender' => ['nullable', new Enum(Gender::class)],
+            'kepala_pendidikan' => ['nullable', new Enum(PendidikanTerakhir::class)],
+            'kepala_pekerjaan' => ['nullable', new Enum(PekerjaanWali::class)],
+            'kepala_phone' => 'required|string|max:255',
 
             // Admin Unit
             'admin_nama' => 'required|string|max:255',
-            'admin_phone' => 'required|string|max:20',
+            'admin_phone' => 'required|string|max:255',
             'admin_email' => 'required|email|max:255',
         ]);
 
@@ -258,7 +258,7 @@ class UnitController extends Controller
     {
         $validated = $request->validate([
             // Identitas Unit
-            'unit_number' => 'required|string|max:50|unique:units,unit_number,'.$unit->id,
+            'unit_number' => 'required|string|max:255|unique:units,unit_number,'.$unit->id,
             'name' => 'required|string|max:255',
             'tipe_lokasi' => ['required', new Enum(TipeLokasi::class)],
             'status_bangunan' => ['required', new Enum(StatusBangunan::class)],
@@ -292,14 +292,14 @@ class UnitController extends Controller
             'kepala_nik' => 'required|string|size:16',
             'kepala_tempat_lahir' => 'required|string|max:255',
             'kepala_tanggal_lahir' => 'required|date',
-            'kepala_gender' => ['required', new Enum(Gender::class)],
-            'kepala_pendidikan' => ['required', new Enum(PendidikanTerakhir::class)],
-            'kepala_pekerjaan' => ['required', new Enum(PekerjaanWali::class)],
-            'kepala_phone' => 'required|string|max:20',
+            'kepala_gender' => ['nullable', new Enum(Gender::class)],
+            'kepala_pendidikan' => ['nullable', new Enum(PendidikanTerakhir::class)],
+            'kepala_pekerjaan' => ['nullable', new Enum(PekerjaanWali::class)],
+            'kepala_phone' => 'required|string|max:255',
 
             // Admin Unit
             'admin_nama' => 'required|string|max:255',
-            'admin_phone' => 'required|string|max:20',
+            'admin_phone' => 'required|string|max:255',
             'admin_email' => 'required|email|max:255',
         ]);
 

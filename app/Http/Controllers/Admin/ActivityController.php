@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Unit;
-use App\Models\Activity;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Activity;
+use App\Models\Unit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller

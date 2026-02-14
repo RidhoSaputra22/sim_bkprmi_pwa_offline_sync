@@ -123,9 +123,9 @@ class SantriController extends Controller
 
         $validated = $request->validate([
             // Data Santri
-            'nik' => 'required|string|max:16|unique:persons,nik',
+            'nik' => 'required|string|size:16|unique:persons,nik',
             'full_name' => 'required|string|max:255',
-            'birth_place' => 'required|string|max:100',
+            'birth_place' => 'required|string|max:255',
             'birth_date' => 'required|date',
             'gender' => ['required', new Enum(Gender::class)],
             'child_order' => 'required|integer|min:1',
@@ -151,16 +151,16 @@ class SantriController extends Controller
             'status_santri' => ['required', new Enum(StatusSantri::class)],
 
             // Data Wali
-            'wali_nik' => 'required|string|max:16',
+            'wali_nik' => 'required|string|size:16',
             'wali_full_name' => 'required|string|max:255',
-            'wali_birth_place' => 'required|string|max:100',
+            'wali_birth_place' => 'required|string|max:255',
             'wali_birth_date' => 'required|date',
             'wali_gender' => ['required', new Enum(Gender::class)],
             'wali_hubungan' => ['required', new Enum(HubunganWaliSantri::class)],
             'wali_pendidikan' => ['required', new Enum(PendidikanTerakhir::class)],
             'wali_pekerjaan' => 'required|array',
             'wali_pekerjaan.*' => ['required', new Enum(PekerjaanWali::class)],
-            'wali_phone' => 'required|string|max:20',
+            'wali_phone' => 'required|string|max:255',
         ]);
 
         // Validasi lokasi harus di Makassar
@@ -318,9 +318,9 @@ class SantriController extends Controller
 
         $validated = $request->validate([
             // Data Santri
-            'nik' => 'required|string|max:16',
+            'nik' => 'required|string|size:16',
             'full_name' => 'required|string|max:255',
-            'birth_place' => 'required|string|max:100',
+            'birth_place' => 'required|string|max:255',
             'birth_date' => 'required|date',
             'gender' => ['required', new Enum(Gender::class)],
             'child_order' => 'required|integer|min:1',
@@ -346,16 +346,16 @@ class SantriController extends Controller
             'status_santri' => ['required', new Enum(StatusSantri::class)],
 
             // Data Wali
-            'wali_nik' => 'required|string|max:16',
+            'wali_nik' => 'required|string|size:16',
             'wali_full_name' => 'required|string|max:255',
-            'wali_birth_place' => 'required|string|max:100',
+            'wali_birth_place' => 'required|string|max:255',
             'wali_birth_date' => 'required|date',
             'wali_gender' => ['required', new Enum(Gender::class)],
             'wali_hubungan' => ['required', new Enum(HubunganWaliSantri::class)],
             'wali_pendidikan' => ['required', new Enum(PendidikanTerakhir::class)],
             'wali_pekerjaan' => 'required|array',
             'wali_pekerjaan.*' => ['required', new Enum(PekerjaanWali::class)],
-            'wali_phone' => 'required|string|max:20',
+            'wali_phone' => 'required|string|max:255',
         ]);
 
         // Validasi lokasi harus di Makassar

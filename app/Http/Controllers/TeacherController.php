@@ -11,7 +11,6 @@ use App\Enum\TugasTambahan;
 use App\Models\City;
 use App\Models\District;
 use App\Models\EducationLevel;
-use App\Models\Job;
 use App\Models\Province;
 use App\Models\Teacher;
 use App\Models\Unit;
@@ -34,7 +33,7 @@ class TeacherController extends Controller
         // Get unit from TPA admin
         $unit = Unit::where('admin_user_id', $user->id)->first();
 
-        if (!$unit) {
+        if (! $unit) {
             return redirect()->route('tpa.dashboard')
                 ->with('error', 'Anda tidak memiliki akses ke unit TPA.');
         }
@@ -44,7 +43,7 @@ class TeacherController extends Controller
             'province',
             'city',
             'district',
-            'village'
+            'village',
         ])
             ->where('unit_id', $unit->id)
             ->orderBy('jabatan_utama')
@@ -62,7 +61,7 @@ class TeacherController extends Controller
         $user = Auth::user();
         $unit = Unit::where('admin_user_id', $user->id)->first();
 
-        if (!$unit) {
+        if (! $unit) {
             return redirect()->route('tpa.dashboard')
                 ->with('error', 'Anda tidak memiliki akses ke unit TPA.');
         }
@@ -80,7 +79,7 @@ class TeacherController extends Controller
         $user = Auth::user();
         $unit = Unit::where('admin_user_id', $user->id)->first();
 
-        if (!$unit) {
+        if (! $unit) {
             return redirect()->route('tpa.dashboard')
                 ->with('error', 'Anda tidak memiliki akses ke unit TPA.');
         }
@@ -140,7 +139,7 @@ class TeacherController extends Controller
         $validated['is_active'] = true;
 
         // Wrap pekerjaan in array if present
-        if (!empty($validated['pekerjaan'])) {
+        if (! empty($validated['pekerjaan'])) {
             $validated['pekerjaan'] = [$validated['pekerjaan']];
         }
 
@@ -156,10 +155,10 @@ class TeacherController extends Controller
     public function show(Teacher $teacher)
     {
         $user = Auth::user();
-        $unit = Unit::where('admin_user_id', $user->id)->first();
+        $unit = Unit::where('id', $teacher->unit_id)->first();
 
         // Check if teacher belongs to admin's unit
-        if (!$unit || $teacher->unit_id !== $unit->id) {
+        if (! $unit || $teacher->unit_id !== $unit->id) {
             return redirect()->route('tpa.teachers.index')
                 ->with('error', 'Anda tidak memiliki akses ke data guru ini.');
         }
@@ -170,7 +169,7 @@ class TeacherController extends Controller
             'province',
             'city',
             'district',
-            'village'
+            'village',
         ]);
 
         return view('tpa.teachers.show', compact('teacher', 'unit'));
@@ -182,10 +181,10 @@ class TeacherController extends Controller
     public function edit(Teacher $teacher)
     {
         $user = Auth::user();
-        $unit = Unit::where('admin_user_id', $user->id)->first();
+        $unit = Unit::where('id', $teacher->unit_id)->first();
 
         // Check if teacher belongs to admin's unit
-        if (!$unit || $teacher->unit_id !== $unit->id) {
+        if (! $unit || $teacher->unit_id !== $unit->id) {
             return redirect()->route('tpa.teachers.index')
                 ->with('error', 'Anda tidak memiliki akses ke data guru ini.');
         }
@@ -204,7 +203,7 @@ class TeacherController extends Controller
         $unit = Unit::where('admin_user_id', $user->id)->first();
 
         // Check if teacher belongs to admin's unit
-        if (!$unit || $teacher->unit_id !== $unit->id) {
+        if (! $unit || $teacher->unit_id !== $unit->id) {
             return redirect()->route('tpa.teachers.index')
                 ->with('error', 'Anda tidak memiliki akses ke data guru ini.');
         }
@@ -275,7 +274,7 @@ class TeacherController extends Controller
         }
 
         // Wrap pekerjaan in array if present
-        if (!empty($validated['pekerjaan'])) {
+        if (! empty($validated['pekerjaan'])) {
             $validated['pekerjaan'] = [$validated['pekerjaan']];
         }
 
@@ -294,7 +293,7 @@ class TeacherController extends Controller
         $unit = Unit::where('admin_user_id', $user->id)->first();
 
         // Check if teacher belongs to admin's unit
-        if (!$unit || $teacher->unit_id !== $unit->id) {
+        if (! $unit || $teacher->unit_id !== $unit->id) {
             return redirect()->route('tpa.teachers.index')
                 ->with('error', 'Anda tidak memiliki akses ke data guru ini.');
         }
