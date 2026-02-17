@@ -28,9 +28,9 @@ class UnitController extends Controller
         $unit->load(['village.district.city.province', 'unitHead.person']);
 
         $stats = [
-            'total_santri'  => $unit->santris()->count(),
+            'total_santri' => $unit->santris()->count(),
             'active_santri' => $unit->santris()->where('status_santri', 'aktif')->count(),
-            'male_santri'   => $unit->santris()->whereHas('person', fn ($q) => $q->where('gender', 'laki-laki'))->count(),
+            'male_santri' => $unit->santris()->whereHas('person', fn ($q) => $q->where('gender', 'laki-laki'))->count(),
             'female_santri' => $unit->santris()->whereHas('person', fn ($q) => $q->where('gender', 'perempuan'))->count(),
         ];
 
@@ -50,30 +50,30 @@ class UnitController extends Controller
 
         $unit->load(['village.district.city.province']);
 
-        $provinces            = Province::orderBy('name')->get();
-        $currentProvinceId    = $unit->village?->district?->city?->province_id;
-        $currentCityId        = $unit->village?->district?->city_id;
-        $currentDistrictId    = $unit->village?->district_id;
+        $provinces = Province::orderBy('name')->get();
+        $currentProvinceId = $unit->village?->district?->city?->province_id;
+        $currentCityId = $unit->village?->district?->city_id;
+        $currentDistrictId = $unit->village?->district_id;
 
         // Hitung data real dari database
         $liveStats = [
-            'santri_tka'     => $unit->santris()->where('jenjang_santri', 'tka')->count(),
-            'santri_tpa'     => $unit->santris()->where('jenjang_santri', 'tpa')->count(),
-            'santri_tqa'     => $unit->santris()->where('jenjang_santri', 'tqa')->count(),
-            'guru_laki'      => $unit->teachers()->where('gender', 'laki-laki')->count(),
+            'santri_tka' => $unit->santris()->where('jenjang_santri', 'tka')->count(),
+            'santri_tpa' => $unit->santris()->where('jenjang_santri', 'tpa')->count(),
+            'santri_tqa' => $unit->santris()->where('jenjang_santri', 'tqa')->count(),
+            'guru_laki' => $unit->teachers()->where('gender', 'laki-laki')->count(),
             'guru_perempuan' => $unit->teachers()->where('gender', 'perempuan')->count(),
         ];
 
         return view('tpa.unit.edit', [
-            'unit'                  => $unit,
-            'provinces'             => $provinces,
-            'currentProvinceId'     => $currentProvinceId,
-            'currentCityId'         => $currentCityId,
-            'currentDistrictId'     => $currentDistrictId,
-            'tipeLokasiOptions'     => TipeLokasi::cases(),
+            'unit' => $unit,
+            'provinces' => $provinces,
+            'currentProvinceId' => $currentProvinceId,
+            'currentCityId' => $currentCityId,
+            'currentDistrictId' => $currentDistrictId,
+            'tipeLokasiOptions' => TipeLokasi::cases(),
             'statusBangunanOptions' => StatusBangunan::cases(),
-            'waktuKegiatanOptions'  => WaktuKegiatan::cases(),
-            'liveStats'             => $liveStats,
+            'waktuKegiatanOptions' => WaktuKegiatan::cases(),
+            'liveStats' => $liveStats,
         ]);
     }
 
@@ -89,34 +89,34 @@ class UnitController extends Controller
         }
 
         $validated = $request->validate([
-            'name'             => 'required|string|max:255',
-            'email'            => 'nullable|email|max:255',
-            'phone'            => 'nullable|string|max:20',
-            'mosque_name'      => 'nullable|string|max:255',
-            'founder'          => 'nullable|string|max:255',
-            'tipe_lokasi'      => ['nullable', new Enum(TipeLokasi::class)],
-            'status_bangunan'  => ['nullable', new Enum(StatusBangunan::class)],
-            'waktu_kegiatan'   => ['required', 'array', 'min:1'],
+            'name' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'mosque_name' => 'nullable|string|max:255',
+            'founder' => 'nullable|string|max:255',
+            'tipe_lokasi' => ['nullable', new Enum(TipeLokasi::class)],
+            'status_bangunan' => ['nullable', new Enum(StatusBangunan::class)],
+            'waktu_kegiatan' => ['required', 'array', 'min:1'],
             'waktu_kegiatan.*' => [new Enum(WaktuKegiatan::class)],
-            'village_id'       => 'required|exists:villages,id',
-            'address'          => 'nullable|string|max:500',
-            'rt'               => 'nullable|string|max:5',
-            'rw'               => 'nullable|string|max:5',
+            'village_id' => 'required|exists:villages,id',
+            'address' => 'nullable|string|max:500',
+            'rt' => 'nullable|string|max:5',
+            'rw' => 'nullable|string|max:5',
         ]);
 
         $unit->update([
-            'name'            => $validated['name'],
-            'email'           => $validated['email']           ?? $unit->email,
-            'phone'           => $validated['phone']           ?? $unit->phone,
-            'mosque_name'     => $validated['mosque_name']     ?? $unit->mosque_name,
-            'founder'         => $validated['founder']         ?? $unit->founder,
-            'tipe_lokasi'     => $validated['tipe_lokasi']     ?? $unit->tipe_lokasi,
+            'name' => $validated['name'],
+            'email' => $validated['email'] ?? $unit->email,
+            'phone' => $validated['phone'] ?? $unit->phone,
+            'mosque_name' => $validated['mosque_name'] ?? $unit->mosque_name,
+            'founder' => $validated['founder'] ?? $unit->founder,
+            'tipe_lokasi' => $validated['tipe_lokasi'] ?? $unit->tipe_lokasi,
             'status_bangunan' => $validated['status_bangunan'] ?? $unit->status_bangunan,
-            'waktu_kegiatan'  => $validated['waktu_kegiatan'],
-            'village_id'      => $validated['village_id'],
-            'address'         => $validated['address']         ?? $unit->address,
-            'rt'              => $validated['rt']              ?? $unit->rt,
-            'rw'              => $validated['rw']              ?? $unit->rw,
+            'waktu_kegiatan' => $validated['waktu_kegiatan'],
+            'village_id' => $validated['village_id'],
+            'address' => $validated['address'] ?? $unit->address,
+            'rt' => $validated['rt'] ?? $unit->rt,
+            'rw' => $validated['rw'] ?? $unit->rw,
         ]);
 
         return redirect()->route('tpa.unit.show')
