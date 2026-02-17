@@ -286,60 +286,40 @@
             <!-- ============ SIDEBAR COLUMN ============ -->
             <div class="space-y-6">
 
-                <!-- Jumlah Santri -->
+                <!-- Jumlah Santri (real DB count, read-only) -->
                 <div class="card bg-base-100 shadow">
                     <div class="card-body">
                         <h2 class="card-title text-base mb-2">Jumlah Santri</h2>
+                        <p class="text-xs text-base-content/40 mb-3">Data dihitung otomatis dari catatan santri.</p>
 
-                        <div class="form-control mb-3">
-                            <label class="label"><span class="label-text font-medium">TKA</span></label>
-                            <input type="number" name="jumlah_tka"
-                                value="{{ old('jumlah_tka', $unit->jumlah_tka ?? 0) }}"
-                                class="input input-bordered @error('jumlah_tka') input-error @enderror" min="0"
-                                placeholder="0" />
-                            @error('jumlah_tka') <span class="text-error text-sm">{{ $message }}</span> @enderror
+                        <div class="flex justify-between items-center py-2 border-b border-base-200">
+                            <span class="text-sm font-medium">TKA</span>
+                            <span class="font-bold text-primary text-lg">{{ $liveStats['santri_tka'] }}</span>
                         </div>
-
-                        <div class="form-control mb-3">
-                            <label class="label"><span class="label-text font-medium">TPA</span></label>
-                            <input type="number" name="jumlah_tpa"
-                                value="{{ old('jumlah_tpa', $unit->jumlah_tpa ?? 0) }}"
-                                class="input input-bordered @error('jumlah_tpa') input-error @enderror" min="0"
-                                placeholder="0" />
-                            @error('jumlah_tpa') <span class="text-error text-sm">{{ $message }}</span> @enderror
+                        <div class="flex justify-between items-center py-2 border-b border-base-200">
+                            <span class="text-sm font-medium">TPA</span>
+                            <span class="font-bold text-secondary text-lg">{{ $liveStats['santri_tpa'] }}</span>
                         </div>
-
-                        <div class="form-control">
-                            <label class="label"><span class="label-text font-medium">TQA</span></label>
-                            <input type="number" name="jumlah_tqa"
-                                value="{{ old('jumlah_tqa', $unit->jumlah_tqa ?? 0) }}"
-                                class="input input-bordered @error('jumlah_tqa') input-error @enderror" min="0"
-                                placeholder="0" />
-                            @error('jumlah_tqa') <span class="text-error text-sm">{{ $message }}</span> @enderror
+                        <div class="flex justify-between items-center py-2">
+                            <span class="text-sm font-medium">TQA</span>
+                            <span class="font-bold text-accent text-lg">{{ $liveStats['santri_tqa'] }}</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Jumlah Guru -->
+                <!-- Jumlah Guru (real DB count, read-only) -->
                 <div class="card bg-base-100 shadow">
                     <div class="card-body">
                         <h2 class="card-title text-base mb-2">Jumlah Guru Mengaji</h2>
+                        <p class="text-xs text-base-content/40 mb-3">Data dihitung otomatis dari catatan guru.</p>
 
-                        <div class="form-control mb-3">
-                            <label class="label"><span class="label-text font-medium">Laki-laki</span></label>
-                            <input type="number" name="guru_laki" value="{{ old('guru_laki', $unit->guru_laki ?? 0) }}"
-                                class="input input-bordered @error('guru_laki') input-error @enderror" min="0"
-                                placeholder="0" />
-                            @error('guru_laki') <span class="text-error text-sm">{{ $message }}</span> @enderror
+                        <div class="flex justify-between items-center py-2 border-b border-base-200">
+                            <span class="text-sm font-medium">Laki-laki</span>
+                            <span class="font-bold text-info text-lg">{{ $liveStats['guru_laki'] }}</span>
                         </div>
-
-                        <div class="form-control">
-                            <label class="label"><span class="label-text font-medium">Perempuan</span></label>
-                            <input type="number" name="guru_perempuan"
-                                value="{{ old('guru_perempuan', $unit->guru_perempuan ?? 0) }}"
-                                class="input input-bordered @error('guru_perempuan') input-error @enderror" min="0"
-                                placeholder="0" />
-                            @error('guru_perempuan') <span class="text-error text-sm">{{ $message }}</span> @enderror
+                        <div class="flex justify-between items-center py-2">
+                            <span class="text-sm font-medium">Perempuan</span>
+                            <span class="font-bold text-info text-lg">{{ $liveStats['guru_perempuan'] }}</span>
                         </div>
                     </div>
                 </div>

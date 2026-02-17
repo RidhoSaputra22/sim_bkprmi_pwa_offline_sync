@@ -55,15 +55,25 @@ class UnitController extends Controller
         $currentCityId        = $unit->village?->district?->city_id;
         $currentDistrictId    = $unit->village?->district_id;
 
+        // Hitung data real dari database
+        $liveStats = [
+            'santri_tka'     => $unit->santris()->where('jenjang_santri', 'tka')->count(),
+            'santri_tpa'     => $unit->santris()->where('jenjang_santri', 'tpa')->count(),
+            'santri_tqa'     => $unit->santris()->where('jenjang_santri', 'tqa')->count(),
+            'guru_laki'      => $unit->teachers()->where('gender', 'laki-laki')->count(),
+            'guru_perempuan' => $unit->teachers()->where('gender', 'perempuan')->count(),
+        ];
+
         return view('tpa.unit.edit', [
-            'unit'               => $unit,
-            'provinces'          => $provinces,
-            'currentProvinceId'  => $currentProvinceId,
-            'currentCityId'      => $currentCityId,
-            'currentDistrictId'  => $currentDistrictId,
-            'tipeLokasiOptions'  => TipeLokasi::cases(),
+            'unit'                  => $unit,
+            'provinces'             => $provinces,
+            'currentProvinceId'     => $currentProvinceId,
+            'currentCityId'         => $currentCityId,
+            'currentDistrictId'     => $currentDistrictId,
+            'tipeLokasiOptions'     => TipeLokasi::cases(),
             'statusBangunanOptions' => StatusBangunan::cases(),
             'waktuKegiatanOptions'  => WaktuKegiatan::cases(),
+            'liveStats'             => $liveStats,
         ]);
     }
 
@@ -92,11 +102,6 @@ class UnitController extends Controller
             'address'          => 'nullable|string|max:500',
             'rt'               => 'nullable|string|max:5',
             'rw'               => 'nullable|string|max:5',
-            'jumlah_tka'       => 'nullable|integer|min:0',
-            'jumlah_tpa'       => 'nullable|integer|min:0',
-            'jumlah_tqa'       => 'nullable|integer|min:0',
-            'guru_laki'        => 'nullable|integer|min:0',
-            'guru_perempuan'   => 'nullable|integer|min:0',
         ]);
 
         $unit->update([
@@ -110,13 +115,8 @@ class UnitController extends Controller
             'waktu_kegiatan'  => $validated['waktu_kegiatan'],
             'village_id'      => $validated['village_id'],
             'address'         => $validated['address']         ?? $unit->address,
-            'rt'              => $validated['rt']               ?? $unit->rt,
-            'rw'              => $validated['rw']               ?? $unit->rw,
-            'jumlah_tka'      => $validated['jumlah_tka']      ?? $unit->jumlah_tka,
-            'jumlah_tpa'      => $validated['jumlah_tpa']      ?? $unit->jumlah_tpa,
-            'jumlah_tqa'      => $validated['jumlah_tqa']      ?? $unit->jumlah_tqa,
-            'guru_laki'       => $validated['guru_laki']       ?? $unit->guru_laki,
-            'guru_perempuan'  => $validated['guru_perempuan']  ?? $unit->guru_perempuan,
+            'rt'              => $validated['rt']              ?? $unit->rt,
+            'rw'              => $validated['rw']              ?? $unit->rw,
         ]);
 
         return redirect()->route('tpa.unit.show')
