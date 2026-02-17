@@ -4,50 +4,92 @@
         <p class="text-base-content/60">Selamat datang, {{ auth()->user()->person?->full_name ?? 'Admin' }}</p>
     </x-slot:header>
 
-    <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Stats Cards Row 1: Unit, Guru, Tersertifikasi -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
         <div class="stat bg-base-100 shadow rounded-box">
             <div class="stat-figure text-primary">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
             </div>
             <div class="stat-title">Total Unit TPA</div>
             <div class="stat-value text-primary">{{ $stats['total_units'] }}</div>
-            <div class="stat-desc">Unit terdaftar</div>
         </div>
 
         <div class="stat bg-base-100 shadow rounded-box">
-            <div class="stat-figure text-warning">
+            <div class="stat-figure text-secondary">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
             </div>
-            <div class="stat-title">Menunggu Approval</div>
-            <div class="stat-value text-warning">{{ $stats['pending_units'] }}</div>
-            <div class="stat-desc">Perlu diproses SuperAdmin</div>
+            <div class="stat-title">Guru Mengaji</div>
+            <div class="stat-value text-secondary">{{ $guruStats['laki'] + $guruStats['perempuan'] }}</div>
+            <div class="stat-desc">L: {{ $guruStats['laki'] }} &bull; P: {{ $guruStats['perempuan'] }}</div>
+        </div>
+
+        <div class="stat bg-base-100 shadow rounded-box">
+            <div class="stat-figure text-accent">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+            </div>
+            <div class="stat-title">Guru Tersertifikasi</div>
+            <div class="stat-value text-accent">{{ $guruStats['certified'] }}</div>
+        </div>
+    </div>
+
+    <!-- Stats Cards Row 2: Santri, Akun Aktif, Approval -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+        <div class="stat bg-base-100 shadow rounded-box">
+            <div class="stat-figure text-info">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+            </div>
+            <div class="stat-title">Jumlah Santri</div>
+            <div class="stat-value text-info">{{ number_format($santriStats['total']) }}</div>
         </div>
 
         <div class="stat bg-base-100 shadow rounded-box">
             <div class="stat-figure text-success">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            </div>
-            <div class="stat-title">Sudah Disetujui</div>
-            <div class="stat-value text-success">{{ $stats['approved_units'] }}</div>
-            <div class="stat-desc">Siap buat akun</div>
-        </div>
-
-        <div class="stat bg-base-100 shadow rounded-box">
-            <div class="stat-figure text-info">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
             </div>
             <div class="stat-title">Akun TPA Aktif</div>
-            <div class="stat-value text-info">{{ $stats['active_accounts'] }}</div>
-            <div class="stat-desc">Admin TPA terdaftar</div>
+            <div class="stat-value text-success">{{ $stats['active_accounts'] }}</div>
+        </div>
+
+        <div class="stat bg-base-100 shadow rounded-box">
+            <div class="stat-figure text-warning">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <div class="stat-title">Menunggu Approval</div>
+            <div class="stat-value text-warning">{{ $stats['pending_units'] }}</div>
+        </div>
+    </div>
+
+    <!-- Jenjang Cards: TKA / TPA / TQA -->
+    <div class="grid grid-cols-3 gap-4 mb-8">
+        <div class="stat bg-primary/10 shadow rounded-box">
+            <div class="stat-title text-center font-semibold">Santri TKA</div>
+            <div class="stat-value text-center text-primary text-3xl">{{ number_format($santriStats['tka']) }}</div>
+        </div>
+        <div class="stat bg-secondary/10 shadow rounded-box">
+            <div class="stat-title text-center font-semibold">Santri TPA</div>
+            <div class="stat-value text-center text-secondary text-3xl">{{ number_format($santriStats['tpa']) }}</div>
+        </div>
+        <div class="stat bg-accent/10 shadow rounded-box">
+            <div class="stat-title text-center font-semibold">Santri TQA</div>
+            <div class="stat-value text-center text-accent text-3xl">{{ number_format($santriStats['tqa']) }}</div>
         </div>
     </div>
 
@@ -78,7 +120,8 @@
                 @empty
                 <div class="text-center py-8 text-base-content/60">
                     <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                     </svg>
                     <p>Belum ada unit siap buat akun</p>
                 </div>
@@ -122,30 +165,36 @@
     <div class="mt-8">
         <h3 class="text-lg font-semibold mb-4">Aksi Cepat</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <a href="{{ route('lpptka.units.create') }}" class="card bg-primary text-primary-content shadow hover:shadow-lg transition-shadow">
+            <a href="{{ route('lpptka.units.create') }}"
+                class="card bg-primary text-primary-content shadow hover:shadow-lg transition-shadow">
                 <div class="card-body items-center text-center">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
                     <h3 class="card-title">Daftar Unit TPA Baru</h3>
                     <p class="text-sm opacity-80">Input profil TPA baru ke sistem</p>
                 </div>
             </a>
 
-            <a href="{{ route('lpptka.units.index') }}" class="card bg-secondary text-secondary-content shadow hover:shadow-lg transition-shadow">
+            <a href="{{ route('lpptka.units.index') }}"
+                class="card bg-secondary text-secondary-content shadow hover:shadow-lg transition-shadow">
                 <div class="card-body items-center text-center">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                     </svg>
                     <h3 class="card-title">Daftar Unit</h3>
                     <p class="text-sm opacity-80">Lihat dan kelola semua unit TPA</p>
                 </div>
             </a>
 
-            <a href="{{ route('lpptka.tpa-accounts.index') }}" class="card bg-accent text-accent-content shadow hover:shadow-lg transition-shadow">
+            <a href="{{ route('lpptka.tpa-accounts.index') }}"
+                class="card bg-accent text-accent-content shadow hover:shadow-lg transition-shadow">
                 <div class="card-body items-center text-center">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                     <h3 class="card-title">Kelola Akun TPA</h3>
                     <p class="text-sm opacity-80">Buat dan kelola akun admin TPA</p>

@@ -260,14 +260,17 @@
                             <div class="flex flex-wrap gap-4">
                                 @foreach(\App\Enum\WaktuKegiatan::cases() as $waktu)
                                 <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" name="waktu_kegiatan" value="{{ $waktu->value }}"
-                                        class="radio radio-primary @error('waktu_kegiatan') radio-error @enderror"
-                                        {{ old('waktu_kegiatan', $unit->waktu_kegiatan?->value) == $waktu->value ? 'checked' : '' }}>
+                                    <input type="checkbox" name="waktu_kegiatan[]" value="{{ $waktu->value }}"
+                                        class="checkbox checkbox-primary @error('waktu_kegiatan') checkbox-error @enderror @error('waktu_kegiatan.*') checkbox-error @enderror"
+                                        {{ is_array(old('waktu_kegiatan', $unit->waktu_kegiatan)) && in_array($waktu->value, old('waktu_kegiatan', $unit->waktu_kegiatan)) ? 'checked' : '' }}>
                                     <span>{{ $waktu->getLabel() }}</span>
                                 </label>
                                 @endforeach
                             </div>
                             @error('waktu_kegiatan')
+                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                            @enderror
+                            @error('waktu_kegiatan.*')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
@@ -620,23 +623,66 @@
             </div>
 
             <!-- Sertifikat -->
-            @if(!$unit->hasCertificate())
-            <div class="card bg-base-100 shadow">
+
+            <div class="card bg-base-100 shadow" x-data="{
+        showReplace: false,
+        resetFile() {
+            if (this.$refs.certificateInput) {
+                this.$refs.certificateInput.value = null; // kosongkan file input
+            }
+        }
+     }">
                 <div class="card-body">
                     <h2 class="card-title">Sertifikat Unit</h2>
 
-                    <div class="form-control">
-                        <label class="label"><span class="label-text">Upload Sertifikat (PDF/JPG/PNG, max
-                                10MB)</span></label>
-                        <input type="file" name="certificate" accept=".pdf,.jpg,.jpeg,.png"
-                            class="file-input file-input-bordered w-full @error('certificate') file-input-error @enderror">
-                        @error('certificate')
-                        <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
-                        @enderror
+                    <div class="flex flex-wrap gap-2 items-center">
+                        @if(!empty($unit->certificate_path))
+                        <a href="{{ Storage::url($unit->certificate_path) }}" target="_blank"
+                            class="btn btn-outline btn-sm">
+                            Lihat Sertifikat
+                        </a>
+
+                        <button type="button" class="btn btn-warning btn-sm"
+                            @click="showReplace = !showReplace; if(!showReplace) resetFile()">
+                            <span x-text="showReplace ? 'Tutup Ganti Sertifikat' : 'Ganti Sertifikat'"></span>
+                        </button>
+                        @else
+                        <div class="alert alert-info py-2">
+                            <span>Sertifikat belum diupload.</span>
+                        </div>
+
+                        <button type="button" class="btn btn-primary btn-sm" @click="showReplace = true">
+                            Upload Sertifikat
+                        </button>
+                        @endif
+                    </div>
+
+                    <div x-show="showReplace" class="mt-4">
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Upload Sertifikat (PDF/JPG/PNG, max 10MB)</span>
+                            </label>
+
+                            <input type="file" x-ref="certificateInput" name="certificate" accept=".pdf,.jpg,.jpeg,.png"
+                                class="file-input file-input-bordered w-full @error('certificate') file-input-error @enderror">
+
+                            @error('certificate')
+                            <label class="label">
+                                <span class="label-text-alt text-error">{{ $message }}</span>
+                            </label>
+                            @enderror
+
+                            <div class="mt-3 flex gap-2">
+                                <button type="button" class="btn btn-ghost btn-sm"
+                                    @click="resetFile(); showReplace = false">
+                                    Batal
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            @endif
+
 
             <!-- Submit -->
             <div class="flex justify-end gap-4">

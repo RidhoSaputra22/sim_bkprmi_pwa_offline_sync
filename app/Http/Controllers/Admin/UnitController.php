@@ -90,7 +90,8 @@ class UnitController extends Controller
             'founder' => 'required|string|max:255',
             'formed_at' => 'required|date',
             'joined_year' => 'required|integer|min:1900|max:'.date('Y'),
-            'waktu_kegiatan' => ['required', new Enum(WaktuKegiatan::class)],
+            'waktu_kegiatan' => ['required', 'array', 'min:1'],
+            'waktu_kegiatan.*' => [new Enum(WaktuKegiatan::class)],
             'email' => 'required|email|max:255',
 
             // Alamat
@@ -266,7 +267,8 @@ class UnitController extends Controller
             'founder' => 'required|string|max:255',
             'formed_at' => 'required|date',
             'joined_year' => 'required|integer|min:1900|max:'.date('Y'),
-            'waktu_kegiatan' => ['required', new Enum(WaktuKegiatan::class)],
+            'waktu_kegiatan' => ['required', 'array', 'min:1'],
+            'waktu_kegiatan.*' => [new Enum(WaktuKegiatan::class)],
             'email' => 'required|email|max:255',
 
             // Alamat

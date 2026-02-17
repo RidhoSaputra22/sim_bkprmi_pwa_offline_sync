@@ -82,7 +82,9 @@
                     <p class="text-sm text-base-content/60">Jam Kegiatan</p>
                     <p class="font-medium">
                         @if($unit->waktu_kegiatan)
-                            <span class="badge badge-accent">{{ $unit->waktu_kegiatan->getLabel() }}</span>
+                            @foreach($unit->waktu_kegiatan as $waktu)
+                                <span class="badge badge-accent">{{ \App\Enum\WaktuKegiatan::tryFrom($waktu)?->getLabel() }}</span>
+                            @endforeach
                         @else
                             -
                         @endif

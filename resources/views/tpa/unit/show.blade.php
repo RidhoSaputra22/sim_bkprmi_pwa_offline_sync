@@ -1,8 +1,28 @@
 <x-layouts.tpa title="Profil Unit TPA">
     <x-slot:header>
-        <h1 class="text-2xl font-bold">Profil Unit TPA</h1>
-        <p class="text-base-content/60">Informasi lengkap unit TPA Anda</p>
+        <div class="flex items-center justify-between w-full">
+            <div>
+                <h1 class="text-2xl font-bold">Profil Unit TPA</h1>
+                <p class="text-base-content/60">Informasi lengkap unit TPA Anda</p>
+            </div>
+            <a href="{{ route('tpa.unit.edit') }}" class="btn btn-primary btn-sm gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Edit Profil
+            </a>
+        </div>
     </x-slot:header>
+
+    @if(session('success'))
+    <div class="alert alert-success mb-4">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        {{ session('success') }}
+    </div>
+    @endif
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Main Content -->
@@ -31,7 +51,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-base-content/60">Waktu Kegiatan</p>
-                            <p>{{ $unit->waktu_kegiatan?->getLabel() ?? '-' }}</p>
+                            <p>{{ \App\Enum\WaktuKegiatan::getLabelsFromArray($unit->waktu_kegiatan) }}</p>
                         </div>
                         <div>
                             <p class="text-sm text-base-content/60">Nama Masjid/Mushalla</p>
@@ -177,13 +197,14 @@
                 </div>
             </div>
 
-            <!-- Info -->
-            <div class="alert alert-info">
-                <svg class="stroke-current shrink-0 w-6 h-6" fill="none" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            <!-- Edit Shortcut -->
+            <a href="{{ route('tpa.unit.edit') }}" class="btn btn-primary w-full gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
-                <span class="text-sm">Untuk mengubah data unit, silakan hubungi Admin LPPTKA.</span>
-            </div>
+                Edit Profil Unit
+            </a>
         </div>
     </div>
 </x-layouts.tpa>

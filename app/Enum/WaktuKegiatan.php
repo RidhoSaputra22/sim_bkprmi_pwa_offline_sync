@@ -18,4 +18,19 @@ enum WaktuKegiatan: string
             self::MALAM => 'Malam',
         };
     }
+
+    /**
+     * Get comma-separated labels from an array of waktu_kegiatan values.
+     */
+    public static function getLabelsFromArray(?array $values): string
+    {
+        if (empty($values)) {
+            return '-';
+        }
+
+        return collect($values)
+            ->map(fn($v) => self::tryFrom($v)?->getLabel())
+            ->filter()
+            ->implode(', ');
+    }
 }

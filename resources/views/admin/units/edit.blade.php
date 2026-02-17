@@ -131,18 +131,20 @@
                             @foreach($waktuKegiatanOptions as $waktu)
                                 <label class="flex items-center gap-2 cursor-pointer">
                                     <input
-                                        type="radio"
-                                        name="waktu_kegiatan"
+                                        type="checkbox"
+                                        name="waktu_kegiatan[]"
                                         value="{{ $waktu->value }}"
-                                        class="radio radio-primary"
-                                        {{ old('waktu_kegiatan', $unit->waktu_kegiatan?->value) == $waktu->value ? 'checked' : '' }}
-                                        required
+                                        class="checkbox checkbox-primary"
+                                        {{ is_array(old('waktu_kegiatan', $unit->waktu_kegiatan)) && in_array($waktu->value, old('waktu_kegiatan', $unit->waktu_kegiatan)) ? 'checked' : '' }}
                                     />
                                     <span>{{ $waktu->getLabel() }}</span>
                                 </label>
                             @endforeach
                         </div>
                         @error('waktu_kegiatan')
+                            <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
+                        @enderror
+                        @error('waktu_kegiatan.*')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                         @enderror
                     </div>

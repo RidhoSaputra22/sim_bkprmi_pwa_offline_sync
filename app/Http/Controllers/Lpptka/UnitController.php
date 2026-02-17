@@ -92,7 +92,8 @@ class UnitController extends Controller
             'founder' => 'required|string|max:255',
             'formed_at' => 'required|date',
             'joined_year' => 'required|integer|min:1900|max:'.date('Y'),
-            'waktu_kegiatan' => ['required', new Enum(WaktuKegiatan::class)],
+            'waktu_kegiatan' => ['required', 'array', 'min:1'],
+            'waktu_kegiatan.*' => [new Enum(WaktuKegiatan::class)],
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:20',
 
@@ -270,7 +271,8 @@ class UnitController extends Controller
             'mosque_name' => 'required|string|max:255',
             'tipe_lokasi' => ['required', new Enum(TipeLokasi::class)],
             'status_bangunan' => ['required', new Enum(StatusBangunan::class)],
-            'waktu_kegiatan' => ['required', new Enum(WaktuKegiatan::class)],
+            'waktu_kegiatan' => ['required', 'array', 'min:1'],
+            'waktu_kegiatan.*' => [new Enum(WaktuKegiatan::class)],
             'founder' => 'required|string|max:255',
             'formed_at' => 'required|date',
             'joined_year' => 'required|integer|min:1900|max:'.date('Y'),
@@ -310,7 +312,7 @@ class UnitController extends Controller
             'admin_phone' => 'required|string|max:20',
             'admin_email' => 'required|email|max:255',
 
-            'certificate' => 'required|file|mimes:pdf,jpg,jpeg,png|max:10240',
+            'certificate' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
         ]);
 
         DB::transaction(function () use ($validated, $request, $unit) {
@@ -447,6 +449,26 @@ class UnitController extends Controller
             return back()->with('success', 'Unit berhasil diajukan ulang untuk approval.');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * Hapus unit TPA
+     */
+    public function destroy(Unit $unit)
+    {
+        try {
+            // Delete certificate file if exists
+            if ($unit->certificate_path) {
+                Storage::disk('public')->delete($unit->certificate_path);
+            }
+
+            $unit->delete();
+
+            return redirect()->route('lpptka.units.index')
+                ->with('success', "Unit {$unit->name} berhasil dihapus.");
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menghapus unit: '.$e->getMessage());
         }
     }
 }

@@ -86,7 +86,7 @@
                         </div>
                         <div>
                             <label class="text-sm text-base-content/60">Waktu Kegiatan</label>
-                            <p class="font-medium">{{ $unit->waktu_kegiatan?->getLabel() ?? '-' }}</p>
+                            <p class="font-medium">{{ \App\Enum\WaktuKegiatan::getLabelsFromArray($unit->waktu_kegiatan) }}</p>
                         </div>
                     </div>
                 </div>

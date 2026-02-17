@@ -66,7 +66,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-base-content/60">Jam Kegiatan</p>
-                            <p>{{ $unit->waktu_kegiatan?->getLabel() ?? '-' }}</p>
+                            <p>{{ \App\Enum\WaktuKegiatan::getLabelsFromArray($unit->waktu_kegiatan) }}</p>
                         </div>
                         <div>
                             <p class="text-sm text-base-content/60">Email</p>

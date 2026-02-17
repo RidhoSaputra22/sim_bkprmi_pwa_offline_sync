@@ -350,8 +350,7 @@
                         </svg>
                     </div>
                     <div class="stat-title">TPA/TPQ Terdaftar</div>
-                    <div class="stat-value text-primary">250K+</div>
-                    <div class="stat-desc">Di seluruh Indonesia</div>
+                    <div class="stat-value text-primary">{{ number_format($welcomeStats['total_units']) }}</div>
                 </div>
 
                 <div class="stat">
@@ -363,8 +362,7 @@
                         </svg>
                     </div>
                     <div class="stat-title">Santri Aktif</div>
-                    <div class="stat-value text-secondary">8M+</div>
-                    <div class="stat-desc">Generasi Qur'ani Indonesia</div>
+                    <div class="stat-value text-secondary">{{ number_format($welcomeStats['total_santri']) }}</div>
                 </div>
 
                 <div class="stat">
@@ -376,8 +374,7 @@
                         </svg>
                     </div>
                     <div class="stat-title">Guru/Ustadz</div>
-                    <div class="stat-value text-accent">500K+</div>
-                    <div class="stat-desc">Tenaga Pengajar Berkualitas</div>
+                    <div class="stat-value text-accent">{{ number_format($welcomeStats['total_guru']) }}</div>
                 </div>
 
                 <div class="stat">
@@ -388,9 +385,8 @@
                                 d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </div>
-                    <div class="stat-title">Provinsi</div>
-                    <div class="stat-value text-warning">34</div>
-                    <div class="stat-desc">Tersebar di seluruh Indonesia</div>
+                    <div class="stat-title">Kecamatan</div>
+                    <div class="stat-value text-warning">{{ number_format($welcomeStats['total_kecamatan']) }}</div>
                 </div>
             </div>
         </div>
@@ -751,15 +747,9 @@
                         Daftarkan TPA/TPQ Anda atau bergabung sebagai relawan.
                     </p>
                     <div class="flex flex-wrap gap-4 justify-center">
-                        <a href="#" class="btn btn-warning btn-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                            </svg>
-                            Daftar Sekarang
-                        </a>
-                        <a href="#kontak"
+
+                        <a href="https://api.whatsapp.com/send/?phone=6282188886111&text&type=phone_number&app_absent=0"
+                            target="_blank"
                             class="btn btn-outline btn-lg text-white border-white hover:bg-white hover:text-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
@@ -816,8 +806,7 @@
                         </div>
                         <h3 class="card-title">Telepon</h3>
                         <p class="text-base-content/70 text-sm">
-                            +62 21 1234 5678<br>
-                            +62 812 3456 7890
+                            +62 821-8888-6111
                         </p>
                     </div>
                 </div>

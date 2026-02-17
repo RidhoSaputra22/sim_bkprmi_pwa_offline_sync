@@ -59,7 +59,7 @@ class Unit extends Model
         'joined_year' => 'integer',
         'tipe_lokasi' => TipeLokasi::class,
         'status_bangunan' => StatusBangunan::class,
-        'waktu_kegiatan' => WaktuKegiatan::class,
+        'waktu_kegiatan' => 'array',
         'approval_status' => StatusApprovalUnit::class,
         'approved_at' => 'datetime',
         'certificate_uploaded_at' => 'datetime',

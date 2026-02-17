@@ -67,6 +67,13 @@
                             </li>
 
                             <li>
+                                <a href="{{ route('tpa.unit.show') }}">Profil Unit</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('tpa.unit.edit') }}">Edit Profil</a>
+                            </li>
+
+                            <li>
                                 <a href="#"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Logout

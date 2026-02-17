@@ -15,6 +15,7 @@ use App\Http\Controllers\SuperAdmin\UnitApprovalController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\Tpa\DashboardController as TpaDashboardController;
 use App\Http\Controllers\Tpa\SantriController as TpaSantriController;
+use App\Http\Controllers\Tpa\UnitController as TpaUnitController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 
@@ -242,32 +243,9 @@ Route::prefix('tpa')
         Route::get('/api/villages', [TeacherController::class, 'getVillages'])->name('api.villages');
 
         // Unit Profile (view/edit own unit only)
-        Route::get('/unit', function () {
-            $unit = auth()->user()->managedUnit;
-            if (! $unit) {
-                return view('tpa.no-unit');
-            }
-
-            $unit->load(['village.district.city.province', 'unitHead.person']);
-
-            $stats = [
-                'total_santri' => $unit->santris()->count(),
-                'active_santri' => $unit->santris()->where('status_santri', 'aktif')->count(),
-                'male_santri' => $unit->santris()->whereHas('person', fn ($q) => $q->where('gender', 'laki-laki'))->count(),
-                'female_santri' => $unit->santris()->whereHas('person', fn ($q) => $q->where('gender', 'perempuan'))->count(),
-            ];
-
-            return view('tpa.unit.show', compact('unit', 'stats'));
-        })->name('unit.show');
-
-        Route::get('/unit/edit', function () {
-            $unit = auth()->user()->managedUnit;
-            if (! $unit) {
-                return redirect()->route('tpa.dashboard')->with('error', 'Unit tidak ditemukan.');
-            }
-
-            return view('tpa.unit.edit', compact('unit'));
-        })->name('unit.edit');
+        Route::get('/unit', [TpaUnitController::class, 'show'])->name('unit.show');
+        Route::get('/unit/edit', [TpaUnitController::class, 'edit'])->name('unit.edit');
+        Route::put('/unit', [TpaUnitController::class, 'update'])->name('unit.update');
     });
 
 // ========================================

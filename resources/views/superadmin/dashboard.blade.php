@@ -5,17 +5,7 @@
     </x-slot:header>
 
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <div class="stat bg-base-100 rounded-lg shadow">
-            <div class="stat-figure text-primary">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-            </div>
-            <div class="stat-title">Total Santri</div>
-            <div class="stat-value text-primary">{{ number_format($stats['total_santri']) }}</div>
-        </div>
-
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         <div class="stat bg-base-100 rounded-lg shadow">
             <div class="stat-figure text-secondary">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -24,6 +14,37 @@
             </div>
             <div class="stat-title">Total Unit TPA</div>
             <div class="stat-value text-secondary">{{ number_format($stats['total_units']) }}</div>
+        </div>
+
+        <div class="stat bg-base-100 rounded-lg shadow">
+            <div class="stat-figure text-info">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            </div>
+            <div class="stat-title">Guru Mengaji</div>
+            <div class="stat-value text-info">{{ number_format($stats['guru_laki'] + $stats['guru_perempuan']) }}</div>
+            <div class="stat-desc">L: {{ number_format($stats['guru_laki']) }} / P: {{ number_format($stats['guru_perempuan']) }}</div>
+        </div>
+
+        <div class="stat bg-base-100 rounded-lg shadow">
+            <div class="stat-figure text-accent">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+            </div>
+            <div class="stat-title">Guru Tersertifikasi Level A</div>
+            <div class="stat-value text-accent">{{ number_format($stats['guru_certified_a']) }}</div>
+        </div>
+
+        <div class="stat bg-base-100 rounded-lg shadow">
+            <div class="stat-figure text-primary">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+            </div>
+            <div class="stat-title">Total Santri</div>
+            <div class="stat-value text-primary">{{ number_format($stats['total_santri']) }}</div>
         </div>
 
         <div class="stat bg-base-100 rounded-lg shadow">

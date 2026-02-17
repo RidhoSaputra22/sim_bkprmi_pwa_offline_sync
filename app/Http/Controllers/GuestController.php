@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\District;
+use App\Models\Santri;
+use App\Models\Unit;
+
 class GuestController extends Controller
 {
     //
@@ -41,7 +45,17 @@ class GuestController extends Controller
     {
         $beritas = $this->getBeritas();
 
-        return view('welcome', compact('beritas'));
+        $welcomeStats = [
+            'total_units'     => Unit::count(),
+            'total_santri'    => Santri::count(),
+            'total_guru'      => (int) Unit::sum('guru_laki') + (int) Unit::sum('guru_perempuan'),
+            'total_kecamatan' => Unit::approved()
+                ->join('villages', 'units.village_id', '=', 'villages.id')
+                ->distinct('villages.district_id')
+                ->count('villages.district_id'),
+        ];
+
+        return view('welcome', compact('beritas', 'welcomeStats'));
     }
 
     public function berita($slug)

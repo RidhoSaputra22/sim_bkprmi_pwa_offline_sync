@@ -26,7 +26,8 @@ class UnitFactory extends Factory
             'region_id' => Region::query()->inRandomOrder()->value('id') ?? Region::factory(),
             'tipe_lokasi' => Arr::random(TipeLokasi::cases())->value,
             'status_bangunan' => Arr::random(StatusBangunan::cases())->value,
-            'waktu_kegiatan' => Arr::random(WaktuKegiatan::cases())->value,
+            'waktu_kegiatan' => collect(Arr::random(WaktuKegiatan::cases(), rand(1, 3)))
+                ->map(fn($w) => $w->value)->values()->all(),
 
             'mosque_name' => $this->faker->company() . ' Mosque',
             'founder' => $this->faker->name(),
