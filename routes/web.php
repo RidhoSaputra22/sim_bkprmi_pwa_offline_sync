@@ -64,16 +64,17 @@ Route::prefix('superadmin')
                 ->when(request('jenjang'), fn ($q, $jenjang) => $q->where('jenjang_santri', $jenjang))
                 ->when(request('gender'), fn ($q, $gender) => $q->whereHas('person', fn ($pq) => $pq->where('gender', $gender)))
                 ->when(request('search'), fn ($q, $search) => $q->whereHas('person', fn ($pq) => $pq->where('full_name', 'like', "%{$search}%")->orWhere('nik', 'like', "%{$search}%")))
+                ->whereHas('santriUnits', fn ($uq) => $uq->whereNull('left_at'))
                 ->latest()
                 ->paginate(15)
                 ->withQueryString();
 
             $stats = [
-                'total' => \App\Models\Santri::count(),
-                'aktif' => \App\Models\Santri::where('status_santri', 'aktif')->count(),
-                'male' => \App\Models\Santri::whereHas('person', fn ($q) => $q->where('gender', 'laki-laki'))->count(),
-                'female' => \App\Models\Santri::whereHas('person', fn ($q) => $q->where('gender', 'perempuan'))->count(),
-                'graduated' => \App\Models\Santri::where('status_santri', 'lulus_wisuda')->count(),
+                'total' => \App\Models\Santri::whereHas('santriUnits', fn ($q) => $q->whereNull('left_at'))->count(),
+                'aktif' => \App\Models\Santri::whereHas('santriUnits', fn ($q) => $q->whereNull('left_at'))->where('status_santri', 'aktif')->count(),
+                'male' => \App\Models\Santri::whereHas('santriUnits', fn ($q) => $q->whereNull('left_at'))->whereHas('person', fn ($q) => $q->where('gender', 'laki-laki'))->count(),
+                'female' => \App\Models\Santri::whereHas('santriUnits', fn ($q) => $q->whereNull('left_at'))->whereHas('person', fn ($q) => $q->where('gender', 'perempuan'))->count(),
+                'graduated' => \App\Models\Santri::whereHas('santriUnits', fn ($q) => $q->whereNull('left_at'))->where('status_santri', 'lulus_wisuda')->count(),
             ];
 
             return view('superadmin.santri.index', compact('santris', 'stats'));

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Models\City;
-use App\Models\Santri;
+use App\Models\SantriUnit;
 use App\Models\Unit;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -95,13 +95,13 @@ class ReportController extends Controller
 
     private function makeFileName(string $ext): string
     {
-        return 'laporan-bkprmi-' . now()->format('Ymd-His') . '.' . $ext;
+        return 'laporan-bkprmi-'.now()->format('Ymd-His').'.'.$ext;
     }
 
     private function buildStats(): array
     {
         return [
-            'total_santri' => Santri::count(),
+            'total_santri' => SantriUnit::whereNull('left_at')->count(),
             'total_units' => Unit::count(),
             'total_cities' => City::count(),
 
@@ -110,21 +110,21 @@ class ReportController extends Controller
             'rejected_units' => Unit::where('approval_status', 'rejected')->count(),
 
             // Mengikuti data existing di route sebelumnya (L/P)
-            'male_santri' => Santri::whereHas('person', fn ($q) => $q->where('gender', 'L'))->count(),
-            'female_santri' => Santri::whereHas('person', fn ($q) => $q->where('gender', 'P'))->count(),
+            'male_santri' => SantriUnit::whereHas('santri.person', fn ($q) => $q->where('gender', 'L'))->whereNull('left_at')->count(),
+            'female_santri' => SantriUnit::whereHas('santri.person', fn ($q) => $q->where('gender', 'P'))->whereNull('left_at')->count(),
 
             'by_jenjang' => [
-                'tka' => Santri::where('jenjang_santri', 'tka')->count(),
-                'tpa' => Santri::where('jenjang_santri', 'tpa')->count(),
-                'tqa' => Santri::where('jenjang_santri', 'tqa')->count(),
+                'tka' => SantriUnit::whereHas('santri', fn ($q) => $q->where('jenjang_santri', 'tka'))->whereNull('left_at')->count(),
+                'tpa' => SantriUnit::whereHas('santri', fn ($q) => $q->where('jenjang_santri', 'tpa'))->whereNull('left_at')->count(),
+                'tqa' => SantriUnit::whereHas('santri', fn ($q) => $q->where('jenjang_santri', 'tqa'))->whereNull('left_at')->count(),
             ],
 
             'by_status' => [
-                'aktif' => Santri::where('status_santri', 'aktif')->count(),
-                'lulus_wisuda' => Santri::where('status_santri', 'lulus_wisuda')->count(),
-                'lanjut_tqa' => Santri::where('status_santri', 'lanjut_tqa')->count(),
-                'pindah' => Santri::where('status_santri', 'pindah')->count(),
-                'berhenti' => Santri::where('status_santri', 'berhenti')->count(),
+                'aktif' => SantriUnit::whereHas('santri', fn ($q) => $q->where('status_santri', 'aktif'))->whereNull('left_at')->count(),
+                'lulus_wisuda' => SantriUnit::whereHas('santri', fn ($q) => $q->where('status_santri', 'lulus_wisuda'))->whereNull('left_at')->count(),
+                'lanjut_tqa' => SantriUnit::whereHas('santri', fn ($q) => $q->where('status_santri', 'lanjut_tqa'))->whereNull('left_at')->count(),
+                'pindah' => SantriUnit::whereHas('santri', fn ($q) => $q->where('status_santri', 'pindah'))->whereNull('left_at')->count(),
+                'berhenti' => SantriUnit::whereHas('santri', fn ($q) => $q->where('status_santri', 'berhenti'))->whereNull('left_at')->count(),
             ],
         ];
     }

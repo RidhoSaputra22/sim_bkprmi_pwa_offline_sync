@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Lpptka;
 
+use App\Enum\JenjangSantri;
 use App\Enum\LevelPelatihanGuru;
 use App\Http\Controllers\Controller;
 use App\Models\Santri;
+use App\Models\SantriUnit;
 use App\Models\Teacher;
 use App\Models\Unit;
 use App\Services\UnitApprovalService;
@@ -25,16 +27,16 @@ class DashboardController extends Controller
 
         // Statistik santri & guru
         $santriStats = [
-            'total'   => Santri::count(),
-            'tka'     => (int) Unit::sum('jumlah_tka'),
-            'tpa'     => (int) Unit::sum('jumlah_tpa'),
-            'tqa'     => (int) Unit::sum('jumlah_tqa'),
+            'total' => SantriUnit::whereNull('left_at')->count(),
+            'tka' => SantriUnit::whereHas('santri', fn ($q) => $q->where('jenjang_santri', JenjangSantri::TKA))->whereNull('left_at')->count(),
+            'tpa' => SantriUnit::whereHas('santri', fn ($q) => $q->where('jenjang_santri', JenjangSantri::TPA))->whereNull('left_at')->count(),
+            'tqa' => SantriUnit::whereHas('santri', fn ($q) => $q->where('jenjang_santri', JenjangSantri::TQA))->whereNull('left_at')->count(),
         ];
 
         $guruStats = [
-            'laki'       => (int) Unit::sum('guru_laki'),
-            'perempuan'  => (int) Unit::sum('guru_perempuan'),
-            'certified'  => Teacher::where('level_pelatihan_guru', '!=', LevelPelatihanGuru::BELUM_PERNAH->value)->count(),
+            'laki' => Teacher::where('gender', 'laki-laki')->count(),
+            'perempuan' => Teacher::where('gender', 'perempuan')->count(),
+            'certified' => Teacher::where('level_pelatihan_guru', '!=', LevelPelatihanGuru::BELUM_PERNAH->value)->count(),
         ];
 
         // Unit yang sudah approved tapi belum punya akun

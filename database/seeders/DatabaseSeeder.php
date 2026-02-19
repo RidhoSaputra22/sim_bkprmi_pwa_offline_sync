@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             'full_name' => 'Admin LPPTKA',
         ]);
 
-        // Create Admin LPPTKA
+        // Create Admin TPA
         $adminTpa = Person::factory()->create([
             'full_name' => 'Admin TPA',
         ]);
@@ -80,5 +80,11 @@ class DatabaseSeeder extends Seeder
             MasterDataSeeder::class,
             DemoDataSeeder::class,
         ]);
+
+        // Assign TPA Unit to Admin TPA (must run after DemoDataSeeder creates units)
+        $unit = \App\Models\Unit::first();
+        if ($unit) {
+            $unit->update(['admin_user_id' => $userAdminTpa->id]);
+        }
     }
 }

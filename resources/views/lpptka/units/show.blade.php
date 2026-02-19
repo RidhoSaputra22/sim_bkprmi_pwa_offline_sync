@@ -143,11 +143,13 @@
                     <div class="grid grid-cols-2 gap-4 mt-4">
                         <div class="stat bg-base-200 rounded-lg">
                             <div class="stat-title">Guru Laki-laki</div>
-                            <div class="stat-value text-primary">{{ $unit->guru_laki ?? 0 }}</div>
+                            <div class="stat-value text-primary">
+                                {{ $unit->teachers->where('gender', App\Enum\Gender::LAKI_LAKI)->count() ?? 0 }}</div>
                         </div>
                         <div class="stat bg-base-200 rounded-lg">
                             <div class="stat-title">Guru Perempuan</div>
-                            <div class="stat-value text-secondary">{{ $unit->guru_perempuan ?? 0 }}</div>
+                            <div class="stat-value text-secondary">
+                                {{ $unit->teachers->where('gender', App\Enum\Gender::PEREMPUAN)->count() ?? 0 }}</div>
                         </div>
                     </div>
                 </div>

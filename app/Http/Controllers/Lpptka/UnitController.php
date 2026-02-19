@@ -112,8 +112,8 @@ class UnitController extends Controller
             'jumlah_tqa' => 'required|integer|min:0',
 
             // Keadaan Guru
-            'guru_laki' => 'required|integer|min:0',
-            'guru_perempuan' => 'required|integer|min:0',
+            // 'guru_laki' => 'required|integer|min:0',
+            // 'guru_perempuan' => 'required|integer|min:0',
 
             // Kepala Unit
             'head_nik' => 'required|string|max:16|unique:persons,nik',
@@ -165,8 +165,8 @@ class UnitController extends Controller
                 'jumlah_tka' => $validated['jumlah_tka'] ?? 0,
                 'jumlah_tpa' => $validated['jumlah_tpa'] ?? 0,
                 'jumlah_tqa' => $validated['jumlah_tqa'] ?? 0,
-                'guru_laki' => $validated['guru_laki'] ?? 0,
-                'guru_perempuan' => $validated['guru_perempuan'] ?? 0,
+                // 'guru_laki' => $validated['guru_laki'] ?? 0,
+                // 'guru_perempuan' => $validated['guru_perempuan'] ?? 0,
                 'approval_status' => StatusApprovalUnit::PENDING,
             ]);
 
@@ -294,8 +294,8 @@ class UnitController extends Controller
             'jumlah_tqa' => 'required|integer|min:0',
 
             // Keadaan Guru
-            'guru_laki' => 'required|integer|min:0',
-            'guru_perempuan' => 'required|integer|min:0',
+            // 'guru_laki' => 'required|integer|min:0',
+            // 'guru_perempuan' => 'required|integer|min:0',
 
             // Kepala Unit
             'head_name' => 'required|string|max:255',
@@ -345,8 +345,8 @@ class UnitController extends Controller
                 'jumlah_tka' => $validated['jumlah_tka'] ?? 0,
                 'jumlah_tpa' => $validated['jumlah_tpa'] ?? 0,
                 'jumlah_tqa' => $validated['jumlah_tqa'] ?? 0,
-                'guru_laki' => $validated['guru_laki'] ?? 0,
-                'guru_perempuan' => $validated['guru_perempuan'] ?? 0,
+                // 'guru_laki' => $validated['guru_laki'] ?? 0,
+                // 'guru_perempuan' => $validated['guru_perempuan'] ?? 0,
             ]);
 
             // Update Unit Head Person

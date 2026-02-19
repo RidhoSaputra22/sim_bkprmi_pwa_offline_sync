@@ -7,6 +7,7 @@ use App\Enum\LevelPelatihanGuru;
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\Santri;
+use App\Models\SantriUnit;
 use App\Models\Teacher;
 use App\Models\Unit;
 use App\Services\UnitApprovalService;
@@ -25,14 +26,12 @@ class DashboardController extends Controller
     {
         // Statistik umum
         $stats = [
-            'total_santri'       => Santri::count(),
-            'total_units'        => Unit::count(),
-            'total_activities'   => Activity::count(),
-            'guru_laki'          => Teacher::where('gender', Gender::LAKI_LAKI->value)->count()
-                                    + (int) Unit::sum('guru_laki'),
-            'guru_perempuan'     => Teacher::where('gender', Gender::PEREMPUAN->value)->count()
-                                    + (int) Unit::sum('guru_perempuan'),
-            'guru_certified_a'   => Teacher::where('level_pelatihan_guru', LevelPelatihanGuru::LEVEL_A->value)->count(),
+            'total_santri' => SantriUnit::whereNull('left_at')->count(),
+            'total_units' => Unit::count(),
+            'total_activities' => Activity::count(),
+            'guru_laki' => Teacher::where('gender', Gender::LAKI_LAKI->value)->count(),
+            'guru_perempuan' => Teacher::where('gender', Gender::PEREMPUAN->value)->count(),
+            'guru_certified_a' => Teacher::where('level_pelatihan_guru', LevelPelatihanGuru::LEVEL_A->value)->count(),
         ];
 
         // Statistik approval unit

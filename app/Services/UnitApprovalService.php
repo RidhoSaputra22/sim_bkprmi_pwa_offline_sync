@@ -200,8 +200,8 @@ class UnitApprovalService
     {
         return [
             'total_units' => Unit::count(),
-            'pending' => Unit::pending()->count(),
-            'pending_units' => Unit::pending()->count(),
+            'pending' => Unit::pending()->withCertificate()->count(),
+            'pending_units' => Unit::pending()->withCertificate()->count(),
             'approved' => Unit::approved()->count(),
             'approved_units' => Unit::approved()->count(),
             'rejected' => Unit::rejected()->count(),

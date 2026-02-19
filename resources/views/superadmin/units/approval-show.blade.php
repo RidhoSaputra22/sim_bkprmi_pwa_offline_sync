@@ -3,7 +3,8 @@
         <div class="flex items-center gap-4">
             <a href="{{ route('superadmin.units.approval.index') }}" class="btn btn-ghost btn-sm">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
             </a>
             <div>
@@ -37,9 +38,12 @@
                             <p class="text-sm text-base-content/60">Status Bangunan</p>
                             <p>{{ $unit->status_bangunan?->getLabel() ?? '-' }}</p>
                         </div>
-                        <div>
+                        <div class="space-y-1">
                             <p class="text-sm text-base-content/60">Waktu Kegiatan</p>
-                            <p>{{ $unit->waktu_kegiatan?->getLabel() ?? '-' }}</p>
+                            @foreach ($unit->waktu_kegiatan as $waktu)
+                            <p class="badge badge-primary">{{ $waktu }}</p>
+
+                            @endforeach
                         </div>
                         <div>
                             <p class="text-sm text-base-content/60">Nama Masjid/Mushalla</p>
@@ -152,21 +156,25 @@
 
                     @if($unit->hasCertificate())
                     <div class="text-center py-4">
-                        <svg class="w-16 h-16 mx-auto text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <svg class="w-16 h-16 mx-auto text-success" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <p class="text-success font-medium mt-2">Sertifikat Tersedia</p>
                         <p class="text-xs text-base-content/60 mt-1">
                             Diupload: {{ $unit->certificate_uploaded_at?->format('d M Y H:i') ?? '-' }}
                         </p>
-                        <a href="{{ route('superadmin.units.approval.certificate', $unit) }}" target="_blank" class="btn btn-sm btn-primary mt-4">
+                        <a href="{{ route('superadmin.units.approval.certificate', $unit) }}" target="_blank"
+                            class="btn btn-sm btn-primary mt-4">
                             Lihat Sertifikat
                         </a>
                     </div>
                     @else
                     <div class="text-center py-4">
                         <svg class="w-16 h-16 mx-auto text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <p class="text-error font-medium mt-2">Sertifikat Belum Diupload</p>
                         <p class="text-xs text-base-content/60 mt-1">
@@ -185,18 +193,22 @@
 
                     @if($unit->canBeApproved())
                     <!-- Approve Form -->
-                    <form action="{{ route('superadmin.units.approval.approve', $unit) }}" method="POST" class="space-y-4">
+                    <form action="{{ route('superadmin.units.approval.approve', $unit) }}" method="POST"
+                        class="space-y-4">
                         @csrf
                         <div class="form-control">
-                            <label class="label"><span class="label-text">Catatan <span class="text-error">*</span></span></label>
-                            <textarea name="notes" class="textarea textarea-bordered" rows="2" placeholder="Catatan approval..." required></textarea>
+                            <label class="label"><span class="label-text">Catatan <span
+                                        class="text-error">*</span></span></label>
+                            <textarea name="notes" class="textarea textarea-bordered" rows="2"
+                                placeholder="Catatan approval..." required></textarea>
                             @error('notes')
                             <label class="label"><span class="label-text-alt text-error">{{ $message }}</span></label>
                             @enderror
                         </div>
                         <button type="submit" class="btn btn-success w-full">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7" />
                             </svg>
                             Setujui Unit
                         </button>
@@ -206,15 +218,20 @@
                     @endif
 
                     <!-- Reject Form -->
-                    <form action="{{ route('superadmin.units.approval.reject', $unit) }}" method="POST" class="space-y-4">
+                    <form action="{{ route('superadmin.units.approval.reject', $unit) }}" method="POST"
+                        class="space-y-4">
                         @csrf
                         <div class="form-control">
-                            <label class="label"><span class="label-text">Alasan Penolakan <span class="text-error">*</span></span></label>
-                            <textarea name="notes" class="textarea textarea-bordered" rows="3" placeholder="Alasan penolakan..." required></textarea>
+                            <label class="label"><span class="label-text">Alasan Penolakan <span
+                                        class="text-error">*</span></span></label>
+                            <textarea name="notes" class="textarea textarea-bordered" rows="3"
+                                placeholder="Alasan penolakan..." required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-error w-full" onclick="return confirm('Yakin ingin menolak unit ini?')">
+                        <button type="submit" class="btn btn-error w-full"
+                            onclick="return confirm('Yakin ingin menolak unit ini?')">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12" />
                             </svg>
                             Tolak Unit
                         </button>
